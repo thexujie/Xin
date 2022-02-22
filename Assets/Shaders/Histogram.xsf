@@ -1,0 +1,11 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Texture2D<uint> Luminance;
+RWBuffer<uint> Histogram;
+
+void MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD)
+{
+    uint QuantizedLogLuma = Luminance[Position.xy];
+    InterlockedAdd(Histogram[QuantizedLogLuma], 1);
+}

@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Basic\Affine.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Archive.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Array.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Basic.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Basic.Types.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Bind.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Bits.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Callable.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\DoubleInterger.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Encoding.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Enumerable.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Event.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Format.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Formatter.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Fraction.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Function.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Guid.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\HashMap.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\KeyCode.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\LinkedList.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\List.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Locale.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Log.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Map.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Matrix.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Matrix3x3.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\MultiMap.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Name.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Object.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Pair.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Pointer.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Quat.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Random.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Refer.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Set.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\SharedPtr.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Stream.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Strings.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\System.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Text.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Thickness.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Transform.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Tuple.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Typeid.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\UniquePtr.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Utils.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Variant.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Vec2.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Vec3.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Vec4.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Vector2.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Vector3.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\Vector4.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic\XMath.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Cryptography\MD5.h">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\Directory.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\File.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\FileStream.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\FileTransaction.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\IO.Types.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\MemoryStream.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\Path.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Attribute.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Class.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Enum.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Field.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Meta.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Method.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Property.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="Meta\Type.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Platform\Platform.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Windows.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\WindowsHeader.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\WindowsTypes.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Console.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DateTime.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\Types.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Xin.Base.h" />
+    <ClInclude Include="Xin.Base.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Basic\Affine.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Basic.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Encoding.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Enumerable.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Event.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Format.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Formatter.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Guid.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Locale.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Log.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Matrix.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Matrix3x3.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Name.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Object.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Quat.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Random.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Stream.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Strings.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\System.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Text.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Transform.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Typeid.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Variant.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Vector2.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Vector3.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic\Vector4.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Cryptography\MD5.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\Directory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\File.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\FileStream.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\FileTransaction.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\Path.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Attribute.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Class.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Enum.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Field.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Meta.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Method.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Property.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Type.cpp">
+      <Filter>Meta</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Platform\Windows\Windows.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Console.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DateTime.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Types_Allcoator.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Types_Atomic.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Types_Hash.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Types.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Xin.Base.cpp" />
+    <ClCompile Include="Xin.Base.Types.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="__Types\Basic\Name.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Object.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Strings.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Text.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Thickness.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Vec2.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Vec3.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Vec4.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Vector2.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Vector3.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Basic\Vector4.inl">
+      <Filter>__Types\Basic</Filter>
+    </None>
+    <None Include="__Types\Meta\Type.inl">
+      <Filter>__Types\Meta</Filter>
+    </None>
+    <None Include="__Types\System\DateTime.inl">
+      <Filter>__Types\System</Filter>
+    </None>
+    <None Include="Types\Types_Algorithm.inl">
+      <Filter>Types</Filter>
+    </None>
+    <None Include="Types\Types_Allocator.inl">
+      <Filter>Types</Filter>
+    </None>
+    <None Include="Types\Types_Atomic.inl">
+      <Filter>Types</Filter>
+    </None>
+    <None Include="Types\Types_Flag.inl">
+      <Filter>Types</Filter>
+    </None>
+    <None Include="Types\Types_Hash.inl">
+      <Filter>Types</Filter>
+    </None>
+    <None Include="Types\Types_Math.inl">
+      <Filter>Types</Filter>
+    </None>
+    <None Include="Xin.Base.Module.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="__Types">
+      <UniqueIdentifier>{f0b129c5-48b2-47ef-874c-119381c2a7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Basic">
+      <UniqueIdentifier>{58fe76df-8ae7-46f1-818d-7e75896dad94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Meta">
+      <UniqueIdentifier>{7defcc4c-100c-428f-aa5c-e82d6ca6b470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\System">
+      <UniqueIdentifier>{3de95805-f398-4413-9869-ab8279c0f28e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic">
+      <UniqueIdentifier>{64d15500-8fd9-4279-b671-e8c1aa7e7747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cryptography">
+      <UniqueIdentifier>{bb7f283a-8a8f-49c5-8c22-7cbc400e200b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{c2f2233e-1a37-44e0-8015-37688988b63e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Meta">
+      <UniqueIdentifier>{358aa350-f01c-49b6-85c7-120a039b7be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{9eb9487b-0be8-44bd-8228-7d2920b7e05f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{26e62481-b25b-4172-8607-a6cedb72a363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{85c34793-f610-4517-899d-5cab76011db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{bb9462c4-299b-441b-ac0d-0d4df58d4770}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,721 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Animations\Animations.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\DoubleAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\OneFrameAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\PropertyAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\Storyboard.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\Timeline.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Border.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Button.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ButtonControl.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Canvas.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\CheckBox.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Chrome.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ChromePanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ContentControl.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ContextMenu.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Control.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Controls.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Element.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\GridPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Image.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ListBox.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ListControl.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ListView.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Menu.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\OverlapPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Panel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Popup.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Presenter.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\PresenterControl.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\RadioButton.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\RepeatButton.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ScrollArea.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ScrollBar.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ScrollPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ScrollViewer.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Separator.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Shapes\Ellipse.h">
+      <Filter>Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Shapes\Line.h">
+      <Filter>Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Shapes\Path.h">
+      <Filter>Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Shapes\Polyline.h">
+      <Filter>Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Shapes\Rectangle.h">
+      <Filter>Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Shapes\Shape.h">
+      <Filter>Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\SplitterPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\StackPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\TextBlock.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Thumb.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ToggleButton.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\ToolTip.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Track.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\View.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Visual.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Window.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\WrapPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlsEx\ControlsEx.h">
+      <Filter>ControlsEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlsEx\Graph.h">
+      <Filter>ControlsEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlsEx\Navigator.h">
+      <Filter>ControlsEx</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Command.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ControlState.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ControlStyle.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ControlTemplate.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DataTemplate.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dimen.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LayoutManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Resource.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ScrollInfo.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Setter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Trigger.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Viewport.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Platform\Windows\Xin.UI.Windows.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Xin.UI.Windows.Types.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\ButtonStyle.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\ChromeStyle.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\ControlsEx\NavigatorStyle.h">
+      <Filter>Themes\Default\ControlsEx</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\DefaultTheme.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\DefaultThemes.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\ListBoxStyle.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\ListViewStyle.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\MenuStyle.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Default\ScrollBarStyle.h">
+      <Filter>Themes\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Themes\Themes.h">
+      <Filter>Themes</Filter>
+    </ClInclude>
+    <ClInclude Include="Xin.UI.h" />
+    <ClInclude Include="Xin.UI.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Animations\Animations.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\DoubleAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\OneFrameAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\PropertyAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\Storyboard.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\Timeline.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Border.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Button.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ButtonControl.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Canvas.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\CheckBox.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Chrome.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ChromePanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ContentControl.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ContextMenu.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Control.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Controls.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Element.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\GridPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Image.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ListBox.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ListControl.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ListView.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Menu.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\OverlapPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Panel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Popup.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Presenter.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\PresenterControl.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\RadioButton.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\RepeatButton.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ScrollArea.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ScrollBar.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ScrollPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ScrollViewer.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Separator.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Shapes\Ellipse.cpp">
+      <Filter>Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Shapes\Line.cpp">
+      <Filter>Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Shapes\Path.cpp">
+      <Filter>Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Shapes\Polyline.cpp">
+      <Filter>Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Shapes\Rectangle.cpp">
+      <Filter>Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Shapes\Shape.cpp">
+      <Filter>Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\SplitterPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\StackPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\TextBlock.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Thumb.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ToggleButton.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\ToolTip.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Track.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\View.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Visual.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Window.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\WrapPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlsEx\Graph.cpp">
+      <Filter>ControlsEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlsEx\Navigator.cpp">
+      <Filter>ControlsEx</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Command.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ControlState.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ControlStyle.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ControlTemplate.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DataTemplate.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dimen.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\LayoutManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Object.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Resource.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ScrollInfo.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Setter.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Trigger.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Viewport.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Platform\Windows\Xin.UI.Windows.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Xin.UI.Windows.Types.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\ButtonStyle.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\ChromeStyle.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\ControlsEx\NavigatorStyle.cpp">
+      <Filter>Themes\Default\ControlsEx</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\DefaultTheme.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\DefaultThemes.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\ListBoxStyle.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\ListViewStyle.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\MenuStyle.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Default\ScrollBarStyle.cpp">
+      <Filter>Themes\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Themes\Themes.cpp">
+      <Filter>Themes</Filter>
+    </ClCompile>
+    <ClCompile Include="Xin.UI.cpp" />
+    <ClCompile Include="Xin.UI.Types.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="__Types\Animations\DoubleAnimation.inl">
+      <Filter>__Types\Animations</Filter>
+    </None>
+    <None Include="__Types\Animations\OneFrameAnimation.inl">
+      <Filter>__Types\Animations</Filter>
+    </None>
+    <None Include="__Types\Animations\Storyboard.inl">
+      <Filter>__Types\Animations</Filter>
+    </None>
+    <None Include="__Types\Animations\Timeline.inl">
+      <Filter>__Types\Animations</Filter>
+    </None>
+    <None Include="__Types\Controls\Border.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Button.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ButtonControl.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\CheckBox.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Chrome.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ChromePanel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ContentControl.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ContextMenu.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Control.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Element.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\GridPanel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Image.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ListBox.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ListControl.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ListView.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Menu.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\OverlapPanel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Panel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Popup.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Presenter.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\PresenterControl.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\RadioButton.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\RepeatButton.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ScrollArea.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ScrollBar.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ScrollPanel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ScrollViewer.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Separator.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Shapes\Ellipse.inl">
+      <Filter>__Types\Controls\Shapes</Filter>
+    </None>
+    <None Include="__Types\Controls\Shapes\Line.inl">
+      <Filter>__Types\Controls\Shapes</Filter>
+    </None>
+    <None Include="__Types\Controls\Shapes\Path.inl">
+      <Filter>__Types\Controls\Shapes</Filter>
+    </None>
+    <None Include="__Types\Controls\Shapes\Polyline.inl">
+      <Filter>__Types\Controls\Shapes</Filter>
+    </None>
+    <None Include="__Types\Controls\Shapes\Rectangle.inl">
+      <Filter>__Types\Controls\Shapes</Filter>
+    </None>
+    <None Include="__Types\Controls\Shapes\Shape.inl">
+      <Filter>__Types\Controls\Shapes</Filter>
+    </None>
+    <None Include="__Types\Controls\SplitterPanel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\StackPanel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\TextBlock.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Thumb.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ToggleButton.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\ToolTip.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Track.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\View.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Visual.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\Window.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\Controls\WrapPanel.inl">
+      <Filter>__Types\Controls</Filter>
+    </None>
+    <None Include="__Types\ControlsEx\Graph.inl">
+      <Filter>__Types\ControlsEx</Filter>
+    </None>
+    <None Include="__Types\ControlsEx\Navigator.inl">
+      <Filter>__Types\ControlsEx</Filter>
+    </None>
+    <None Include="__Types\Core\Command.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\ControlStyle.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\ControlTemplate.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\Object.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\Resource.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\ScrollInfo.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="Xin.UI.Module.cs" />
+    <None Include="Xin.UI.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="__Types">
+      <UniqueIdentifier>{179a8232-491d-4ed8-b629-6b7e1ce08236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Animations">
+      <UniqueIdentifier>{a8123f92-10a9-4184-b547-8ea09cbc9aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Controls">
+      <UniqueIdentifier>{268205fe-7d08-488a-9318-b249331ad15a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Controls\Shapes">
+      <UniqueIdentifier>{fe5adaab-cdde-40c7-a874-a0634479700e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\ControlsEx">
+      <UniqueIdentifier>{3c3f41e2-c836-4aa7-952b-95a9f2013a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Core">
+      <UniqueIdentifier>{713c898e-c84c-4a92-96a0-b2d26d720944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animations">
+      <UniqueIdentifier>{9565e7c4-93a6-496f-b9a7-37c1691e29d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{35d79cd2-e5fd-4b4b-bc8d-d09625435922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\Shapes">
+      <UniqueIdentifier>{a19e8fa8-0a59-4956-9d0c-4e4bed71a0d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ControlsEx">
+      <UniqueIdentifier>{6585d6a6-d715-4c63-9443-a6eb5dbfb5f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{cf58e24c-2bad-49fc-98cb-89b103fa9476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{eaceb1c4-df7e-4577-a356-d3ea6d58e99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{154083f6-9a45-421f-bf62-7512b9a5f55c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Themes">
+      <UniqueIdentifier>{5f2d4245-34fe-48e7-858c-5064ae105896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Themes\Default">
+      <UniqueIdentifier>{79a522a6-f888-4c4f-8285-084a81d954f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Themes\Default\ControlsEx">
+      <UniqueIdentifier>{964b8f62-9861-4e6c-a0eb-8ec196c3aecc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

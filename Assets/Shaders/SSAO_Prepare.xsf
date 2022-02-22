@@ -1,0 +1,22 @@
+#include "Common.xsh"
+#include "SSAO.xsh"
+
+Texture2D<float> Source;
+
+cbuffer ShaderParameter
+{
+    float ZMagic;
+}
+
+float GenerateLinearDepth(uint2 PixelCoord)
+{
+    // Reversed Z
+    float Depth = Source[PixelCoord];
+    float LinearDepthValue = 1.0f / (ZMagic * Depth + 1.0f);
+    return LinearDepthValue;
+}
+
+float MainPS(float4 Position : SV_POSITION) : SV_Target
+{
+    return GenerateLinearDepth(Position.xy);
+}

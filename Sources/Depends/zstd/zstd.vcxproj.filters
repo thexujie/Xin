@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="common\allocations.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\bits.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\bitstream.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\compiler.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\cpu.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\debug.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\error_private.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\fse.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\huf.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\mem.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\pool.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\portability_macros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\threading.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\xxhash.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\zstd_deps.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\zstd_internal.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\zstd_trace.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\clevels.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\hist.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_compress_internal.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_compress_literals.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_compress_sequences.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_compress_superblock.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_cwksp.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_double_fast.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_fast.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_lazy.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_ldm_geartab.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_ldm.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstd_opt.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="compress\zstdmt_compress.h">
+      <Filter>compress</Filter>
+    </ClInclude>
+    <ClInclude Include="decompress\zstd_ddict.h">
+      <Filter>decompress</Filter>
+    </ClInclude>
+    <ClInclude Include="decompress\zstd_decompress_block.h">
+      <Filter>decompress</Filter>
+    </ClInclude>
+    <ClInclude Include="decompress\zstd_decompress_internal.h">
+      <Filter>decompress</Filter>
+    </ClInclude>
+    <ClInclude Include="deprecated\zbuff.h">
+      <Filter>deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="dictBuilder\cover.h">
+      <Filter>dictBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="dictBuilder\divsufsort.h">
+      <Filter>dictBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_legacy.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_v01.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_v02.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_v03.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_v04.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_v05.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_v06.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy\zstd_v07.h">
+      <Filter>legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="zdict.h" />
+    <ClInclude Include="zstd_errors.h" />
+    <ClInclude Include="zstd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common\debug.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\entropy_common.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\error_private.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\fse_decompress.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\pool.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\threading.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\xxhash.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\zstd_common.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\fse_compress.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\hist.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\huf_compress.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_compress_literals.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_compress_sequences.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_compress_superblock.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_compress.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_double_fast.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_fast.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_lazy.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_ldm.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstd_opt.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="compress\zstdmt_compress.c">
+      <Filter>compress</Filter>
+    </ClCompile>
+    <ClCompile Include="decompress\huf_decompress.c">
+      <Filter>decompress</Filter>
+    </ClCompile>
+    <ClCompile Include="decompress\zstd_ddict.c">
+      <Filter>decompress</Filter>
+    </ClCompile>
+    <ClCompile Include="decompress\zstd_decompress_block.c">
+      <Filter>decompress</Filter>
+    </ClCompile>
+    <ClCompile Include="decompress\zstd_decompress.c">
+      <Filter>decompress</Filter>
+    </ClCompile>
+    <ClCompile Include="deprecated\zbuff_common.c">
+      <Filter>deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="deprecated\zbuff_compress.c">
+      <Filter>deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="deprecated\zbuff_decompress.c">
+      <Filter>deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="dictBuilder\cover.c">
+      <Filter>dictBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="dictBuilder\divsufsort.c">
+      <Filter>dictBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="dictBuilder\fastcover.c">
+      <Filter>dictBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="dictBuilder\zdict.c">
+      <Filter>dictBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy\zstd_v01.c">
+      <Filter>legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy\zstd_v02.c">
+      <Filter>legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy\zstd_v03.c">
+      <Filter>legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy\zstd_v04.c">
+      <Filter>legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy\zstd_v05.c">
+      <Filter>legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy\zstd_v06.c">
+      <Filter>legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy\zstd_v07.c">
+      <Filter>legacy</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="zstd.Module.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{f5db473f-2d74-477e-89d3-85c1785f3307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="compress">
+      <UniqueIdentifier>{6fc99c07-4098-45b8-a0fb-e3a2b3019d80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="decompress">
+      <UniqueIdentifier>{413d343c-7be2-4f24-9a4d-3335e7bc0c62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deprecated">
+      <UniqueIdentifier>{44a81eaf-ff16-4349-9bc8-6e1fb823671d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dictBuilder">
+      <UniqueIdentifier>{c8a3359f-2c1a-46c1-adef-29ceb9518101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="legacy">
+      <UniqueIdentifier>{93870f60-057e-4f4b-af34-174f84decf79}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

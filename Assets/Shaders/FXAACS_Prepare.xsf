@@ -1,0 +1,133 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+#include "FXAA.xsh"
+
+Texture2D<float4> Source;
+RWBuffer<uint> WorkCounter;
+RWBuffer<uint> WorkQueue;
+
+#if XIN_FXAA_DATAQUEUE_PACKED
+RWBuffer<uint> DataQueue;
+#else
+RWBuffer<float2> DataQueue;
+#endif
+
+cbuffer ShaderParameter
+{
+    float2 FXAATexelSize;
+    float1 FXAAEdgeThresholdMin;
+    float1 FXAAEdgeThreshold;
+    float1 FXAASubpixel; // default = 0.75, lower blurs less
+    
+    uint LastQueueIndex;
+    uint2 StartPixel;
+}
+
+#define BOUNDARY_SIZE 1
+#define ROW_WIDTH (8 + BOUNDARY_SIZE * 2)
+groupshared float LumaCache[ROW_WIDTH * ROW_WIDTH];
+
+[numthreads(8, 8, 1)]
+void MainCS(uint3 GroupID : SV_GroupID, uint GroupIndex : SV_GroupIndex, uint3 GroupThreadID : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+    uint2 PixelCoord = DispatchThreadID.xy + StartPixel;
+    
+    if (max(GroupThreadID.x, GroupThreadID.y) < ROW_WIDTH / 2)
+    {
+        int2 GroupCoord = PixelCoord + GroupThreadID.xy - (BOUNDARY_SIZE - 1);
+        float4 Luma4 = Source.GatherAlpha(LinearClampSampler, GroupCoord * FXAATexelSize);
+        uint StoreIndex = (GroupThreadID.x + GroupThreadID.y * ROW_WIDTH) * 2;
+        LumaCache[StoreIndex] = Luma4.w;
+        LumaCache[StoreIndex + 1] = Luma4.z;
+        LumaCache[StoreIndex + ROW_WIDTH] = Luma4.x;
+        LumaCache[StoreIndex + ROW_WIDTH + 1] = Luma4.y;
+    }
+    GroupMemoryBarrierWithGroupSync();
+    
+    uint CenterIndex = (GroupThreadID.x + BOUNDARY_SIZE) + (GroupThreadID.y + BOUNDARY_SIZE) * ROW_WIDTH;
+    float LumaN = LumaCache[CenterIndex - ROW_WIDTH];
+    float LumaW = LumaCache[CenterIndex - 1];
+    float LumaM = LumaCache[CenterIndex];
+    float LumaE = LumaCache[CenterIndex + 1];
+    float LumaS = LumaCache[CenterIndex + ROW_WIDTH];
+    
+    // Contrast threshold
+    float LumaMax = max(max(LumaN, LumaW), max(LumaM, max(LumaS, LumaE)));
+    float LumaMin = min(min(LumaN, LumaW), min(LumaM, min(LumaS, LumaE)));
+    float LumaContrast = LumaMax - LumaMin;
+
+    float LumaClamp = max(FXAAEdgeThresholdMin, LumaMax * FXAAEdgeThreshold);
+    if (LumaContrast < LumaClamp)
+        return;
+    
+    float LumaContrastRcp = rcp(LumaContrast);
+
+    float LumaNW = LumaCache[CenterIndex - ROW_WIDTH - 1];
+    float LumaNE = LumaCache[CenterIndex - ROW_WIDTH + 1];
+    float LumaSW = LumaCache[CenterIndex + ROW_WIDTH - 1];
+    float LumaSE = LumaCache[CenterIndex + ROW_WIDTH + 1];
+    
+    // Pre-sum a few terms so the results can be reused
+    float LumaSumNS = LumaN + LumaS;
+    float LumaSumWE = LumaW + LumaE;
+    float LumaSumNWSW = LumaNW + LumaSW;
+    float LumaSumNESE = LumaNE + LumaSE;
+    float LumaSumSWSE = LumaSW + LumaSE;
+    float LumaSumNWNE = LumaNW + LumaNE;
+
+    float LumaDeltaRow0 = LumaSumNWNE - 2.0f * LumaN;
+    float LumaDeltaRow1 = LumaSumWE - 2.0f * LumaM;
+    float LumaDeltaRow2 = LumaSumSWSE - 2.0f * LumaS;
+
+    float LumaDeltaCol0 = LumaSumNWSW - 2.0f * LumaW;
+    float LumaDeltaCol1 = LumaSumNS - 2.0f * LumaM;
+    float LumaDeltaCol2 = LumaSumNESE - 2.0f * LumaE;
+
+    float LumaDeltaH = abs(LumaDeltaCol0) + (abs(LumaDeltaCol1) * 2.0) + abs(LumaDeltaCol2);
+    float LumaDeltaV = abs(LumaDeltaRow0) + (abs(LumaDeltaRow1) * 2.0) + abs(LumaDeltaRow2);
+
+    float LumaSumNWNESWSE = LumaSumNWNE + LumaSumSWSE;
+    bool HorizontalSpan = LumaDeltaH >= LumaDeltaV;
+    
+    float LumaAvg = ((LumaSumNS + LumaSumWE) * 2.0 + LumaSumNWNESWSE) / 12.0f;
+    float AABlendFactor = saturate(abs(LumaAvg - LumaM) * LumaContrastRcp);
+    float SubpixelShift = CalcSubpixShiftQuality(AABlendFactor, FXAASubpixel);
+    
+    float LumaNegative = HorizontalSpan ? LumaN : LumaW;
+    float LumaPositive = HorizontalSpan ? LumaS : LumaE;
+
+    float LumaDeltaNegative = abs(LumaNegative - LumaM);
+    float LumaDeltaPositive = abs(LumaPositive - LumaM);
+    bool GradientNegative = LumaDeltaNegative >= LumaDeltaPositive;
+    
+    float LumaGradientAvg = (GradientNegative ? (LumaNegative + LumaM) : (LumaPositive + LumaM)) * 0.5f;
+    float LumaGradientThreshold = max(LumaDeltaNegative, LumaDeltaPositive) * 0.25;
+
+    uint Subpix = uint(SubpixelShift * 254.0) & 0xFE;
+    // Packet header: [ 12 bits Y | 12 bits X | 7 bit Subpix | 1 bit dir(Grad) ]
+    uint WorkHeader = DispatchThreadID.x << 8 | DispatchThreadID.y << 20 | Subpix | (GradientNegative ? 1 : 0);
+    
+    if (HorizontalSpan)
+    {
+        uint WorkIndex;
+        InterlockedAdd(WorkCounter[0], 1, WorkIndex);
+        WorkQueue[WorkIndex] = WorkHeader;
+#if XIN_FXAA_DATAQUEUE_PACKED
+        DataQueue[WorkIndex] = (f32tof16(LumaGradientAvg) << 16) | f32tof16(LumaGradientThreshold);
+#else
+        DataQueue[WorkIndex] = float2(LumaGradientAvg, LumaGradientThreshold);
+#endif
+    }
+    else
+    {
+        uint WorkIndex;
+        InterlockedAdd(WorkCounter[1], 1, WorkIndex);
+        WorkIndex = LastQueueIndex - WorkIndex;
+        WorkQueue[WorkIndex] = WorkHeader;
+#if XIN_FXAA_DATAQUEUE_PACKED
+        DataQueue[WorkIndex] = (f32tof16(LumaGradientAvg) << 16) | f32tof16(LumaGradientThreshold);
+#else
+        DataQueue[WorkIndex] = float2(LumaGradientAvg, LumaGradientThreshold);
+#endif
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "XinGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "-Solution",
+      "workingDirectory": "H:\\Projs\\Xin"
+    }
+  }
+}

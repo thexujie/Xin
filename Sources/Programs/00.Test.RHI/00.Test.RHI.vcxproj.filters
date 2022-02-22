@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="00.Test.RHI-Utils.h" />
+    <ClInclude Include="00.Test.RHI.h" />
+    <ClInclude Include="00.Test.RHI.Types.h" />
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Primitive-Cube.h" />
+    <ClInclude Include="Primitive-Plane.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="00.Test.RHI-ColorPS.cpp" />
+    <ClCompile Include="00.Test.RHI-Empty.cpp" />
+    <ClCompile Include="00.Test.RHI-Mesh.cpp" />
+    <ClCompile Include="00.Test.RHI-Texture.cpp" />
+    <ClCompile Include="00.Test.RHI-Utils.cpp" />
+    <ClCompile Include="00.Test.RHI.cpp" />
+    <ClCompile Include="Assets\Assets.cpp">
+      <Filter>Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Primitive-Cube.cpp" />
+    <ClCompile Include="Primitive-Plane.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="00.Test.RHI.Module.cs" />
+    <None Include="Assets\Shaders\Color.xsf">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="Assets\Shaders\Image.xsf">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{f2f80dea-5943-44f9-a46c-83daf6a71b0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders">
+      <UniqueIdentifier>{354e99d5-9fa7-4f4e-9cd0-c2e7150b23af}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

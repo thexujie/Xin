@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Platform\Windows\WindowsSkiaPainter.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="SkiaBitmap.h" />
+    <ClInclude Include="SkiaGraphics.h" />
+    <ClInclude Include="SkiaModule.h" />
+    <ClInclude Include="SkiaPainter.h" />
+    <ClInclude Include="SkiaPath.h" />
+    <ClInclude Include="SkiaShaper.h" />
+    <ClInclude Include="SkiaTypes.h" />
+    <ClInclude Include="Xin.Skia.h" />
+    <ClInclude Include="Xin.Skia.Private.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Platform\Windows\WindowsSkiaPainter.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="SkiaBitmap.cpp" />
+    <ClCompile Include="SkiaGraphics.cpp" />
+    <ClCompile Include="SkiaPainter.cpp" />
+    <ClCompile Include="SkiaPath.cpp" />
+    <ClCompile Include="SkiaShaper.cpp" />
+    <ClCompile Include="SkiaTypes.cpp" />
+    <ClCompile Include="Xin.Skia.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xin.Skia.Module.cs" />
+    <None Include="Xin.Skia.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{52c51fa8-3130-4a5d-8518-c75a990e3a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{853885a6-f9af-4653-b9c6-a6e5f6e590f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

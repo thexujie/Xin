@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Generator.h" />
+    <ClInclude Include="LLVMIncludes.h" />
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="Xin.ClangParser.h" />
+    <ClInclude Include="Xin.ClangParser.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Generator.cpp" />
+    <ClCompile Include="LLVMIncludes.cpp" />
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Visitor.cpp" />
+    <ClCompile Include="Xin.ClangParser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="H:\Projs\llvm-project\clang\utils\ClangVisualizers\clang.natvis">
+      <Filter>AdditionalFiles</Filter>
+    </None>
+    <None Include="H:\Projs\llvm-project\llvm\utils\LLVMVisualizers\llvm.natvis">
+      <Filter>AdditionalFiles</Filter>
+    </None>
+    <None Include="Xin.ClangParser.Module.cs" />
+    <None Include="Xin.ClangParser.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="AdditionalFiles">
+      <UniqueIdentifier>{8649c3e5-aaef-4bc3-a4a3-5ce36deceb5c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="SkTArray&lt;*&gt;">
+		<DisplayString>{{{fCount} Elements}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>fCount</Size>
+				<ValuePointer>fItemArray</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="SkSpan&lt;*&gt;">
+		<DisplayString>{{{fSize} Elements}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>fSize</Size>
+				<ValuePointer>fPtr</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="SkString::Rec">
+		<DisplayString>{&amp;(fBeginningOfData[0]),[fLength]s8}</DisplayString>
+		<StringView>&amp;fBeginningOfData[0],[fLength]s8</StringView>
+	</Type>
+
+	<Type Name="SkString">
+		<DisplayString>{fRec.fPtr,na}</DisplayString>
+		<StringView>fRec.fPtr,na</StringView>
+	</Type>
+
+	<Type Name="skia::text::Range&lt;*&gt;">
+		<DisplayString>[{fStart},{fEnd}]</DisplayString>
+	</Type>
+</AutoVisualizer>

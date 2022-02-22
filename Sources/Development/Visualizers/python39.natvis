@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+	<Type Name="python39.dll!_typeobject">
+		<DisplayString>{{&lt;type&gt; {tp_name,na}}}</DisplayString>
+		<!--<Expand>
+			<Item Name="[name]">tp_name,na</Item>
+		</Expand>-->
+	</Type>
+
+	<Type Name="python39.dll!PyUnicodeObject">
+		<DisplayString>{_base.utf8,[_base.utf8_length]na}</DisplayString>
+	</Type>
+	
+	<Type Name="_object">
+		<!--<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyNone_Type">[None]</DisplayString>-->
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyLong_Type">{((python39.dll!PyLongObject*)this)->ob_digit[0]}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyFloat_Type">{((python39.dll!PyFloatObject*)this)->ob_fval}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyUnicode_Type">{(python39.dll!PyUnicodeObject *)this,na}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyFunction_Type">{{&lt;function&gt; {((python39.dll!PyFunctionObject*)this)->func_name,na}}}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyCFunction_Type">{{&lt;cfunction&gt; {((python39.dll!PyCFunctionObject*)this)->m_ml->ml_name,na}}}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyCode_Type">{{&lt;code&gt; {{{((python39.dll!PyCodeObject*)this)}}}</DisplayString>
+
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyFrame_Type">{((python39.dll!_frame *)this)}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyGen_Type">{((python39.dll!PyGenObject *)this)}</DisplayString>
+
+		<!--<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyList_Type">{{&lt;list&gt; {((python39.dll!PyListObject*)this)->ob_size} elements}}</DisplayString>-->
+		<!--<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyTuple_Type">{{&lt;tuple&gt; {((python39.dll!PyTupleObject*)this)->ob_size} elements}}</DisplayString>-->
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyDict_Type">{{&lt;dict&gt; {((python39.dll!PyDictObject*)this)->ma_used} elements}}</DisplayString>
+
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyMethod_Type">{{&lt;method&gt; {((python39.dll!PyMethodObject*)this)->im_func,na}}</DisplayString>
+
+		<!--Module-->
+		<!--<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyModule_Type">{{&lt;module&gt; {((python39.dll!PyDictObject*)((python39.dll!PyModuleObject*)this)->md_dict)->ma_table->me_value,na}}}</DisplayString>-->
+
+		<!--Type-->
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;python39.dll!PyType_Type">{{&lt;type&gt; {((python39.dll!_typeobject *)this)->tp_name,na}}}</DisplayString>
+
+		<!--Default-->
+		<DisplayString>{{pyobject {ob_type->tp_name,s}}}</DisplayString>
+
+		<!--String-->
+		<StringView Condition="(void*)ob_type==(void*)&amp;python39.dll!PyUnicode_Type">((python39.dll!PyUnicodeObject*)this)</StringView>
+
+		<Expand>
+			<Item Name="[type]">ob_type->tp_name,sb</Item>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyLong_Type">((python39.dll!PyLongObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyFloat_Type">((python39.dll!PyFloatObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyUnicode_Type">((python39.dll!PyUnicodeObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyCFunction_Type">((python39.dll!PyCFunctionObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyCode_Type">((python39.dll!PyCodeObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyGen_Type">((python39.dll!PyGenObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyFrame_Type">((python39.dll!_frame*)this)</ExpandedItem>
+			<!--<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyBytes_Type">((python39.dll!PyBytesObject*)this)</ExpandedItem>-->
+
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyList_Type">((python39.dll!PyListObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyTuple_Type">((python39.dll!PyTupleObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyDict_Type">((python39.dll!PyDictObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyFunction_Type">((python39.dll!PyFunctionObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyModule_Type">((python39.dll!PyModuleObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyMethod_Type">((python39.dll!PyMethodObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;python39.dll!PyType_Type">((python39.dll!_typeobject*)this)</ExpandedItem>
+
+			<Synthetic Condition="(void*)ob_type==(void*)&amp;python39.dll!PyDict_Type" Name="[PyDictObject]">
+				<DisplayString>expand to view raw PyDictObject</DisplayString>
+				<Expand>
+					<ExpandedItem>(python39.dll!PyDictObject*)this,!</ExpandedItem>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+
+	<Type Name="python39.dll!PyStringObject">
+		<DisplayString>{ob_sval,[ob_size]na}</DisplayString>
+		<StringView>ob_sval</StringView>
+	</Type>
+
+	<Type Name="python39.dll!PyCodeObject">
+		<DisplayString>{{{co_name,na}}}</DisplayString>
+	</Type>
+
+	<Type Name="python39.dll!PyDictEntry">
+		<DisplayString>({me_key,na}, {me_value,na})</DisplayString>
+	</Type>
+
+	<Type Name="python39.dll!_dictobject">
+		<DisplayString>{{&lt;dict&gt; {ma_used} elements}}</DisplayString>
+		<!--<Expand>
+			<ArrayItems>
+				<Size>ma_used</Size>
+				<ValuePointer>ma_table</ValuePointer>
+			</ArrayItems>
+		</Expand>-->
+		<!--这个东西，它可能在 me_key 为 nullptr 时跳过，参考 PyDict_Next 函数的实现-->
+		<Expand>
+			<CustomListItems MaxItemsPerView="512">
+				<Variable Name="ItemIndex" InitialValue="0"/>
+				<Variable Name="ArrayIndex" InitialValue="0"/>
+				<Loop Condition="ItemIndex &lt;= ma_mask">
+					<If Condition="ma_table[ItemIndex].me_key">
+						<Item Name="[{ArrayIndex}] {{{ItemIndex}}}">ma_table[ItemIndex]</Item>
+						<!--<Item Name="{ma_table[ItemIndex].me_key,na}">ma_table[ItemIndex].me_value</Item>-->
+						<Exec>++ArrayIndex</Exec>
+					</If>
+					<Exec>++ItemIndex</Exec>
+				</Loop>
+			</CustomListItems>
+		</Expand>
+	</Type>
+	<Type Name="python39.dll!PyTupleObject">
+		<DisplayString>{{&lt;tuple&gt; {ob_size} elements}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>ob_size</Size>
+				<ValuePointer>ob_item</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="python39.dll!PyListObject">
+		<DisplayString>{{&lt;tuple&gt; {ob_size} elements}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>ob_size</Size>
+				<ValuePointer>ob_item</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="python39.dll!PyStructSequence">
+		<DisplayString>{{&lt;StructSequence&gt; {ob_size} elements}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>ob_size</Size>
+				<ValuePointer>ob_item</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="python39.dll!_frame">
+		<!--<DisplayString>{{{f_code->co_name,na}}}</DisplayString>-->
+		<DisplayString>{f_code->co_name,na}@{(((python39.dll!PyDictObject*)f_globals)->ma_table)[0].me_value,na}:{f_code->co_firstlineno}</DisplayString>
+		<StringView>f_code->co_filename</StringView>
+		<Expand>
+			<Item Name="[name]">f_code->co_name,na</Item>
+			<Item Name="[file]">f_code->co_filename,na</Item>
+			<Item Name="[line]">f_code->co_firstlineno</Item>
+			<Synthetic Name="[stack]">
+				<DisplayString>&gt; expand to view full stack</DisplayString>
+				<Expand>
+					<LinkedListItems>
+						<HeadPointer>this</HeadPointer>
+						<NextPointer>f_back</NextPointer>
+						<ValueNode>this,na</ValueNode>
+					</LinkedListItems>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+
+</AutoVisualizer>

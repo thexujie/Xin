@@ -1,0 +1,208 @@
+#include "Common.xsh"
+
+Texture2D<float> DepthX2;
+Texture2D<float> Depth;
+
+Texture2D<float> OcclusionMerged;
+
+#if XIN_SSAO_UPSAMPLE_COMBINE_WITH_LOWER
+Texture2D<float> OcclusionHQ;
+#endif
+
+#if XIN_SSAO_UPSAMPLE_BLEND_WITH_HIGHER
+Texture2D<float> OcclusionMergedX2;
+#endif
+
+VK_IMAGE_FORMAT("r8")
+RWTexture2D<float> OcclusionX2;
+
+cbuffer ShaderParameter
+{
+    float2 InputTexelSizeX2;
+    float2 InputTexelSize;
+
+    float StepSize;
+    float BlurTolerance;
+    float UpsampleTolerance;
+    float NoiseFilterStrength;
+}
+
+groupshared float CachedDepth[256];
+groupshared float CachedOcclusion[256];
+groupshared float CachedOcclusionBluredH[256];
+
+float SmartBlur(float a, float b, float c, float d, float e, bool Left, bool Middle, bool Right)
+{
+    b = Left | Middle ? b : c;
+    a = Left ? a : b;
+    d = Right | Middle ? d : c;
+    e = Right ? e : d;
+    return ((a + e) / 2.0 + b + c + d) / 4.0;
+}
+
+bool CompareDeltas(float DepthDelta1, float DepthDelta2, float l1, float l2)
+{
+    float Temp = DepthDelta1 * DepthDelta2 + StepSize;
+    return Temp * Temp > l1 * l2 * BlurTolerance;
+}
+
+bool CompareDepthDeltas(float DepthDelta1, float DepthDelta2)
+{
+    float l1 = DepthDelta1 * DepthDelta1 + StepSize;
+    float l2 = DepthDelta2 * DepthDelta2 + StepSize;
+    float Temp = DepthDelta1 * DepthDelta2 + StepSize;
+    return Temp * Temp > l1 * l2 * BlurTolerance;
+}
+
+void BlurHorizontally(uint PixelIndex)
+{
+    float Occlusion0 = CachedOcclusion[PixelIndex + 0];
+    float Occlusion1 = CachedOcclusion[PixelIndex + 1];
+    float Occlusion2 = CachedOcclusion[PixelIndex + 2];
+    float Occlusion3 = CachedOcclusion[PixelIndex + 3];
+    float Occlusion4 = CachedOcclusion[PixelIndex + 4];
+    float Occlusion5 = CachedOcclusion[PixelIndex + 5];
+    float Occlusion6 = CachedOcclusion[PixelIndex + 6];
+
+    float Depth0 = CachedDepth[PixelIndex + 0];
+    float Depth1 = CachedDepth[PixelIndex + 1];
+    float Depth2 = CachedDepth[PixelIndex + 2];
+    float Depth3 = CachedDepth[PixelIndex + 3];
+    float Depth4 = CachedDepth[PixelIndex + 4];
+    float Depth5 = CachedDepth[PixelIndex + 5];
+    float Depth6 = CachedDepth[PixelIndex + 6];
+
+    float DepthDelta01 = Depth1 - Depth0;
+    float DepthDelta12 = Depth2 - Depth1;
+    float DepthDelta23 = Depth3 - Depth2;
+    float DepthDelta34 = Depth4 - Depth3;
+    float DepthDelta45 = Depth5 - Depth4;
+    float DepthDelta56 = Depth6 - Depth5;
+
+    float l01 = DepthDelta01 * DepthDelta01 + StepSize;
+    float l12 = DepthDelta12 * DepthDelta12 + StepSize;
+    float l23 = DepthDelta23 * DepthDelta23 + StepSize;
+    float l34 = DepthDelta34 * DepthDelta34 + StepSize;
+    float l45 = DepthDelta45 * DepthDelta45 + StepSize;
+    float l56 = DepthDelta56 * DepthDelta56 + StepSize;
+
+    bool c02 = CompareDepthDeltas(DepthDelta01, DepthDelta12);
+    bool c13 = CompareDepthDeltas(DepthDelta12, DepthDelta23);
+    bool c24 = CompareDepthDeltas(DepthDelta23, DepthDelta34);
+    bool c35 = CompareDepthDeltas(DepthDelta34, DepthDelta45);
+    bool c46 = CompareDepthDeltas(DepthDelta45, DepthDelta56);
+
+    CachedOcclusionBluredH[PixelIndex + 0] = SmartBlur(Occlusion0, Occlusion1, Occlusion2, Occlusion3, Occlusion4, c02, c13, c24);
+    CachedOcclusionBluredH[PixelIndex + 1] = SmartBlur(Occlusion1, Occlusion2, Occlusion3, Occlusion4, Occlusion5, c13, c24, c35);
+    CachedOcclusionBluredH[PixelIndex + 2] = SmartBlur(Occlusion2, Occlusion3, Occlusion4, Occlusion5, Occlusion6, c24, c35, c46);
+}
+
+void BlurVertically(uint PixelIndex)
+{
+    float a0 = CachedOcclusionBluredH[PixelIndex +  0];
+    float a1 = CachedOcclusionBluredH[PixelIndex + 16];
+    float a2 = CachedOcclusionBluredH[PixelIndex + 32];
+    float a3 = CachedOcclusionBluredH[PixelIndex + 48];
+    float a4 = CachedOcclusionBluredH[PixelIndex + 64];
+    float a5 = CachedOcclusionBluredH[PixelIndex + 80];
+
+    float d0 = CachedDepth[PixelIndex +  2];
+    float d1 = CachedDepth[PixelIndex + 18];
+    float d2 = CachedDepth[PixelIndex + 34];
+    float d3 = CachedDepth[PixelIndex + 50];
+    float d4 = CachedDepth[PixelIndex + 66];
+    float d5 = CachedDepth[PixelIndex + 82];
+
+    float d01 = d1 - d0;
+    float d12 = d2 - d1;
+    float d23 = d3 - d2;
+    float d34 = d4 - d3;
+    float d45 = d5 - d4;
+
+    float l01 = d01 * d01 + StepSize;
+    float l12 = d12 * d12 + StepSize;
+    float l23 = d23 * d23 + StepSize;
+    float l34 = d34 * d34 + StepSize;
+    float l45 = d45 * d45 + StepSize;
+
+    bool c02 = CompareDeltas(d01, d12, l01, l12);
+    bool c13 = CompareDeltas(d12, d23, l12, l23);
+    bool c24 = CompareDeltas(d23, d34, l23, l34);
+    bool c35 = CompareDeltas(d34, d45, l34, l45);
+
+    float aoResult1 = SmartBlur(a0, a1, a2, a3, a4, c02, c13, c24);
+    float aoResult2 = SmartBlur(a1, a2, a3, a4, a5, c13, c24, c35);
+
+    CachedOcclusion[PixelIndex +  0] = aoResult1;
+    CachedOcclusion[PixelIndex + 16] = aoResult2;
+}
+
+// We essentially want 5 weights:  4 for each low-res pixel and 1 to blend in when none of the 4 really
+// match.  The filter strength is 1 / DeltaZTolerance.  So a tolerance of 0.01 would yield a strength of 100.
+// Note that a perfect match of low to high depths would yield a weight of 10^6, completely superceding any
+// noise filtering.  The noise filter is intended to soften the effects of shimmering when the high-res depth
+// buffer has a lot of small holes in it causing the low-res depth buffer to inaccurately represent it.
+float BilateralUpsample(float DepthX2, float OcclusionX2, float4 Depth, float4 Occlusion)
+{
+    float4 Weights = float4(9, 3, 1, 3) / (abs(DepthX2 - Depth) + UpsampleTolerance);
+    float TotalWeight = dot(Weights, 1) + NoiseFilterStrength;
+    float WeightedSum = dot(Weights, Occlusion) + NoiseFilterStrength;
+    return OcclusionX2 * WeightedSum / TotalWeight;
+}
+
+void PrefetchData(uint PixelIndex, float2 Texcoord)
+{
+    float4 OcclusionQuad = OcclusionMerged.Gather(LinearClampSampler, Texcoord);
+
+#if XIN_SSAO_UPSAMPLE_COMBINE_WITH_LOWER
+    OcclusionQuad = min(OcclusionQuad, OcclusionHQ.Gather(LinearClampSampler, Texcoord));
+#endif
+
+    CachedOcclusion[PixelIndex + 0] = OcclusionQuad.w;
+    CachedOcclusion[PixelIndex + 1] = OcclusionQuad.z;
+    CachedOcclusion[PixelIndex + 16] = OcclusionQuad.x;
+    CachedOcclusion[PixelIndex + 17] = OcclusionQuad.y;
+
+    float4 DepthRcp = 1.0 / Depth.Gather(LinearClampSampler, Texcoord);
+    CachedDepth[PixelIndex + 0] = DepthRcp.w;
+    CachedDepth[PixelIndex + 1] = DepthRcp.z;
+    CachedDepth[PixelIndex + 16] = DepthRcp.x;
+    CachedDepth[PixelIndex + 17] = DepthRcp.y;
+}
+
+// Dispatch 16x16 thread groups, 8x8 thread per group. down sample 16/8=2x.
+[numthreads(8, 8, 1)]
+void MainCS(uint3 GroupID : SV_GroupID, uint GroupIndex : SV_GroupIndex, uint3 GroupThreadID : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+    if (GroupThreadID.x < 13 && GroupThreadID.y < 13)
+		PrefetchData(GroupThreadID.x << 1 | GroupThreadID.y << 5, (int2(DispatchThreadID.xy + GroupThreadID.xy) - 2) * InputTexelSize);
+    GroupMemoryBarrierWithGroupSync();
+
+    if (GroupIndex < 39)
+        BlurHorizontally((GroupIndex / 3) * 16 + (GroupIndex % 3) * 3);
+    GroupMemoryBarrierWithGroupSync();
+
+    if (GroupIndex < 45)
+        BlurVertically((GroupIndex / 9) * 32 + GroupIndex % 9);
+    GroupMemoryBarrierWithGroupSync();
+
+    uint PixelIndex = GroupThreadID.x + GroupThreadID.y * 16;
+    float4 OcclusionQuad = float4(CachedOcclusion[PixelIndex + 16], CachedOcclusion[PixelIndex + 17], CachedOcclusion[PixelIndex + 1], CachedOcclusion[PixelIndex]);
+    
+    float2 DepthCoordX2 = (DispatchThreadID.xy << 1) * InputTexelSizeX2;
+    float2 DepthCoord = DispatchThreadID.xy * InputTexelSize;
+
+#if XIN_SSAO_UPSAMPLE_BLEND_WITH_HIGHER
+    float4 OcclusionBlendX2  = OcclusionMergedX2.Gather(LinearClampSampler, DepthCoordX2);
+#else
+    float4 OcclusionBlendX2 = 1.0;
+#endif
+    float4 DepthQuadX2 = DepthX2.Gather(LinearClampSampler, DepthCoordX2);
+    float4 DepthQuad = Depth.Gather(LinearClampSampler, DepthCoord);
+
+    int2 OutputCoord = DispatchThreadID.xy << 1;
+    OcclusionX2[OutputCoord + int2(-1, +0)] = BilateralUpsample(DepthQuadX2.x, OcclusionBlendX2.x, DepthQuad.xyzw, OcclusionQuad.xyzw);
+    OcclusionX2[OutputCoord + int2(+0, +0)] = BilateralUpsample(DepthQuadX2.y, OcclusionBlendX2.y, DepthQuad.yzwx, OcclusionQuad.yzwx);
+    OcclusionX2[OutputCoord + int2(+0, -1)] = BilateralUpsample(DepthQuadX2.z, OcclusionBlendX2.z, DepthQuad.zwxy, OcclusionQuad.zwxy);
+    OcclusionX2[OutputCoord + int2(-1, -1)] = BilateralUpsample(DepthQuadX2.w, OcclusionBlendX2.w, DepthQuad.wxyz, OcclusionQuad.wxyz);
+}

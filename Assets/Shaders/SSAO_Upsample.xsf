@@ -1,0 +1,69 @@
+#include "Common.xsh"
+
+Texture2D<float> DepthX2;
+Texture2D<float> Depth;
+Texture2D<float> OcclusionMerged;
+
+#if XIN_SSAO_UPSAMPLE_BLEND_WITH_HIGHER
+Texture2D<float> OcclusionMergedX2;
+#endif
+
+cbuffer ShaderParameter
+{
+    float2 InputTexelSizeX2;
+    float2 InputTexelSize;
+
+    float StepSize;
+    float BlurTolerance;
+    float UpsampleTolerance;
+    float NoiseFilterStrength;
+}
+
+float FetchDepth(int2 PixelCoord)
+{
+    return rcp(Depth[PixelCoord]);
+}
+
+float FetchOcclusion(int2 PixelCoord)
+{
+    return OcclusionMerged[PixelCoord];
+}
+
+float BilateralUpsample(float DepthX2, float OcclusionX2, float4 Depth, float4 Occlusion)
+{
+    float4 Weights = float4(9, 3, 1, 3) / (abs(DepthX2 - Depth) + UpsampleTolerance);
+    float TotalWeight = dot(Weights, 1) + NoiseFilterStrength;
+    float WeightedSum = dot(Weights, Occlusion) + NoiseFilterStrength;
+    return OcclusionX2 * WeightedSum / TotalWeight;
+}
+
+float MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD) : SV_Target
+{
+    int2 PixelCoord = int2(Position.xy);
+#if XIN_SSAO_UPSAMPLE_BLEND_WITH_HIGHER
+    float OcclusionX2  = OcclusionMergedX2.Sample(LinearBorderSampler, Texcoord);
+#else
+    float OcclusionX2 = 1.0;
+#endif
+    int QualdIndex = (PixelCoord.x % 2 + (PixelCoord.y % 2) * 2);
+    if (QualdIndex == 0)
+    {
+        float2 Texcoord2x = (PixelCoord >> 1) * InputTexelSize;
+        return BilateralUpsample(DepthX2[PixelCoord], OcclusionX2, Depth.Gather(LinearBorderSampler, Texcoord2x).yzwx, OcclusionMerged.Gather(LinearBorderSampler, Texcoord2x).yzwx);
+    }
+    else if (QualdIndex == 1)
+    {
+        float2 Texcoord2x = (PixelCoord >> 1) * InputTexelSize + float2(InputTexelSize.x, 0);
+        return BilateralUpsample(DepthX2[PixelCoord], OcclusionX2, Depth.Gather(LinearBorderSampler, Texcoord2x).xyzw, OcclusionMerged.Gather(LinearBorderSampler, Texcoord2x).xyzw);
+    }
+    else if (QualdIndex == 2)
+    {
+        float2 Texcoord2x = (PixelCoord >> 1) * InputTexelSize + float2(0, InputTexelSize.y);
+        return BilateralUpsample(DepthX2[PixelCoord], OcclusionX2, Depth.Gather(LinearBorderSampler, Texcoord2x).zwxy, OcclusionMerged.Gather(LinearBorderSampler, Texcoord2x).zwxy);
+    }
+    else/* if (QualdIndex == 3)*/
+    {
+        float2 Texcoord2x = (PixelCoord >> 1) * InputTexelSize + float2(InputTexelSize.x, InputTexelSize.y);
+        return BilateralUpsample(DepthX2[PixelCoord], OcclusionX2, Depth.Gather(LinearBorderSampler, Texcoord2x).wxyz, OcclusionMerged.Gather(LinearBorderSampler, Texcoord2x).wxyz);
+    }
+}

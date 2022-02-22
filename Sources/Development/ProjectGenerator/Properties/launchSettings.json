@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Xin": {
+      "commandName": "Project",
+      "workingDirectory": "..\\..\\..\\"
+    },
+    "XinSample": {
+      "commandName": "Project",
+      "workingDirectory": "..\\..\\..\\..\\"
+    }
+  }
+}

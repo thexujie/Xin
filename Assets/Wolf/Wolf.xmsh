@@ -1,0 +1,15 @@
+{
+  "Version": "1.0",
+  "BoundingBox": "(-1.22025, -6.1763697, -3.5078702), (-0.14784, -5.33736, 1.0856)",
+  "Elements": [
+    {
+      "Material": "assets://Wolf/Wolf_Body.xmtl"
+    },
+    {
+      "Material": "assets://Wolf/Wolf_Eyes.xmtl"
+    },
+    {
+      "Material": "assets://Wolf/Wolf_Fur.xmtl"
+    }
+  ]
+}

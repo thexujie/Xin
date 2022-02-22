@@ -1,0 +1,177 @@
+#include "PCH.h"
+
+#include <iostream>
+#include <shlobj.h>
+#include <shellapi.h>
+
+#include "00.Test.UI.Types.h"
+#include "Xin.Core/Utils/FileInfo.h"
+
+void SetupChrome_CatImage(UChrome & Chrome)
+{
+	Chrome.Title = u8"Chrome Cat"T;
+	Chrome.Size = { 400, 300 };
+	Chrome.Content = Image(u8"../../Data/Cat.jpg"V);
+}
+
+void SetupChrome_Atlas1(UChrome & Chrome)
+{
+	FString CompolexText =
+		//u8"♒强烈❤️❤️❤️推荐♒\n✅运行正常✅\n⚡亭亭玉立⚡\n♈恭喜发财♈\n✨新年快乐✨\n🏅大吉大利🏅\n♒今晚吃鸡♒\n"
+		//u8"✋✌️☝️✊✍️⛑️☂️☎♻♿⚠⛔❄️☘️☁️⛅⛈️☂️☔⚡❄️\n"
+		//u8"☃️⛄☄️👩🌾🎄🍅🛺🚕🚎🚎🚜💗\n"
+		//u8"☕⛷️⛹️⛹️♂️⛹️♀️⚽⚾⛳\n"
+		//u8"⛰️⛪⛩⛲⛺⛽⚓⛵⛴️✈️⛱️\n"
+		u8"ดีดีดีีีดีดีlālálǎlàوالعدل والسلام靐𰻞𰻞𰻞 في العالم"V;
+
+	Chrome.Title = u8"Chrome Atlas"T;
+	Chrome.Location = { 600, 600 };
+	Chrome.Size = { 600, 400 };
+	Chrome.Content = StackPanel(EOrientation::Vertical,
+		{
+			TextBlock(FText(CompolexText), { { UElement::HorizontalAlignmentProperty(), EElementAlignment::Center }, { UElement::SizeProperty(), FDimen2 { FDimen::Percent90, FDimen::Auto } } }),
+			TextBlock(u8"可爱的文字 in TextBlock BB 靐𰻞."T, { { UElement::HorizontalAlignmentProperty(), EElementAlignment::Center }, { UElement::SizeProperty(), FDimen2 { FDimen::Percent50, FDimen::Auto } } }),
+			Button(u8"Minimum"T, nullptr, { { UElement::HitInsideProperty(), EHitResult::Inside } }),
+			Button(u8"Maximum"T, nullptr, { { UElement::HitInsideProperty(), EHitResult::Inside } }),
+			Button(u8"Close"T, nullptr, { { UElement::HitInsideProperty(), EHitResult::Inside } }),
+		},
+		{
+			{ UElement::SizeProperty(), FDimen2 { FDimen::Percent100, FDimen::Percent100 } }
+		});
+}
+
+void SetupChrome_Atlas2(UChrome & Chrome)
+{
+	FString CompolexText =
+		//u8"♒强烈❤️❤️❤️推荐♒\n✅运行正常✅\n⚡亭亭玉立⚡\n♈恭喜发财♈\n✨新年快乐✨\n🏅大吉大利🏅\n♒今晚吃鸡♒\n"
+		//u8"✋✌️☝️✊✍️⛑️☂️☎♻♿⚠⛔❄️☘️☁️⛅⛈️☂️☔⚡❄️\n"
+		//u8"☃️⛄☄️👩🌾🎄🍅🛺🚕🚎🚎🚜💗\n"
+		//u8"☕⛷️⛹️⛹️♂️⛹️♀️⚽⚾⛳\n"
+		//u8"⛰️⛪⛩⛲⛺⛽⚓⛵⛴️✈️⛱️\n"
+		u8"ดีดีดีีีดีดีlālálǎlàوالعدل والسلام靐𰻞𰻞𰻞 في العالم"V;
+
+	UListViewRef FileList;
+
+	Chrome.Title = u8"Chrome Atlas"T;
+	Chrome.Location = { 200, 600 };
+	Chrome.Size = { 600, 400 };
+	//Chrome.Content = StackPanel(
+	//	{
+	//		TextBlock(FText(CompolexText), { { UElement::HorizontalAlignmentProperty(), EElementAlignment::Center }, { UElement::SizeProperty(), FDimen2 { FDimen::Percent90, FDimen::Auto } } }),
+	//		TextBlock(u8"可爱的文字 in TextBlock BB 靐𰻞."T, { { UElement::HorizontalAlignmentProperty(), EElementAlignment::Center }, { UElement::SizeProperty(), FDimen2 { FDimen::Percent50, FDimen::Auto } } }),
+	//		Button(u8"Minimum"T, nullptr, { { UElement::HitInsideProperty(), EHitResult::Inside } }),
+	//		Button(u8"Maximum"T, nullptr, { { UElement::HitInsideProperty(), EHitResult::Inside } }),
+	//		Button(u8"Close"T, nullptr, { { UElement::HitInsideProperty(), EHitResult::Inside } }),
+	//		FileList = ListView(
+	//			{
+	//			},
+	//			{ { UElement::SizeProperty(), FDimen2 { FDimen::Percent75, 512 } } }),
+	//		Button(u8"Close"T, nullptr, { { UElement::HitInsideProperty(), EHitResult::Close } }),
+	//	},
+	//	{
+	//		{ UStackPanel::OrientationProperty(), EOrientation::Vertical },
+	//		{ UElement::SizeProperty(), FDimen2 { FDimen::Percent100, FDimen::Percent100 } }
+	//	});
+
+	Chrome.Content = FileList = ListView( { }, { { UElement::SizeProperty(), FDimen2 { FDimen::Percent75, 512 } } }); 
+	{
+		FileList->ContextMenu = u8"我看看是什么东西"T;
+		FileList->Columns =
+		{
+			{ FFileInfo::FileIconProperty(), u8"Icon"T },
+			{ FFileInfo::FileNameProperty(), u8"File Name"T },
+			{
+				{
+					FFileInfo::FileSizeProperty(), [](uint64 FileSize)
+					{
+						if (FileSize < 1024)
+							return Format(u8"{}B"V, FileSize);
+						else if (FileSize < 1024 * 1024)
+							return Format(u8"{}KB"V, FileSize >> 10);
+						else if (FileSize < 1024 * 1024 * 1024)
+							return Format(u8"{}MB"V, FileSize >> 20);
+						else
+							return Format(u8"{}GB"V, FileSize >> 30);
+					},
+				},
+				u8"File Size"T,
+			},
+			{ FFileInfo::FilePathProperty(), u8"File Path"T }
+		};
+
+		//TList<FFileInfoRef> FileInfos = FFileInfo::EnumPath(u8"C:/Windows/System32/"V);
+		//TList<FFileInfoRef> FileInfos = FFileInfo::EnumPath(u8"C:/Windows/System/Speech"V);
+		TList<FFileInfoRef> FileInfos = FFileInfo::EnumPath(u8"C:/Windows/System/"V);
+		for (FFileInfoRef FileInfo : FileInfos)
+		{
+			FileInfo->FileIcon = FFileInfo::GetFileIcon(FileInfo->FilePath);
+			FileList->Items.AddItem(FileInfo);
+
+			if (FileList->Items.Size >= 4)
+				break;
+		}
+
+		FileList->OnQueryItemContextMenu += [](FListViewQueryItemContextMenuEventArgs & Args)
+		{
+			FFileInfoRef FileInfo = Args.ListViewItem.Content.Get<FFileInfoRef>();
+			if (!FileInfo)
+				return;
+
+			Args.Menu = Menu({
+				Format(u8"文件 {}"V, FileInfo->FileName),
+				MenuItem(u8"在资源管理器中打开(&O)"T, [FileInfo](const FRoutedEventArgs & Args)
+				{
+					//FWString FilePathW = FEncoding::ToWide(FileInfo->FilePath);
+					FWString CommandLineParameters = FEncoding::ToWide(Format(u8"/select,\"{}\""V, FileInfo->FilePath));
+					CommandLineParameters.Slice(1).Replace(L'/', L'\\');
+
+					SHELLEXECUTEINFOW ShellExecuteInfoW = {};
+
+					ShellExecuteInfoW.cbSize = sizeof(ShellExecuteInfoW);
+					ShellExecuteInfoW.lpFile = L"explorer.exe";
+					ShellExecuteInfoW.nShow = SW_SHOW;
+					ShellExecuteInfoW.fMask = SEE_MASK_DEFAULT;
+					ShellExecuteInfoW.lpParameters = CommandLineParameters.Data;
+					ShellExecuteInfoW.lpVerb = L"open";
+
+					ShellExecuteExW(&ShellExecuteInfoW);
+				}),
+				MenuItem(u8"属性(&O)"T, [F=FileInfo](const FRoutedEventArgs & Args)
+				{
+					//SHOpenPropSheetW()
+
+					FWString FilePathW = FEncoding::ToWide(F->FilePath);
+					SHELLEXECUTEINFOW ShellExecuteInfoW = {};
+
+					ShellExecuteInfoW.cbSize = sizeof(ShellExecuteInfoW);
+					ShellExecuteInfoW.lpFile = FilePathW.Data;
+					ShellExecuteInfoW.nShow = SW_SHOW;
+					ShellExecuteInfoW.fMask = SEE_MASK_INVOKEIDLIST;
+					ShellExecuteInfoW.lpVerb = L"properties";
+
+					ShellExecuteExW(&ShellExecuteInfoW);
+				})
+			});
+		};
+	}
+}
+
+void SetupChromePanel(UChromePanel & ChromePanel)
+{
+	UChromeRef ChromeA = MakeRefer<UChrome>(ChromePanel);
+	SetupChrome_CatImage(*ChromeA);
+	UChromeRef ChromeB = MakeRefer<UChrome>(ChromePanel);
+	SetupChrome_Atlas1(*ChromeB);
+	UChromeRef ChromeC = MakeRefer<UChrome>(ChromePanel);
+	SetupChrome_Atlas2(*ChromeC);
+
+	//ChromePanel.Chromes.AddItems({ ChromeC });
+	ChromePanel.Chromes.AddItems({ChromeA, ChromeB, ChromeC});
+}
+
+UChromePanelRef CreateElement_Chrome()
+{
+	UChromePanelRef ChromePanel = MakeRefer<UChromePanel>();
+	SetupChromePanel(*ChromePanel);
+	return ChromePanel;
+}

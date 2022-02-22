@@ -1,0 +1,123 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+// https://learn.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-devices-downlevel-compute-shaders
+
+Texture2D<float3> Input;
+RWTexture2D<float3> Output;
+
+static const float Weights[5] = {70.0f / 256.0f, 56.0f / 256.0f, 28.0f / 256.0f, 8.0f / 256.0f, 1.0f / 256.0f};
+
+float3 BlurPixels(float3 a, float3 b, float3 c, float3 d, float3 e, float3 f, float3 g, float3 h, float3 i)
+{
+    return Weights[0] * e + Weights[1] * (d + f) + Weights[2] * (c + g) + Weights[3] * (b + h) + Weights[4] * (a + i);
+}
+
+float3 FetchInput(int2 PixelCoord)
+{
+    return Input[PixelCoord];
+}
+
+#define XIN_GUSSIAN_BLUR_PIXEL_PACKED 1
+
+#if XIN_GUSSIAN_BLUR_PIXEL_PACKED
+groupshared uint3 CachedPixels[16 * 8];
+#else
+groupshared float3 CachedPixels[2][16 * 8];
+#endif
+
+void Load1Pixel(uint PixelIndex, out float3 Pixel)
+{
+#if XIN_GUSSIAN_BLUR_PIXEL_PACKED
+    Pixel = asfloat(CachedPixels[PixelIndex]);
+#else
+    Pixel = CachedPixels[0][PixelIndex];
+#endif
+}
+
+void Load2Pixels(uint PixelIndex, out float3 PixelA, out float3 PixelB)
+{
+#if XIN_GUSSIAN_BLUR_PIXEL_PACKED
+    uint3 CachePixel = CachedPixels[PixelIndex];
+    PixelA = f16tof32(CachePixel >> 16);
+    PixelB = f16tof32(CachePixel);
+#else
+    PixelA = CachedPixels[0][PixelIndex];
+    PixelB = CachedPixels[1][PixelIndex];
+#endif
+}
+
+void Store1Pixels(uint PixelIndex, float3 Pixel)
+{
+#if XIN_GUSSIAN_BLUR_PIXEL_PACKED
+    CachedPixels[PixelIndex] = asuint(Pixel);
+#else
+    CachedPixels[0][PixelIndex] = Pixel;
+#endif
+}
+
+void Store2Pixels(uint PixelIndex, float3 PixelA, float3 PixelB)
+{
+#if XIN_GUSSIAN_BLUR_PIXEL_PACKED
+    CachedPixels[PixelIndex] = (f32tof16(PixelA) << 16) | f32tof16(PixelB);
+#else
+    CachedPixels[0][PixelIndex] = PixelA;
+    CachedPixels[1][PixelIndex] = PixelB;
+#endif
+}
+
+void BlurHorizontally(uint OutputPixelIndex, uint InputPixelIndex)
+{
+    float3 s0, s1, s2, s3, s4, s5, s6, s7, s8, s9;
+    Load2Pixels(InputPixelIndex + 0, s0, s1);
+    Load2Pixels(InputPixelIndex + 1, s2, s3);
+    Load2Pixels(InputPixelIndex + 2, s4, s5);
+    Load2Pixels(InputPixelIndex + 3, s6, s7);
+    Load2Pixels(InputPixelIndex + 4, s8, s9);
+
+    Store1Pixels(OutputPixelIndex + 0, BlurPixels(s0, s1, s2, s3, s4, s5, s6, s7, s8));
+    Store1Pixels(OutputPixelIndex + 1, BlurPixels(s1, s2, s3, s4, s5, s6, s7, s8, s9));
+}
+
+void BlurVertically(uint2 OutputCoord, uint PixelIndex)
+{
+    float3 s0, s1, s2, s3, s4, s5, s6, s7, s8;
+    Load1Pixel(PixelIndex +   0, s0);
+    Load1Pixel(PixelIndex +   8, s1);
+    Load1Pixel(PixelIndex +  16, s2);
+    Load1Pixel(PixelIndex +  24, s3);
+    Load1Pixel(PixelIndex +  32, s4);
+    Load1Pixel(PixelIndex +  40, s5);
+    Load1Pixel(PixelIndex +  48, s6);
+    Load1Pixel(PixelIndex +  56, s7);
+    Load1Pixel(PixelIndex +  64, s8);
+
+    Output[OutputCoord] = BlurPixels(s0, s1, s2, s3, s4, s5, s6, s7, s8);
+}
+
+[numthreads(8, 8, 1)]
+void MainCS(uint3 GroupID : SV_GroupID, uint3 GroupThreadID : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+    // Input -> LDS
+    {
+        int2 PixelCoord = (GroupID.xy << 3) - 4 + (GroupThreadID.xy << 1);
+        uint PixelIndex = GroupThreadID.x + (GroupThreadID.y << 4);
+        Store2Pixels(PixelIndex + 0, FetchInput(PixelCoord + int2(0, 0)), FetchInput(PixelCoord + int2(1, 0)));
+        Store2Pixels(PixelIndex + 8, FetchInput(PixelCoord + int2(0, 1)), FetchInput(PixelCoord + int2(1, 1)));
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    {
+	    // BlurHorizontally in LDS
+	    // 0 1 ---- 0 1 2 3 4
+	    // 2 3 ---- 1 2 3 4 5
+	    // 4 5 ---- 2 3 4 5 6
+	    // 6 7 ---- 3 4 5 6 7
+        uint OutputPixelIndex = (GroupThreadID.y << 4) + (GroupThreadID.x << 1);
+        uint InputPixelIndex = (GroupThreadID.y << 4) + GroupThreadID.x + (GroupThreadID.x & 0x4);
+        BlurHorizontally(OutputPixelIndex, InputPixelIndex);
+    }
+
+    GroupMemoryBarrierWithGroupSync();
+    BlurVertically(DispatchThreadID.xy, GroupThreadID.x + (GroupThreadID.y << 3));
+}

@@ -1,0 +1,43 @@
+#include "Common.xsh"
+#include "Material.xsh"
+#include "MaterialFallback.xsh"
+
+cbuffer ViewParameter
+{
+    float4x4 ViewMatrix;
+    float4x4 ProjectionMatrix;
+    float4x4 ViewProjectionMatrix;
+}
+
+cbuffer PrimitiveParameter
+{
+    float4x4 WorldMatrix;
+}
+
+struct DepthInputVS
+{
+    float3 Position : POSITION;
+    float2 Texcoord : TEXCOORD;
+};
+
+struct DepthOutputVS
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+};
+
+DepthOutputVS DepthVertexShader(DepthInputVS Input)
+{
+    float4 WorldPosition = mul(float4(Input.Position, 1.0f), WorldMatrix);
+    float4 ScreenPosition = mul(WorldPosition, ViewProjectionMatrix);
+
+    DepthOutputVS Result;
+    Result.Position = ScreenPosition;
+    Result.Texcoord = Input.Texcoord;
+    return Result;
+}
+
+void DepthPixelShader(float4 Position : SV_POSITION ,float2 Texcoord : TEXCOORD)
+{
+    MaterialClipping(Texcoord);
+}

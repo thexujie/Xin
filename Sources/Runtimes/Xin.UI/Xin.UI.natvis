@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="Xin::UI::UChromeButton">
+		<DisplayString>{{ChromeButton {Name}, {__Content}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::UI::UChromeTitle">
+		<DisplayString>{{ChromeTitle {Name}, {__Title}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::UI::UChromeBorder">
+		<DisplayString>{{ChromeBorder {Name}, {__Child}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::UI::UListViewItem">
+		<DisplayString>{{ListViewItem {Name}, {__Content}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::UI::FDimen">
+		<DisplayString Condition="Unit == Xin::UI::EUnit::Auto">{Unit,en}</DisplayString>
+		<DisplayString Condition="Unit == Xin::UI::EUnit::Absolute">{Value}</DisplayString>
+		<DisplayString Condition="Unit == Xin::UI::EUnit::Percent">{Value * 100}%</DisplayString>
+		<DisplayString>{Value} {Unit,en}</DisplayString>
+	</Type>
+	<Type Name="Xin::UI::ICommand">
+		<DisplayString>{Name}</DisplayString>
+	</Type>
+	<Type Name="Xin::UI::FVisualState">
+		<DisplayString>{Name}</DisplayString>
+	</Type>
+	<Type Name="Xin::UI::FRoutedEvent">
+		<DisplayString>{{{Name} Event}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::FRoutedEventArgs">
+		<DisplayString>{{{RoutedEvent} Args}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UElement">
+		<DisplayString>{{Element {Name}, {Children.Size} Elements}}</DisplayString>
+		<!--<Expand>
+			<ExpandedItem>Children</ExpandedItem>
+		</Expand>-->
+	</Type>
+
+	<Type Name="Xin::UI::UScrollControl">
+		<DisplayString>{{ScrollControl {Name}, {Children.Size} Elements, {Name}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UScrollArea">
+		<DisplayString>{{ScrollArea {Name}, Child={{{__Child}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UScrollPanel">
+		<DisplayString>{{ScrollPanel {Name}, Child={{{__Child}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UScrollViewer">
+		<DisplayString>{{ScrollViewer {Name}, {Children.Size} Elements, {Name}}}</DisplayString>
+	</Type>
+	
+	<Type Name="Xin::UI::UThumb">
+		<DisplayString>{{Thumb, {Children.Size} Elements, {Name}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UTrack">
+		<DisplayString>{{Track, {Children.Size} Elements, {Name}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UScrollBar">
+		<DisplayString>{{ScrollBar {Name}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::ULine">
+		<DisplayString>{{Line, {Name}}}</DisplayString>
+	</Type>
+
+	<!--<Type Name="Xin::UI::UVisual">
+		<DisplayString>{{Visual, {Children.Size} Visuals}}</DisplayString>
+	</Type>-->
+
+	<!--<Type Name="Xin::UI::UVisual" IncludeView="vtree">
+		<DisplayString>{{Visual, {Children.Size} Visuals}}</DisplayString>
+		<Expand>
+			<ExpandedItem>Children</ExpandedItem>
+		</Expand>
+	</Type>-->
+
+	<Type Name="Xin::UI::UTextBlock">
+		<DisplayString>{{TextBlock {Name}, {__Text}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UImage">
+		<DisplayString>{{Image {Name}, {Image}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UControl">
+		<DisplayString>{{Control {Name}, {Children.Size} Children}}</DisplayString>
+		<!--<Expand HideRawView="false">
+      <Item Name="ReferCount">ReferCount</Item>
+      <ArrayItems>
+        <Size>Controls.Size</Size>
+        <ValuePointer>Controls.Data</ValuePointer>
+      </ArrayItems>
+    </Expand>-->
+	</Type>
+
+	<Type Name="Xin::UI::UPanel">
+		<DisplayString>{{Panel {Name}, {Elements}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UStackPanel">
+		<DisplayString>{{StackPanel {Name}, {Elements}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UGridPanel">
+		<DisplayString>{{GridPanel {Name}, {Elements}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UWrapPanel">
+		<DisplayString>{{WrapPanel {Name}, {Elements}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::USplitterPanel">
+		<DisplayString>{{SplitterPanel {Name}, {Elements}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UOverlapPanel">
+		<DisplayString>{{OverlapPanel {Name}, {Elements}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UContentControl">
+		<DisplayString>{{ContentControl {Name} {__Content}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UButton">
+		<DisplayString>{{Button {Name}, {__Content}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::URadioButton">
+		<DisplayString>{{RadioButton {Name}, {__Content}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UCheckBox">
+		<DisplayString>{{CheckBox {Name}, {__Content}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UWindow">
+		<DisplayString>{{Window {Name}, Title={Title}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UBorder">
+		<DisplayString>{{Border} {Name}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UThumb">
+		<DisplayString>{{Thumb} {Name}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UListBoxItem">
+		<DisplayString>{{ListBoxItem  {Name} {__Content}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UListBox">
+		<DisplayString>{{ListBox  {Name}, {Items.Size} Items}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::UI::UChrome">
+		<DisplayString>{{Chrome {Name}, Title={__Title}}}</DisplayString>
+	</Type>
+</AutoVisualizer>

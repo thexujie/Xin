@@ -1,0 +1,190 @@
+#include "Common.xsh"
+
+#if XIN_SSAO_COMPUTE_TILED
+Texture2DArray<float> Depth;
+#else
+Texture2D<float> Depth;
+#endif
+
+VK_IMAGE_FORMAT("r8")
+RWTexture2D<unorm float> Occlusion;
+
+cbuffer ShaderParameter
+{
+    // ThicknessRcp
+    float ThicknessRcp_1x0;
+    float ThicknessRcp_2x0;
+    float ThicknessRcp_3x0;
+    float ThicknessRcp_4x0;
+
+    float ThicknessRcp_1x1;
+    float ThicknessRcp_1x2;
+    float ThicknessRcp_1x3;
+    float ThicknessRcp_1x4;
+    
+    float ThicknessRcp_2x2;
+    float ThicknessRcp_2x3;
+    float ThicknessRcp_2x4;
+    float ThicknessRcp_3x3;
+
+    // SampleWeight
+    float SampleWeight_1x0;
+    float SampleWeight_2x0;
+    float SampleWeight_3x0;
+    float SampleWeight_4x0;
+
+    float SampleWeight_1x1;
+    float SampleWeight_1x2;
+    float SampleWeight_1x3;
+    float SampleWeight_1x4;
+    
+    float SampleWeight_2x2;
+    float SampleWeight_2x3;
+    float SampleWeight_2x4;
+    float SampleWeight_3x3;
+    
+    float2 InputTexelSize;
+    float RejectFadeoff;
+    float RcpAccentuation;
+}
+
+#if WIDE_SAMPLING
+    // 32x32 cache size:  the 16x16 in the center forms the area of focus with the 8-pixel perimeter used for wide gathering.
+#define TILE_DIM 32
+#define THREAD_COUNT_X 16
+#define THREAD_COUNT_Y 16
+#else
+    // 16x16 cache size:  the 8x8 in the center forms the area of focus with the 4-pixel perimeter used for gathering.
+#define TILE_DIM 16
+#define THREAD_COUNT_X 8
+#define THREAD_COUNT_Y 8
+#endif
+
+groupshared float CachedDepth[TILE_DIM * TILE_DIM];
+
+float TestSamplePair(float FrontDepth, float InvertRange, uint Index, int Offset)
+{
+    // "Disocclusion" measures the penetration distance of the depth sample within the sphere.
+    // Disocclusion < 0 (full occlusion) -> the sample fell in front of the sphere
+    // Disocclusion > 1 (no occlusion) -> the sample fell behind the sphere
+    float DisocclusionA = CachedDepth[Index + Offset] * InvertRange - FrontDepth;
+    float DisocclusionB = CachedDepth[Index - Offset] * InvertRange - FrontDepth;
+
+    float PseudoDisocclusionA = saturate(RejectFadeoff * DisocclusionA);
+    float PseudoDisocclusionB = saturate(RejectFadeoff * DisocclusionB);
+
+    return clamp(DisocclusionA, PseudoDisocclusionB, 1.0) + clamp(DisocclusionB, PseudoDisocclusionA, 1.0) - PseudoDisocclusionA * PseudoDisocclusionB;
+}
+
+float TestSamples(uint PixelIndex, uint OffsetX, uint OffsetY, float DepthRcp, float ThicknessRcp)
+{
+#if WIDE_SAMPLING
+    OffsetX <<= 1;
+    OffsetY <<= 1;
+#endif
+
+    float InvertRange = DepthRcp * ThicknessRcp;
+    float FrontDepth = ThicknessRcp - 0.5;
+
+    if (OffsetY == 0)
+    {
+        // Axial
+        return 0.5 * (
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetX) +
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetX * TILE_DIM));
+    }
+    else if (OffsetX == OffsetY)
+    {
+        // Diagonal
+        return 0.5 * (
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetX * TILE_DIM - OffsetX) +
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetX * TILE_DIM + OffsetX));
+    }
+    else
+    {
+        // L-Shaped
+        return 0.25 * (
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetY * TILE_DIM + OffsetX) +
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetY * TILE_DIM - OffsetX) +
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetX * TILE_DIM + OffsetY) +
+            TestSamplePair(FrontDepth, InvertRange, PixelIndex, OffsetX * TILE_DIM - OffsetY));
+    }
+}
+
+#if WIDE_SAMPLING
+[numthreads( 16, 16, 1 )]
+#else
+// Dispatch 16x16 thread groups, 8x8 thread per group.
+[numthreads(8, 8, 1)]
+#endif
+void MainCS(uint3 GroupID : SV_GroupID, uint GroupIndex : SV_GroupIndex, uint3 GroupThreadID : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+#if WIDE_SAMPLING
+    float2 PixelCoord = int2(DispatchThreadID.xy + GroupThreadID.xy - 7) * InputTexelSize;
+#else
+    float2 PixelCoord = int2(DispatchThreadID.xy + GroupThreadID.xy - 3) * InputTexelSize;
+#endif
+
+#if XIN_SSAO_COMPUTE_TILED
+    float4 Depths = Depth.Gather(LinearClampSampler, float3(PixelCoord, DispatchThreadID.z));
+#else
+    float4 Depths = Depth.Gather(LinearClampSampler, PixelCoord);
+#endif
+
+    int CachePixelIndex = GroupThreadID.x * 2 + GroupThreadID.y * 2 * TILE_DIM;
+    CachedDepth[CachePixelIndex] = Depths.w;
+    CachedDepth[CachePixelIndex + 1] = Depths.z;
+    CachedDepth[CachePixelIndex + TILE_DIM] = Depths.x;
+    CachedDepth[CachePixelIndex + TILE_DIM + 1] = Depths.y;
+
+    GroupMemoryBarrierWithGroupSync();
+
+#if WIDE_SAMPLING
+    uint PixelIndex = GroupThreadID.x + GroupThreadID.y * TILE_DIM + 8 * TILE_DIM + 8;
+#else
+    uint PixelIndex = GroupThreadID.x + GroupThreadID.y * TILE_DIM + 4 * TILE_DIM + 4;
+#endif
+
+    const float DepthRcp = 1.0 / CachedDepth[PixelIndex];
+    float AO = 0.0;
+
+//#define SAMPLE_EXHAUSTIVELY
+
+#ifdef SAMPLE_EXHAUSTIVELY
+    // 68 samples:  sample all cells in *within* a circular radius of 5
+    AO += SampleWeightTable[0].x * TestSamples(PixelIndex, 1, 0, DepthRcp, InvertThicknessTable[0].x);
+    AO += SampleWeightTable[0].y * TestSamples(PixelIndex, 2, 0, DepthRcp, InvertThicknessTable[0].y);
+    AO += SampleWeightTable[0].z * TestSamples(PixelIndex, 3, 0, DepthRcp, InvertThicknessTable[0].z);
+    AO += SampleWeightTable[0].w * TestSamples(PixelIndex, 4, 0, DepthRcp, InvertThicknessTable[0].w);
+    AO += SampleWeightTable[1].x * TestSamples(PixelIndex, 1, 1, DepthRcp, InvertThicknessTable[1].x);
+    AO += SampleWeightTable[2].x * TestSamples(PixelIndex, 2, 2, DepthRcp, InvertThicknessTable[2].x);
+    AO += SampleWeightTable[2].w * TestSamples(PixelIndex, 3, 3, DepthRcp, InvertThicknessTable[2].w);
+    AO += SampleWeightTable[1].y * TestSamples(PixelIndex, 1, 2, DepthRcp, InvertThicknessTable[1].y);
+    AO += SampleWeightTable[1].z * TestSamples(PixelIndex, 1, 3, DepthRcp, InvertThicknessTable[1].z);
+    AO += SampleWeightTable[1].w * TestSamples(PixelIndex, 1, 4, DepthRcp, InvertThicknessTable[1].w);
+    AO += SampleWeightTable[2].y * TestSamples(PixelIndex, 2, 3, DepthRcp, InvertThicknessTable[2].y);
+    AO += SampleWeightTable[2].z * TestSamples(PixelIndex, 2, 4, DepthRcp, InvertThicknessTable[2].z);
+#else // SAMPLE_CHECKER
+    // 36 samples:  sample every-other cell in a checker board pattern
+
+    // Axial
+    AO += SampleWeight_2x0 * TestSamples(PixelIndex, 2, 0, DepthRcp, ThicknessRcp_2x0);
+    AO += SampleWeight_4x0 * TestSamples(PixelIndex, 4, 0, DepthRcp, ThicknessRcp_4x0);
+	
+	// Diagonal
+    AO += SampleWeight_1x1 * TestSamples(PixelIndex, 1, 1, DepthRcp, ThicknessRcp_1x1);
+    AO += SampleWeight_2x2 * TestSamples(PixelIndex, 2, 2, DepthRcp, ThicknessRcp_2x2);
+    AO += SampleWeight_3x3 * TestSamples(PixelIndex, 3, 3, DepthRcp, ThicknessRcp_3x3);
+
+    // L-Shaped
+    AO += SampleWeight_1x3 * TestSamples(PixelIndex, 1, 3, DepthRcp, ThicknessRcp_1x3);
+    AO += SampleWeight_2x4 * TestSamples(PixelIndex, 2, 4, DepthRcp, ThicknessRcp_2x4);
+#endif
+
+#if XIN_SSAO_COMPUTE_TILED
+    uint2 OutputCoord = DispatchThreadID.xy << 2 | uint2(DispatchThreadID.z & 3, DispatchThreadID.z >> 2);
+#else
+    uint2 OutputCoord = DispatchThreadID.xy;
+#endif
+    Occlusion[OutputCoord] = AO * RcpAccentuation;
+}

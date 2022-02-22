@@ -1,0 +1,147 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+#include "FXAA.xsh"
+
+Texture2D Source;
+Buffer<uint> WorkQueue;
+
+#if XIN_FXAA_DATAQUEUE_PACKED
+Buffer<uint> DataQueue;
+#else
+Buffer<float2> DataQueue;
+#endif
+
+VK_IMAGE_FORMAT("rgb16f")
+RWTexture2D<float4> Target;
+
+cbuffer ShaderParameter
+{
+    float2 FXAATexelSize;
+    float1 FXAAEdgeThresholdMin;
+    float1 FXAAEdgeThreshold;
+    float1 FXAASubpix;
+    
+    uint LastQueueIndex;
+    uint2 StartPixel;
+}
+
+float4 FetchColor(int2 Coord)
+{
+    return Source[Coord];
+}
+
+float FetchLuma(int2 Coord)
+{
+    return Source[Coord].w;
+}
+
+float4 SampleColor(float2 Coord)
+{
+    return Source.SampleLevel(LinearClampSampler, Coord + FXAATexelSize * 0.5f, 0);
+}
+
+float SampleLuma(float2 Coord)
+{
+    return Source.SampleLevel(LinearClampSampler, Coord + FXAATexelSize * 0.5f, 0).w;
+}
+
+
+[numthreads(64, 1, 1)]
+void MainCS(uint3 GroupID : SV_GroupID, uint GroupIndex : SV_GroupIndex, uint3 GTid : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+#if XIN_FXAA_FINAL_VERTICAL_ORIENTATION
+    uint ItemIndex = LastQueueIndex - DispatchThreadID.x;
+#else
+    uint ItemIndex = DispatchThreadID.x;
+#endif
+    uint WorkHeader = WorkQueue[ItemIndex];
+    uint2 PixelCoord = StartPixel + (uint2(WorkHeader >> 8, WorkHeader >> 20) & 0xFFF);
+    uint GradientNegative = WorkHeader & 1; // Determines which side of the pixel has the highest contrast
+    int GradientSign = 1 - GradientNegative * 2;
+    float SubpixShift = (WorkHeader & 0xFE) / 254.0; // 7-bits to encode [0, 0.5]
+
+    float LumaM = FetchLuma(PixelCoord);
+#if XIN_FXAA_DATAQUEUE_PACKED
+    uint Data = DataQueue[ItemIndex];
+    float LumaGradientAvg = f16tof32(Data >> 16);
+    float LumaGradientThreshold = f16tof32(Data & 0xFFFF);
+#else
+    float2 Data = DataQueue[ItemIndex];
+    float LumaGradientAvg = Data.x;
+    float LumaGradientThreshold = Data.y;
+#endif
+    //Target[PixelCoord] = float4(LumaGradientAvg, LumaGradientThreshold, 0, 1);
+    //return;
+    
+#if XIN_FXAA_FINAL_VERTICAL_ORIENTATION
+    float PixelStep = GradientSign * FXAATexelSize.x;
+#else
+    float PixelStep = GradientSign * FXAATexelSize.y;
+#endif
+
+    float2 Texcoord = PixelCoord * FXAATexelSize;
+    float2 StartTexcoord = Texcoord;
+    /*--------------------------------------------------------------------------*/
+#if XIN_FXAA_FINAL_VERTICAL_ORIENTATION
+    StartTexcoord.x += PixelStep * 0.5f;
+    float2 CoordStepSize = float2(0, FXAATexelSize.y);
+#else
+    StartTexcoord.y += PixelStep * 0.5f;
+    float2 CoordStepSize = float2(FXAATexelSize.x, 0);
+#endif
+    
+    float2 NegativeCoord, PositiveCoord;
+    float LumaEndN, LumaEndP;
+    bool FinishNegative = false;
+    bool FinishPositive = false;
+    int StepIndexEnd = FXAA_QUALITY_SAMPLE_COUNTS[XIN_FXAA_QUALITY_LEVEL];
+    for (int StepIndex = 0; StepIndex < StepIndexEnd; ++StepIndex)
+    {
+        if (!FinishNegative)
+        {
+            NegativeCoord = StartTexcoord - CoordStepSize * FXAA_QUALITY_SAMPLE_STEPS[XIN_FXAA_QUALITY_LEVEL][StepIndex];
+            LumaEndN = SampleLuma(NegativeCoord) - LumaGradientAvg;
+            FinishNegative = abs(LumaEndN) > LumaGradientThreshold;
+        }
+
+        if (!FinishPositive)
+        {
+            PositiveCoord = StartTexcoord + CoordStepSize * FXAA_QUALITY_SAMPLE_STEPS[XIN_FXAA_QUALITY_LEVEL][StepIndex];
+            LumaEndP = SampleLuma(PositiveCoord) - LumaGradientAvg;
+            FinishPositive = abs(LumaEndP) >= LumaGradientThreshold;
+        }
+
+        if (FinishNegative && FinishPositive)
+            break;
+    }
+    //Target[PixelCoord] = float4(LumaEndN, LumaEndP, 0, 1);
+    //return;
+    
+#if XIN_FXAA_FINAL_VERTICAL_ORIENTATION
+    float SpanDistanceN = Texcoord.y - NegativeCoord.y;
+    float SpanDistanceP = PositiveCoord.y - Texcoord.y;
+#else
+    float SpanDistanceN = Texcoord.x - NegativeCoord.x;
+    float SpanDistanceP = PositiveCoord.x - Texcoord.x;
+#endif
+
+    bool SpanDirectionN = SpanDistanceN < SpanDistanceP;
+    float SpanDistanceMin = min(SpanDistanceN, SpanDistanceP);
+    /*--------------------------------------------------------------------------*/
+    bool LumaDarken = LumaM < LumaGradientAvg;
+    bool SpanDarkenN = (LumaEndN < 0.0) != LumaDarken;
+    bool SpanDarkenP = (LumaEndP < 0.0) != LumaDarken;
+    bool GoodSpan = SpanDirectionN ? SpanDarkenN : SpanDarkenP;
+    float PixelShift = 0.5 - SpanDistanceMin * rcp(SpanDistanceP + SpanDistanceN);
+    //if (abs(PixelShift) < 0.01f)
+    //    return;
+
+    /*--------------------------------------------------------------------------*/
+    float PixelOffsetSubpix = max(SubpixShift, GoodSpan ? PixelShift : 0.0);
+#if XIN_FXAA_FINAL_VERTICAL_ORIENTATION
+    float2 FinalTexcoord = float2(Texcoord.x + PixelOffsetSubpix * PixelStep, Texcoord.y);
+#else
+    float2 FinalTexcoord = float2(Texcoord.x, Texcoord.y + PixelOffsetSubpix * PixelStep);
+#endif
+    Target[PixelCoord] = float4(SampleColor(FinalTexcoord).rgb, LumaM);
+}

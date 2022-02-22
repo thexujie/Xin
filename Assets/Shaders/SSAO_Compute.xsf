@@ -1,0 +1,133 @@
+#include "Common.xsh"
+#include "SSAO.xsh"
+
+#if XIN_SSAO_COMPUTE_TILED
+Texture2DArray Depth;
+#define TexcoordType float3
+#else
+Texture2D<float> Depth;
+#define TexcoordType float2
+#endif
+
+cbuffer ShaderParameter
+{
+    // ThicknessRcp
+    float ThicknessRcp_1x0;
+    float ThicknessRcp_2x0;
+    float ThicknessRcp_3x0;
+    float ThicknessRcp_4x0;
+
+    float ThicknessRcp_1x1;
+    float ThicknessRcp_1x2;
+    float ThicknessRcp_1x3;
+    float ThicknessRcp_1x4;
+    
+    float ThicknessRcp_2x2;
+    float ThicknessRcp_2x3;
+    float ThicknessRcp_2x4;
+    float ThicknessRcp_3x3;
+
+    // SampleWeight
+    float SampleWeight_1x0;
+    float SampleWeight_2x0;
+    float SampleWeight_3x0;
+    float SampleWeight_4x0;
+
+    float SampleWeight_1x1;
+    float SampleWeight_1x2;
+    float SampleWeight_1x3;
+    float SampleWeight_1x4;
+    
+    float SampleWeight_2x2;
+    float SampleWeight_2x3;
+    float SampleWeight_2x4;
+    float SampleWeight_3x3;
+    
+    float2 InputTexelSize;
+    float RejectFadeoff;
+    float RcpAccentuation;
+}
+
+float TestSamplePair(float FrontDepth, float InvertRange, TexcoordType Texcoord, int2 Offset)
+{
+    float DisocclusionA = Depth.SampleLevel(LinearClampSampler, Texcoord, 0, +Offset) * InvertRange - FrontDepth;
+    float DisocclusionB = Depth.SampleLevel(LinearClampSampler, Texcoord, 0, -Offset) * InvertRange - FrontDepth;
+
+    float PseudoDisocclusionA = saturate(RejectFadeoff * DisocclusionA);
+    float PseudoDisocclusionB = saturate(RejectFadeoff * DisocclusionB);
+
+    return clamp(DisocclusionA, PseudoDisocclusionB, 1.0) + clamp(DisocclusionB, PseudoDisocclusionA, 1.0) - PseudoDisocclusionA * PseudoDisocclusionB;
+}
+
+float TestSamples(TexcoordType Texcoord, uint OffsetX, uint OffsetY, float ThisDepthRcp, float InvertThickness)
+{
+#if WIDE_SAMPLING
+    OffsetX <<= 1;
+    OffsetY <<= 1;
+#endif
+
+    float InvertRange = InvertThickness * ThisDepthRcp;
+    float FrontDepth = InvertThickness - 0.5;
+
+    if (OffsetY == 0)
+    {
+        // Axial
+        return 0.5 * (
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(OffsetX, 0)) +
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(0, OffsetX)));
+    }
+    else if (OffsetX == OffsetY)
+    {
+        // Diagonal
+        return 0.5 * (
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(OffsetX, OffsetX)) +
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(OffsetX, -OffsetX)));
+    }
+    else
+    {
+        // L-Shaped
+        return 0.25 * (
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(OffsetX, OffsetY)) +
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(OffsetX, -OffsetY)) +
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(OffsetY, OffsetX)) +
+            TestSamplePair(FrontDepth, InvertRange, Texcoord, int2(OffsetY, -OffsetX)));
+    }
+}
+
+float MainPS(float4 Position : SV_POSITION) : SV_Target
+{
+    int2 PixelCoord = int2(Position.xy);
+#if XIN_SSAO_COMPUTE_TILED
+    float2 Texcoord2D = (PixelCoord >> 2) * InputTexelSize + InputTexelSize * 0.5;
+#else
+    float2 Texcoord2D = PixelCoord * InputTexelSize + InputTexelSize * 0.5;
+#endif
+
+    int2 LocalPixelCoord = PixelCoord % 4;
+    int ArrayIndex = LocalPixelCoord.x + LocalPixelCoord.y * 4;
+    
+#if XIN_SSAO_COMPUTE_TILED
+    float3 Texcoord = float3(Texcoord2D.x, Texcoord2D.y, ArrayIndex);
+    const float ThisDepthRcp = rcp(Depth.SampleLevel(PointClampSampler, Texcoord, 0));
+#else
+    float2 Texcoord = float2(Texcoord2D.x, Texcoord2D.y);
+    const float ThisDepthRcp = rcp(Depth.SampleLevel(LinearClampSampler, Texcoord, 0));
+#endif
+    
+    float AO = 0.0;
+
+    // Axial
+    AO += SampleWeight_2x0 * TestSamples(Texcoord, 2, 0, ThisDepthRcp, ThicknessRcp_2x0);
+    AO += SampleWeight_4x0 * TestSamples(Texcoord, 4, 0, ThisDepthRcp, ThicknessRcp_4x0);
+	
+	// Diagonal
+    AO += SampleWeight_1x1 * TestSamples(Texcoord, 1, 1, ThisDepthRcp, ThicknessRcp_1x1);
+    AO += SampleWeight_2x2 * TestSamples(Texcoord, 2, 2, ThisDepthRcp, ThicknessRcp_2x2);
+    AO += SampleWeight_3x3 * TestSamples(Texcoord, 3, 3, ThisDepthRcp, ThicknessRcp_3x3);
+
+    // L-Shaped
+    AO += SampleWeight_1x3 * TestSamples(Texcoord, 1, 3, ThisDepthRcp, ThicknessRcp_1x3);
+    AO += SampleWeight_2x4 * TestSamples(Texcoord, 2, 4, ThisDepthRcp, ThicknessRcp_2x4);
+
+    return AO * RcpAccentuation;
+}

@@ -1,0 +1,45 @@
+#include "Common.xsh"
+
+struct VSOutput
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+};
+
+Texture2D Source;
+
+VSOutput MainVS(uint VertexID : SV_VertexID)
+{
+    VSOutput Output;
+    float ZValue = 0.5f;
+    switch (VertexID)
+    {
+    case 0:
+        Output.Position = float4(-1, 3, ZValue, 1);
+        Output.Texcoord = float2(0, -1);
+        break;
+    case 1:
+        Output.Position = float4(3, -1, ZValue, 1);
+        Output.Texcoord = float2(2, 1);
+        break;
+    case 2:
+        Output.Position = float4(-1, -1, ZValue, 1);
+        Output.Texcoord = float2(0, 1);
+        break;
+    default:
+        Output.Position = float4(-1, 2, ZValue, 1);
+        Output.Texcoord = float2(0, -1);
+        break;
+    }
+    return Output;
+}
+
+float4 MainPS(VSOutput Input, bool IsFrontFace : SV_IsFrontFace) : SV_Target
+{
+    float Depth = Source.Sample(PointSampler, Input.Texcoord).r;
+    float MinDepth = 0.99569f;
+    float MaxDepth = 0.99986f;
+    Depth = clamp(Depth, MinDepth, MaxDepth);
+    Depth = (Depth - MinDepth) / (MaxDepth - MinDepth);
+    return float4(Depth, Depth, Depth, 1);
+}

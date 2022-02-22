@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="clang::IdentifierInfo" Priority="High">
+		<!--<DisplayString>{(const char *)(Entry + 1), [Entry->keyLength]na}</DisplayString>-->
+		<DisplayString Condition="Entry != 0">{((llvm::StringMapEntry&lt;clang::IdentifierInfo *&gt;*)Entry)+1,s}</DisplayString>
+		<Expand>
+			<Item Condition="Entry != 0" Name="[Identifier]">((llvm::StringMapEntry&lt;clang::IdentifierInfo *&gt;*)Entry)+1,s</Item>
+			<Item Name="Token Kind">(clang::tok::TokenKind)TokenID</Item>
+		</Expand>
+	</Type>
+	
+	<Type Name="clang::DeclarationName" Priority="High">
+		<DisplayString Condition="Ptr == 0" IncludeView="cpp"></DisplayString>
+		<DisplayString Condition="Ptr == 0">Empty</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredIdentifier" IncludeView="cpp">{*(clang::IdentifierInfo *)(Ptr &amp; ~PtrMask)}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredIdentifier">{*(clang::IdentifierInfo *)(Ptr &amp; ~PtrMask)}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredObjCZeroArgSelector">{{ObjC Zero Arg Selector (*{(clang::IdentifierInfo *)(Ptr &amp; ~PtrMask)})}}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredObjCOneArgSelector">{{ObjC One Arg Selector (*{(clang::IdentifierInfo *)(Ptr &amp; ~PtrMask)})}}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredCXXConstructorName" IncludeView="cpp">{(clang::detail::CXXSpecialNameExtra *)(Ptr &amp; ~PtrMask),view(cpp)na}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredCXXConstructorName">C++ Constructor {{{(clang::detail::CXXSpecialNameExtra *)(Ptr &amp; ~PtrMask),view(cpp)na}}}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredCXXDestructorName">C++ Destructor {{*(clang::detail::CXXSpecialNameExtra *)(Ptr &amp; ~PtrMask)}}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredCXXConversionFunctionName">C++ Conversion function {{*(clang::detail::CXXSpecialNameExtra *)(Ptr &amp; ~PtrMask)}}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredCXXOperatorName">C++ Operator {{*(clang::detail::CXXOperatorIdName *)(Ptr &amp; ~PtrMask)}}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredDeclarationNameExtra"
+					   IncludeView="cpp">{*(clang::detail::DeclarationNameExtra *)(Ptr &amp; ~PtrMask),view(cpp)}</DisplayString>
+		<DisplayString Condition="(Ptr &amp; PtrMask) == StoredDeclarationNameExtra">{{Extra ({*(clang::detail::DeclarationNameExtra *)(Ptr &amp; ~PtrMask)})}}</DisplayString>
+		<Expand>
+			<Item Name="Kind">StoredNameKind(Ptr &amp; PtrMask),en</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredIdentifier" Name="[Identifier]">*(clang::IdentifierInfo *)(Ptr &amp; ~PtrMask),na</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredObjCZeroArgSelector" Name="[ObjC Zero Arg Selector]">*(clang::IdentifierInfo *)(Ptr &amp; ~PtrMask),na</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredObjCOneArgSelector" Name="[ObjC One Arg Selector]">*(clang::IdentifierInfo *)(Ptr &amp; ~PtrMask),na</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredCXXConstructorName" Name="[C++ Constructor]">*(clang::detail::CXXSpecialNameExtra *)(Ptr &amp; ~PtrMask),na</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredCXXDestructorName" Name="[C++ Destructor]">*(clang::detail::CXXSpecialNameExtra *)(Ptr &amp; ~PtrMask),na</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredCXXConversionFunctionName" Name="[C++ Conversion function]">*(clang::detail::CXXSpecialNameExtra *)(Ptr &amp; ~PtrMask),na</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredCXXOperatorName" Name="[C++ Operator]">*(clang::detail::CXXOperatorIdName *)(Ptr &amp; ~PtrMask),na</Item>
+			<Item Condition="(Ptr &amp; PtrMask) == StoredDeclarationNameExtra" Name="[Extra]">(clang::detail::DeclarationNameExtra *)(Ptr &amp; ~PtrMask),na</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="clang::Decl" Priority="High">
+		<DisplayString>{(clang::Decl::Kind)DeclKind,en}</DisplayString>
+		<Expand>
+			<Item Name="Kind">(clang::Decl::Kind)DeclKind</Item>
+		</Expand>
+	</Type>
+	
+	<Type Name="clang::NamedDecl" Priority="High">
+		<DisplayString>{(clang::Decl::Kind)DeclKind,en} {Name}</DisplayString>
+	</Type>
+
+	<Type Name="clang::TypeDecl" Priority="High">
+		<DisplayString>{(clang::Decl::Kind)DeclKind,en} {Name}</DisplayString>
+	</Type>
+
+	<Type Name="clang::ValueDecl" Priority="High">
+		<DisplayString>{(clang::Decl::Kind)DeclKind,en} {Name}</DisplayString>
+	</Type>
+
+	<Type Name="clang::DeclaratorDecl" Priority="High">
+		<DisplayString>{(clang::Decl::Kind)DeclKind,en} {Name}</DisplayString>
+	</Type>
+
+
+	<Type Name="clang::QualType">
+		<!--<DisplayString>xxx</DisplayString>-->
+		<Expand>
+			<Item Name="Ext">(ExtQuals *)this</Item>
+		</Expand>
+	</Type>
+	
+	<Type Name="clang::TemplateArgument">
+		<DisplayString>{(TemplateArgument::ArgKind)DeclArg.Kind,en} {(QualType *)TypeOrValue.V,na}</DisplayString>
+		<Expand>
+			<Item Name="ArgKind">(TemplateArgument::ArgKind)DeclArg.Kind</Item>
+			<ExpandedItem Condition="(TemplateArgument::ArgKind)DeclArg.Kind == TemplateArgument::ArgKind::Type">(QualType *)TypeOrValue.V </ExpandedItem>
+		</Expand>
+	</Type>
+	
+	<Type Name="clang::ClassTemplateSpecializationDecl">
+		<DisplayString>{*(CXXRecordDecl *)this,nd} {*TemplateArgs}</DisplayString>
+		<Expand>
+			<ExpandedItem>(CXXRecordDecl *)this,nd</ExpandedItem>
+			<Item Name="TemplateArgs">TemplateArgs</Item>
+		</Expand>
+	</Type>
+	
+	<Type Name="clang::DeclContext" Priority="High">
+		<DisplayString>{(clang::Decl::Kind)DeclContextBits.DeclKind,en}</DisplayString>
+		<Expand>
+			<Item Name="DeclKind">(clang::Decl::Kind)DeclContextBits.DeclKind,en</Item>
+			<Synthetic Name="Members">
+				<Expand>
+					<LinkedListItems>
+						<HeadPointer>FirstDecl</HeadPointer>
+						<NextPointer>(clang::Decl *)((intptr_t)(NextInContextAndBits.Value.Data) &amp; ~3)</NextPointer>
+						<ValueNode>*this</ValueNode>
+					</LinkedListItems>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+</AutoVisualizer>

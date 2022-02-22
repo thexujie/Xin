@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0D30FFCB-45DA-4D2B-8E3C-81BC145BF2DE}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile />
+    <ClCompile>
+      <AdditionalIncludeDirectories>lib/dbghelp/include/;lib/setup/;lib/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="callstack.h" />
+    <ClInclude Include="criticalsection.h" />
+    <ClInclude Include="crtmfcpatch.h" />
+    <ClInclude Include="dbghelp.h" />
+    <ClInclude Include="loaderlock.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="ntapi.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="set.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="tests\basics\Allocs.h" />
+    <ClInclude Include="tests\basics\stdafx.h" />
+    <ClInclude Include="tests\basics\targetver.h" />
+    <ClInclude Include="tests\corruption\stdafx.h" />
+    <ClInclude Include="tests\corruption\targetver.h" />
+    <ClInclude Include="tests\corruption\Tests.h" />
+    <ClInclude Include="tests\dynamic_app\LoadTests.h" />
+    <ClInclude Include="tests\dynamic_app\stdafx.h" />
+    <ClInclude Include="tests\dynamic_app\targetver.h" />
+    <ClInclude Include="tests\dynamic_app\ThreadTests.h" />
+    <ClInclude Include="tests\dynamic_dll\dynamic.h" />
+    <ClInclude Include="tests\dynamic_dll\stdafx.h" />
+    <ClInclude Include="tests\dynamic_dll\targetver.h" />
+    <ClInclude Include="tests\mfc_dll\mfc.h" />
+    <ClInclude Include="tests\mfc_dll\Resource.h" />
+    <ClInclude Include="tests\mfc_dll\stdafx.h" />
+    <ClInclude Include="tests\mfc_dll\targetver.h" />
+    <ClInclude Include="tests\mfc\resource.h" />
+    <ClInclude Include="tests\mfc\StdAfx.h" />
+    <ClInclude Include="tests\mfc\vldmfc.h" />
+    <ClInclude Include="tests\mfc\vldmfcdlg.h" />
+    <ClInclude Include="tests\vld_ComTest\dllmain.h" />
+    <ClInclude Include="tests\vld_ComTest\MyMath.h" />
+    <ClInclude Include="tests\vld_ComTest\Resource.h" />
+    <ClInclude Include="tests\vld_ComTest\stdafx.h" />
+    <ClInclude Include="tests\vld_ComTest\targetver.h" />
+    <ClInclude Include="tests\vld_ComTest\xdlldata.h" />
+    <ClInclude Include="tests\vld_dll1\stdafx.h" />
+    <ClInclude Include="tests\vld_dll1\targetver.h" />
+    <ClInclude Include="tests\vld_dll2\stdafx.h" />
+    <ClInclude Include="tests\vld_dll2\targetver.h" />
+    <ClInclude Include="tests\vld_main_test\stdafx.h" />
+    <ClInclude Include="tests\vld_main_test\targetver.h" />
+    <ClInclude Include="tests\vld_main\stdafx.h" />
+    <ClInclude Include="tests\vld_main\targetver.h" />
+    <ClInclude Include="tests\vld_unload\stdafx.h" />
+    <ClInclude Include="tests\vld_unload\targetver.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="utility.h" />
+    <ClInclude Include="vld_def.h" />
+    <ClInclude Include="vld.h" />
+    <ClInclude Include="vldallocator.h" />
+    <ClInclude Include="vldheap.h" />
+    <ClInclude Include="vldint.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="callstack.cpp" />
+    <ClCompile Include="dllspatches.cpp" />
+    <ClCompile Include="ntapi.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="tests\basics\Allocs.cpp" />
+    <ClCompile Include="tests\basics\basics_disabled.cpp" />
+    <ClCompile Include="tests\basics\basics.cpp" />
+    <ClCompile Include="tests\basics\stdafx.cpp" />
+    <ClCompile Include="tests\console\main.c" />
+    <ClCompile Include="tests\console\main.cpp" />
+    <ClCompile Include="tests\corruption\corruption.cpp" />
+    <ClCompile Include="tests\corruption\stdafx.cpp" />
+    <ClCompile Include="tests\corruption\Tests.cpp" />
+    <ClCompile Include="tests\dynamic_app\dynamic_app.cpp" />
+    <ClCompile Include="tests\dynamic_app\LoadTests.cpp" />
+    <ClCompile Include="tests\dynamic_app\stdafx.cpp" />
+    <ClCompile Include="tests\dynamic_app\ThreadTest.cpp" />
+    <ClCompile Include="tests\dynamic_dll\dllmain.cpp" />
+    <ClCompile Include="tests\dynamic_dll\dynamic.cpp" />
+    <ClCompile Include="tests\dynamic_dll\stdafx.cpp" />
+    <ClCompile Include="tests\mfc_dll\mfc.cpp" />
+    <ClCompile Include="tests\mfc_dll\stdafx.cpp" />
+    <ClCompile Include="tests\mfc\StdAfx.cpp" />
+    <ClCompile Include="tests\mfc\vldmfc.cpp" />
+    <ClCompile Include="tests\mfc\vldmfcdlg.cpp" />
+    <ClCompile Include="tests\suite\testsuite.cpp" />
+    <ClCompile Include="tests\vld_ComTest\ComTest.cpp" />
+    <ClCompile Include="tests\vld_ComTest\dlldata.c" />
+    <ClCompile Include="tests\vld_ComTest\dllmain.cpp" />
+    <ClCompile Include="tests\vld_ComTest\MyMath.cpp" />
+    <ClCompile Include="tests\vld_ComTest\stdafx.cpp" />
+    <ClCompile Include="tests\vld_ComTest\xdlldata.c" />
+    <ClCompile Include="tests\vld_dll1\dllmain.cpp" />
+    <ClCompile Include="tests\vld_dll1\stdafx.cpp" />
+    <ClCompile Include="tests\vld_dll2\dllmain.cpp" />
+    <ClCompile Include="tests\vld_dll2\stdafx.cpp" />
+    <ClCompile Include="tests\vld_main_test\stdafx.cpp" />
+    <ClCompile Include="tests\vld_main_test\vld_main_test.cpp" />
+    <ClCompile Include="tests\vld_main\stdafx.cpp" />
+    <ClCompile Include="tests\vld_main\vld_main.cpp" />
+    <ClCompile Include="tests\vld_unload\stdafx.cpp" />
+    <ClCompile Include="tests\vld_unload\vld_unload.cpp" />
+    <ClCompile Include="utility.cpp" />
+    <ClCompile Include="vld_hooks.cpp" />
+    <ClCompile Include="vld.cpp" />
+    <ClCompile Include="vldapi.cpp" />
+    <ClCompile Include="vldheap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests\Common.props" />
+    <None Include="vld.Module.cs" />
+    <None Include="vld.natvis" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

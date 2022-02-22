@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="vulkan_loader\volk.h">
+      <Filter>vulkan_loader</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanCommandAllocator.h" />
+    <ClInclude Include="VulkanCommandList.h" />
+    <ClInclude Include="VulkanCommandQueue.h" />
+    <ClInclude Include="VulkanCompiler.h" />
+    <ClInclude Include="VulkanDevice.h" />
+    <ClInclude Include="VulkanFence.h" />
+    <ClInclude Include="VulkanHeap.h" />
+    <ClInclude Include="VulkanPipelineState.h" />
+    <ClInclude Include="VulkanResource.h" />
+    <ClInclude Include="VulkanResourceView.h" />
+    <ClInclude Include="VulkanRootSignature.h" />
+    <ClInclude Include="VulkanShaderCompiler.h" />
+    <ClInclude Include="VulkanShaderModule.h" />
+    <ClInclude Include="VulkanTypes.h" />
+    <ClInclude Include="VulkanViewport.h" />
+    <ClInclude Include="Xin.RHI.Vulkan.Config.h" />
+    <ClInclude Include="Xin.RHI.Vulkan.h" />
+    <ClInclude Include="Xin.RHI.Vulkan.Private.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="vulkan_loader\volk.cpp">
+      <Filter>vulkan_loader</Filter>
+    </ClCompile>
+    <ClCompile Include="VulkanCommandAllocator.cpp" />
+    <ClCompile Include="VulkanCommandList.cpp" />
+    <ClCompile Include="VulkanCommandQueue.cpp" />
+    <ClCompile Include="VulkanCompiler.cpp" />
+    <ClCompile Include="VulkanDevice.cpp" />
+    <ClCompile Include="VulkanFence.cpp" />
+    <ClCompile Include="VulkanHeap.cpp" />
+    <ClCompile Include="VulkanPipelineState.cpp" />
+    <ClCompile Include="VulkanResource.cpp" />
+    <ClCompile Include="VulkanResourceView.cpp" />
+    <ClCompile Include="VulkanRootSignature.cpp" />
+    <ClCompile Include="VulkanShaderCompiler.cpp" />
+    <ClCompile Include="VulkanShaderModule.cpp" />
+    <ClCompile Include="VulkanTypes.cpp" />
+    <ClCompile Include="VulkanViewport.cpp" />
+    <ClCompile Include="Xin.RHI.Vulkan.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xin.RHI.Vulkan.Module.cs" />
+    <None Include="Xin.RHI.Vulkan.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="vulkan_loader">
+      <UniqueIdentifier>{6faf380c-5c66-47bb-a36f-087bfd2d31e1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

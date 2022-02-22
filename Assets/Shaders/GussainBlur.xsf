@@ -1,0 +1,44 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+#define XIN_BLUR_SIZE 5
+static const float BlurWeights[5] = {70.0f / 256.0f, 56.0f / 256.0f, 28.0f / 256.0f, 8.0f / 256.0f, 1.0f / 256.0f};
+
+#if XIN_BLUR_GUSSAIN_BORDER_SAMPLE
+//#define DeaultSampler LinearBorderSampler
+#define DeaultSampler PointBorderSampler
+#define DeaultLinearSampler LinearBorderSampler
+#else
+#define DeaultSampler PointClampSampler
+#define DeaultLinearSampler LinearClampSampler
+#endif
+
+Texture2D Source;
+
+cbuffer ShaderParameter
+{
+    float2 BlurTexelSize;
+}
+
+float4 MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD) : SV_Target
+{
+    float4 Result = Source.SampleLevel(DeaultSampler, Texcoord, 0) * BlurWeights[0];
+#if XIN_BLUR_GUSSAIN_LINEAR_SAMPLE
+    [unroll]
+    for (int BlurIndex = 1; BlurIndex < XIN_BLUR_SIZE; BlurIndex += 2)
+    {
+        float LinearBlurWeight =(BlurWeights[BlurIndex] + BlurWeights[BlurIndex + 1]);
+        float LinearBlurOffset = BlurWeights[BlurIndex + 1] / LinearBlurWeight;
+        Result += Source.SampleLevel(DeaultLinearSampler, Texcoord + (BlurIndex + LinearBlurOffset) * BlurTexelSize, 0) * LinearBlurWeight;
+        Result += Source.SampleLevel(DeaultLinearSampler, Texcoord - (BlurIndex + LinearBlurOffset) * BlurTexelSize, 0) * LinearBlurWeight;
+    }
+#else
+    [unroll]
+    for (int BlurIndex = 1; BlurIndex < XIN_BLUR_SIZE; ++BlurIndex)
+    {
+        Result += Source.SampleLevel(DeaultSampler, Texcoord + BlurIndex * BlurTexelSize, 0) * BlurWeights[BlurIndex];
+        Result += Source.SampleLevel(DeaultSampler, Texcoord - BlurIndex * BlurTexelSize, 0) * BlurWeights[BlurIndex];
+    }
+#endif
+    return Result;
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="neox::HashedString&lt;*&gt;">
+		<DisplayString>{m_str}</DisplayString>
+	</Type>
+	<Type Name="neox::common::SharedString">
+		<DisplayString>{m_data->m_buf,[m_data->m_len]na}</DisplayString>
+		<StringView>m_data->m_buf,[m_data->m_len]na</StringView>
+	</Type>
+	<!--<Type Name="neox::RefObject">
+		<DisplayString>{{ref={m_ref_count}}}</DisplayString>
+	</Type>-->
+	
+	<Type Name="neox::common::shared_ptr&lt;*&gt;">
+		<SmartPointer Usage="Minimal">m_ptr</SmartPointer>
+		<DisplayString>{m_ptr}</DisplayString>
+	</Type>
+
+	<!--filesystem-->
+	<Type Name="neox::filesystem::NXFileLoader">
+		<DisplayString>{m_root}</DisplayString>
+	</Type>
+	<!--render-->
+	<Type Name="neox::render::SubmitPacketBatch">
+		<DisplayString>{mName}</DisplayString>
+	</Type>
+	<Type Name="neox::render::RenderPassBase">
+		<DisplayString>{m_name}</DisplayString>
+	</Type>
+	<Type Name="neox::render::TextureBase">
+		<DisplayString>{{Texture {m_filename}}}</DisplayString>
+	</Type>
+	<Type Name="neox::render::Effect">
+		<DisplayString>{{Effect {m_filename}, [{m_macro_str_id}]}}</DisplayString>
+	</Type>
+
+	<!--nxcore-->
+	<Type Name="neox::nxcore::ObjectSystem">
+		<DisplayString>{{nxcore::ObjectSystem}}</DisplayString>
+	</Type>
+	<Type Name="neox::world2::ComponentRenderSystem">
+		<DisplayString>{{world2::ComponentRenderSystem}}</DisplayString>
+	</Type>
+
+	<!--nxgui-->
+	<Type Name="neox::nxgui::UISystem">
+		<DisplayString>{{nxgui::UISystem}}</DisplayString>
+	</Type>
+
+	<!--world-->
+	<Type Name="neox::world::Model">
+		<DisplayString>{{Model {m_file_name,na}, res={m_res_path}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::SubMesh">
+		<DisplayString>{{SubMesh {m_sub_mesh_data->sub_mesh_name,na}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::MeshSegment">
+		<DisplayString>{{MeshSegment {m_sub_mesh,na}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::VisibleNode">
+		<DisplayString>{m_visible_obj,na}</DisplayString>
+	</Type>
+	<Type Name="neox::world::PrimObject">
+		<DisplayString>{{world::PrimObject {m_name}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::FxGroup">
+		<DisplayString>{{world::FxGroup {m_fx_name,na}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::SpriteFx">
+		<DisplayString>{{world::SpriteFx {m_fx_name,na}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::FxDummy">
+		<DisplayString>{{world::FxDummy {m_fx_name,na}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::ParticlePoly">
+		<DisplayString>{{world::ParticlePoly {m_fx_name,na}}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::FxSoundFmod">
+		<DisplayString>{{world::FxSoundFmod {m_event_name}}}</DisplayString>
+	</Type>
+	<Type Name="neox::render::Primitives">
+		<DisplayString>{{render::Primitives}}</DisplayString>
+	</Type>
+	<Type Name="neox::world::MeshSkeletalData">
+		<DisplayString>{{SkeletalData {m_filename}}}</DisplayString>
+	</Type>
+</AutoVisualizer>

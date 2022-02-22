@@ -1,0 +1,48 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Texture2D<float3> Input;
+Buffer<float> Exposure;
+
+cbuffer ShaderParameter
+{
+    float2 BloomTexelSize;
+}
+
+uint MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD) : SV_Target
+{
+    float2 TexcoordOffset = BloomTexelSize * 0.5f;
+
+    float3 Color_1 = Input.SampleLevel(LinearClampSampler, Texcoord + float2(-TexcoordOffset.x, -TexcoordOffset.y), 0);
+    float3 Color_2 = Input.SampleLevel(LinearClampSampler, Texcoord + float2(+TexcoordOffset.x, -TexcoordOffset.y), 0);
+    float3 Color_3 = Input.SampleLevel(LinearClampSampler, Texcoord + float2(-TexcoordOffset.x, +TexcoordOffset.y), 0);
+    float3 Color_4 = Input.SampleLevel(LinearClampSampler, Texcoord + float2(+TexcoordOffset.x, +TexcoordOffset.y), 0);
+    
+    float Luminance_1 = RGBToLuminance(Color_1);
+    float Luminance_2 = RGBToLuminance(Color_2);
+    float Luminance_3 = RGBToLuminance(Color_3);
+    float Luminance_4 = RGBToLuminance(Color_4);
+
+    const float ShimmerFilterInverseStrength = 1.0f;
+    float Weight_1 = 1.0f / (Luminance_1 + ShimmerFilterInverseStrength);
+    float Weight_2 = 1.0f / (Luminance_2 + ShimmerFilterInverseStrength);
+    float Weight_3 = 1.0f / (Luminance_3 + ShimmerFilterInverseStrength);
+    float Weight_4 = 1.0f / (Luminance_4 + ShimmerFilterInverseStrength);
+    float TotalWeight = Weight_1 + Weight_2 + Weight_3 + Weight_4;
+    
+    float LuminanceAvg = (Luminance_1 + Luminance_2 + Luminance_3 + Luminance_4) * 0.25;
+    if (LuminanceAvg == 0.0)
+    {
+        return 0;
+    }
+    else
+    {
+        const float MinLog = Exposure[4];
+        //const float MaxLog = Exposure[5];
+        //const float LogRange = Exposure[6];
+        const float RcpLogRange = Exposure[7];
+        float LogLuminance = saturate((log2(LuminanceAvg) - MinLog) * RcpLogRange);
+        return LogLuminance * 254.0 + 1.0;
+    }
+}
+

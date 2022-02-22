@@ -1,0 +1,41 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Buffer<float> Exposure;
+
+#ifndef XIN_TONEMAPPING_BLOOM
+#define XIN_TONEMAPPING_BLOOM 1
+#endif
+
+#if XIN_TONEMAPPING_BLOOM
+Texture2D<float3> Bloom;
+#endif
+
+VK_IMAGE_FORMAT("rgb16f")
+RWTexture2D<float4> SceneColor ;
+
+cbuffer ShaderParameter
+{
+    float2 SceneTexelSize;
+    float BloomStrength;
+    // HDR output
+    //float PaperWhiteRatio; // PaperWhite / MaxBrightness
+    //float MaxBrightness;
+};
+
+[numthreads(8, 8, 1)]
+void MainCS(uint3 DispatchThreadID: SV_DispatchThreadID)
+{
+    float2 TexCoord = (DispatchThreadID.xy + 0.5) * SceneTexelSize;
+
+    float3 HDRColor = SceneColor[DispatchThreadID.xy];
+    
+#if XIN_TONEMAPPING_BLOOM
+    HDRColor += BloomStrength * Bloom.SampleLevel(LinearClampSampler, TexCoord, 0);
+#endif
+    HDRColor *= Exposure[0];
+
+    // Tone map to SDR
+    float3 SDRColor = TM_Stanard(HDRColor);
+    SceneColor[DispatchThreadID.xy] = float4(SDRColor, RGBToLogLuminance(SDRColor));
+}

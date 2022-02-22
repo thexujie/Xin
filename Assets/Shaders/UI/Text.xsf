@@ -1,0 +1,16 @@
+#include "Common.xsh"
+#include "Quad.xsf"
+
+cbuffer PixelShaderParameter
+{
+    float4 Color;
+}
+
+Texture2D Source;
+
+float4 MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD) : SV_Target
+{
+    float4 TextColor = Source.SampleLevel(PointSampler, Texcoord, 0);
+    float Alpha = pow(TextColor.a, 2.2f);
+    return float4(Color.rgb, Alpha);
+}

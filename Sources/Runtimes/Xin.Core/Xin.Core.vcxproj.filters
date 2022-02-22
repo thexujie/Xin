@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Core\Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Core.Types.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Counter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Debug.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dependency.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Dispatcher.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DispatcherContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DispatcherTimer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FileLinePeriod.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Freezable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Ini.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Json.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Logger.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Module.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModuleInstance.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\NamedValue.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Procedurer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ReflectionDefines.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Regex.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Thread.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Xml.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\Animation\Animatable.h">
+      <Filter>Media\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\Brush.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\Color.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\Image.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\Media.Types.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\Pen.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Platform\Desktop.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\CoMemPointer.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\FileVersion.h">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\Internal.h">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\Internal.Types.h">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\Path.h">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\Private\InternalNT.h">
+      <Filter>Platform\Windows\Internal\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\Private\Path.h">
+      <Filter>Platform\Windows\Internal\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\Process.h">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Internal\Winversion.h">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Regkey.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Unknown.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\WIC.Types.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Win32Desktop.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\WindowsCore.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\WindowsDispatcherContext.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\WindowsPrivate.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading\ConditionalVariable.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading\Lock.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading\Mutex.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading\Signal.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FileInfo.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\Bitmap.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\Font.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\Graphics.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\Painter.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\Path.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\TextLayout.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\Transform3x2.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\Typeface.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X2D\X2D.Types.h">
+      <Filter>X2D</Filter>
+    </ClInclude>
+    <ClInclude Include="X3D\BoundingBox.h">
+      <Filter>X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="X3D\X3D.Types.h">
+      <Filter>X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Xin.Core.h" />
+    <ClInclude Include="Xin.Core.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Counter.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Debug.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dependency.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Dispatcher.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DispatcherTimer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FileLinePeriod.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Freezable.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Ini.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Json.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Logger.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Module.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModuleInstance.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\NamedValue.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Procedurer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Regex.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Thread.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Xml.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\Animation\Animatable.cpp">
+      <Filter>Media\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\Brush.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\Color.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\Image.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\Media.Types.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\Pen.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Platform\Desktop.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\CoMemPointer.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Internal\FileVersion.cpp">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Internal\Internal.cpp">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Internal\Path.cpp">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Internal\Private\InternalNT.cpp">
+      <Filter>Platform\Windows\Internal\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Internal\Private\Path.cpp">
+      <Filter>Platform\Windows\Internal\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Internal\Process.cpp">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Internal\Winversion.cpp">
+      <Filter>Platform\Windows\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Regkey.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\WIC.Types.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Win32Desktop.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\WindowsCore.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\WindowsDispatcherContext.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\WindowsPrivate.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Threading\ConditionalVariable.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Threading\Mutex.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Threading\Signal.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\FileInfo.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\Bitmap.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\Font.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\Graphics.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\Painter.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\Path.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\TextLayout.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\Transform3x2.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X2D\X2D.Types.cpp">
+      <Filter>X2D</Filter>
+    </ClCompile>
+    <ClCompile Include="X3D\BoundingBox.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="X3D\X3D.Types.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Xin.Core.cpp" />
+    <ClCompile Include="Xin.Core.Types.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="__Types\Core\Dependency.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\DispatcherTimer.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\Freezable.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Core\Json.inl">
+      <Filter>__Types\Core</Filter>
+    </None>
+    <None Include="__Types\Media\Animation\Animatable.inl">
+      <Filter>__Types\Media\Animation</Filter>
+    </None>
+    <None Include="__Types\Media\Brush.inl">
+      <Filter>__Types\Media</Filter>
+    </None>
+    <None Include="__Types\Media\Color.inl">
+      <Filter>__Types\Media</Filter>
+    </None>
+    <None Include="__Types\Media\Pen.inl">
+      <Filter>__Types\Media</Filter>
+    </None>
+    <None Include="__Types\Platform\Desktop.inl">
+      <Filter>__Types\Platform</Filter>
+    </None>
+    <None Include="__Types\Utils\FileInfo.inl">
+      <Filter>__Types\Utils</Filter>
+    </None>
+    <None Include="Media\Colors.inl">
+      <Filter>Media</Filter>
+    </None>
+    <None Include="Xin.Core.Module.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="__Types">
+      <UniqueIdentifier>{639f12cf-73e1-4026-886d-2a2dbb93206a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Core">
+      <UniqueIdentifier>{ed5b94de-388e-45a7-9bd7-17841a05e537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Media">
+      <UniqueIdentifier>{021d04e3-f69f-420f-bca5-83a243f3aa26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Media\Animation">
+      <UniqueIdentifier>{56c60e15-a934-454a-bc03-1e959c2a4fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Platform">
+      <UniqueIdentifier>{dee2ff2b-71ca-46e3-9fe2-5a98167974e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Types\Utils">
+      <UniqueIdentifier>{37fb7ea7-09d1-4ae2-8d87-365d9846494b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{1794a184-0251-48f5-9783-e019f8a2459a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Media">
+      <UniqueIdentifier>{7864de10-49d7-4ecb-847b-73965357700b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Media\Animation">
+      <UniqueIdentifier>{b6c89187-b92d-4571-bbad-149b40ad70f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{ee6686e2-b41f-4332-b652-fa38fd0f7627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{cd4a326e-f2d9-497c-b2b7-27b2225feb5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows\Internal">
+      <UniqueIdentifier>{5f1f0e4d-2b07-43d2-a749-de425e49527a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows\Internal\Private">
+      <UniqueIdentifier>{c7f75f8d-c00d-45a5-af6a-20dc07b9c277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Threading">
+      <UniqueIdentifier>{22c317f9-a5ab-460e-9c72-f84613525774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{2151a755-ec4f-4490-89d9-21ec5253e668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X2D">
+      <UniqueIdentifier>{18d7a66c-8795-4d54-a43a-4dfd637409e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X3D">
+      <UniqueIdentifier>{4c78d623-e5ea-40c9-a9b0-055472058dc7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8179EF7A-5155-4C77-9DA9-6BF62C09D5EF}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="00.Test.RHI-Utils.h" />
+    <ClInclude Include="00.Test.RHI.h" />
+    <ClInclude Include="00.Test.RHI.Types.h" />
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Primitive-Cube.h" />
+    <ClInclude Include="Primitive-Plane.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="00.Test.RHI-ColorPS.cpp" />
+    <ClCompile Include="00.Test.RHI-Empty.cpp" />
+    <ClCompile Include="00.Test.RHI-Mesh.cpp" />
+    <ClCompile Include="00.Test.RHI-Texture.cpp" />
+    <ClCompile Include="00.Test.RHI-Utils.cpp" />
+    <ClCompile Include="00.Test.RHI.cpp" />
+    <ClCompile Include="Assets\Assets.cpp" />
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Primitive-Cube.cpp" />
+    <ClCompile Include="Primitive-Plane.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="00.Test.RHI.Module.cs" />
+    <None Include="Assets\Shaders\Color.xsf" />
+    <None Include="Assets\Shaders\Image.xsf" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Depends\SPIRV-Reflect\SPIRV-Reflect.vcxproj">
+      <Project>{D61E0909-6F93-4EB7-9842-B234D47AC014}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtimes\Xin.Base\Xin.Base.vcxproj">
+      <Project>{E014A50D-3F4D-4F15-8FB5-2079C677EB7E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtimes\Xin.Core\Xin.Core.vcxproj">
+      <Project>{561E1FED-95E6-4087-9451-6C49DED55C0D}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Xin.FBX\Xin.FBX.vcxproj">
+      <Project>{D4B80688-74BE-4326-8E3A-355B9971F4A4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtimes\Xin.Rendering\Xin.Rendering.vcxproj">
+      <Project>{B8CD32B1-54A1-4F4A-85AA-0C00A832B8AE}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtimes\Xin.RHI\Xin.RHI.vcxproj">
+      <Project>{C9F6B307-2AFA-4F8C-A8BB-58BA69AD8A64}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Xin.ShaderCompiler\Xin.ShaderCompiler.vcxproj">
+      <Project>{C0A200D6-963A-4EBE-89BA-41B9F88AE1C7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,10 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Texture2D<float3> Source;
+
+float4 MainPS(float4 Position : SV_POSITION) : SV_Target0
+{
+    float3 Color = Source[(int2) Position.xy];
+    return float4(ApplySRGBCurve(Color), 1.0f);
+}

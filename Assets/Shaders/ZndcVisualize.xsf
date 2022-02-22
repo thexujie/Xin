@@ -1,0 +1,34 @@
+#include "Common.xsh"
+
+struct VSOutput
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+};
+
+cbuffer ShaderParameter
+{
+    float NearZ;
+    float FarZ;
+}
+
+Texture2D Source;
+
+float4 MainPS(VSOutput Input, bool IsFrontFace : SV_IsFrontFace) : SV_Target
+{
+    float Zndc = Source.Sample(PointClampSampler, Input.Texcoord).r;
+    //return float4(Zndc, Zndc, Zndc, 1);
+    
+    float MaxZ = max(NearZ, FarZ);
+    float MinZ = min(NearZ, FarZ);
+
+    float X = -(MaxZ - MinZ) / MaxZ;
+    float Y = 1.0 / MaxZ;
+
+    float Zview = 1.0f / (Y - Zndc * X);
+    float Z = Zview / (MaxZ - MinZ);
+    if (FarZ < NearZ)
+        Z = 1.0f - Z;
+    return float4(Z, Z, Z, 1);
+}
+

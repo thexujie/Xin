@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A4E6E22B-DA69-4BDF-9146-FBFD94D2DE6F}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="D3D12CommandAllocator.h" />
+    <ClInclude Include="D3D12CommandList.h" />
+    <ClInclude Include="D3D12CommandQueue.h" />
+    <ClInclude Include="D3D12Device.h" />
+    <ClInclude Include="D3D12Fence.h" />
+    <ClInclude Include="D3D12Heap.h" />
+    <ClInclude Include="D3D12PipelineState.h" />
+    <ClInclude Include="D3D12Resource.h" />
+    <ClInclude Include="D3D12ResourceView.h" />
+    <ClInclude Include="D3D12RootSignature.h" />
+    <ClInclude Include="D3D12ShaderCompiler.h" />
+    <ClInclude Include="D3D12ShaderModule.h" />
+    <ClInclude Include="D3D12Types.h" />
+    <ClInclude Include="D3D12Viewport.h" />
+    <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Xin.RHI.D3D12.Config.h" />
+    <ClInclude Include="Xin.RHI.D3D12.h" />
+    <ClInclude Include="Xin.RHI.D3D12.Private.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D3D12CommandAllocator.cpp" />
+    <ClCompile Include="D3D12CommandList.cpp" />
+    <ClCompile Include="D3D12CommandQueue.cpp" />
+    <ClCompile Include="D3D12Device.cpp" />
+    <ClCompile Include="D3D12Fence.cpp" />
+    <ClCompile Include="D3D12Heap.cpp" />
+    <ClCompile Include="D3D12PipelineState.cpp" />
+    <ClCompile Include="D3D12Resource.cpp" />
+    <ClCompile Include="D3D12ResourceView.cpp" />
+    <ClCompile Include="D3D12RootSignature.cpp" />
+    <ClCompile Include="D3D12ShaderCompiler.cpp" />
+    <ClCompile Include="D3D12ShaderModule.cpp" />
+    <ClCompile Include="D3D12Types.cpp" />
+    <ClCompile Include="D3D12Viewport.cpp" />
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Xin.RHI.D3D12.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xin.RHI.D3D12.Module.cs" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Depends\SPIRV-Reflect\SPIRV-Reflect.vcxproj">
+      <Project>{D61E0909-6F93-4EB7-9842-B234D47AC014}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Xin.Base\Xin.Base.vcxproj">
+      <Project>{E014A50D-3F4D-4F15-8FB5-2079C677EB7E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Xin.Core\Xin.Core.vcxproj">
+      <Project>{561E1FED-95E6-4087-9451-6C49DED55C0D}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Xin.RHI\Xin.RHI.vcxproj">
+      <Project>{C9F6B307-2AFA-4F8C-A8BB-58BA69AD8A64}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Xin.ShaderCompiler\Xin.ShaderCompiler.vcxproj">
+      <Project>{C0A200D6-963A-4EBE-89BA-41B9F88AE1C7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

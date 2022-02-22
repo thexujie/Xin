@@ -1,0 +1,24 @@
+#include "Common.xsh"
+
+struct VSOutput
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+};
+
+cbuffer ShaderParameter
+{
+    float4 SourceRect;
+}
+
+Texture2D Source;
+#if XIN_ZOOM_BILIEAR_SAMPLE
+SamplerState ZoomSampler : BUILTIN_REGISTER(BUILTIN_REGISTER_SAMPLER_BILIEAR_BORDER);
+#else
+SamplerState ZoomSampler : BUILTIN_REGISTER(BUILTIN_REGISTER_SAMPLER_POINT_BORDER);
+#endif
+
+float4 MainPS(VSOutput Input, bool IsFrontFace : SV_IsFrontFace) : SV_Target
+{
+    return Source.Sample(ZoomSampler, SourceRect.xy + (Input.Texcoord * SourceRect.zw));
+}

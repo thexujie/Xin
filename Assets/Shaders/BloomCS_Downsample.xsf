@@ -1,0 +1,62 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Texture2D<float3> InputBloom;
+
+#if BLOOM_DOWNSAMPLE_2x4x8x16x
+RWTexture2D<float3> OutputBloom2x;
+#endif
+
+RWTexture2D<float3> OutputBloom4x;
+
+#if BLOOM_DOWNSAMPLE_2x4x8x16x
+RWTexture2D<float3> OutputBloom8x;
+#endif
+
+RWTexture2D<float3> OutputBloom16x;
+
+
+cbuffer ShaderParameter
+{
+    float2 InputTexelSize;
+}
+
+groupshared float3 CachedBloom[64]; // 8x8 input pixels
+
+[numthreads(8, 8, 1)]
+void MainCS(uint GroupIndex : SV_GroupIndex, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+    uint Parity = DispatchThreadID.x | DispatchThreadID.y;
+
+    float2 Texcoord = (float2(DispatchThreadID.xy) * 2.0f + 1.0f) * InputTexelSize;
+    float3 Bloom = InputBloom.SampleLevel(LinearBorderSampler, Texcoord, 1);
+    CachedBloom[GroupIndex] = Bloom;
+#if BLOOM_DOWNSAMPLE_2x4x8x16x
+    OutputBloom2x[DispatchThreadID.xy] = Bloom;
+#endif
+    GroupMemoryBarrierWithGroupSync();
+
+    if ((Parity & 1) == 0)
+    {
+        Bloom = 0.25f * (Bloom + CachedBloom[GroupIndex + 1] + CachedBloom[GroupIndex + 8] + CachedBloom[GroupIndex + 9]);
+        CachedBloom[GroupIndex] = Bloom;
+        OutputBloom4x[DispatchThreadID.xy >> 1] = Bloom;
+    }
+    GroupMemoryBarrierWithGroupSync();
+
+    if ((Parity & 3) == 0)
+    {
+        Bloom = 0.25 * (Bloom + CachedBloom[GroupIndex + 2] + CachedBloom[GroupIndex + 16] + CachedBloom[GroupIndex + 18]);
+#if BLOOM_DOWNSAMPLE_2x4x8x16x
+        OutputBloom8x[DispatchThreadID.xy >> 2] = Bloom;
+#endif
+        CachedBloom[GroupIndex] = Bloom;
+    }
+    GroupMemoryBarrierWithGroupSync();
+
+    if ((Parity & 7) == 0)
+    {
+        Bloom = 0.25f * (Bloom + CachedBloom[GroupIndex + 4] + CachedBloom[GroupIndex + 32] + CachedBloom[GroupIndex + 36]);
+        OutputBloom16x[DispatchThreadID.xy >> 3] = Bloom;
+    }
+}

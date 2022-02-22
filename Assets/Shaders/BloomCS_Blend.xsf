@@ -1,0 +1,158 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Texture2D<float3> InputBloom;
+Texture2D<float3> InputBloomBlend;
+
+RWTexture2D<float3> OutputBloom;
+
+cbuffer ShaderParameter
+{
+    float2 InputTexelSize;
+    float BlendFactor;
+}
+
+// The guassian blur weights (derived from Pascal's triangle)
+static const float Weights5[3] = { 6.0f / 16.0f, 4.0f / 16.0f, 1.0f / 16.0f };
+static const float Weights7[4] = { 20.0f / 64.0f, 15.0f / 64.0f, 6.0f / 64.0f, 1.0f / 64.0f };
+static const float Weights9[5] = { 70.0f / 256.0f, 56.0f / 256.0f, 28.0f / 256.0f, 8.0f / 256.0f, 1.0f / 256.0f };
+
+float3 Blur5(float3 a, float3 b, float3 c, float3 d, float3 e, float3 f, float3 g, float3 h, float3 i)
+{
+    return Weights5[0] * e + Weights5[1] * (d + f) + Weights5[2] * (c + g);
+}
+
+float3 Blur7(float3 a, float3 b, float3 c, float3 d, float3 e, float3 f, float3 g, float3 h, float3 i)
+{
+    return Weights7[0] * e + Weights7[1] * (d + f) + Weights7[2] * (c + g) + Weights7[3] * (b + h);
+}
+
+float3 Blur9(float3 a, float3 b, float3 c, float3 d, float3 e, float3 f, float3 g, float3 h, float3 i)
+{
+    return Weights9[0] * e + Weights9[1] * (d + f) + Weights9[2] * (c + g) + Weights9[3] * (b + h) + Weights9[4] * (a + i);
+}
+
+#define BlurPixels Blur9
+
+// 16x16 pixels with an 8x8 center that we will be blurring writing out.  Each uint is two color channels packed together
+groupshared uint CacheR[128];
+groupshared uint CacheG[128];
+groupshared uint CacheB[128];
+
+#define XIN_BLOOMCS_BLENDBLUR_PIXEL_PACKED 1
+
+#if XIN_BLOOMCS_BLENDBLUR_PIXEL_PACKED
+groupshared uint3 CachedPixels[128];
+#else
+groupshared float3 CachedPixels[2][128];
+#endif
+
+void Store2Pixels(uint PixelIndex, float3 PixelA, float3 PixelB)
+{
+    //CacheR[PixelIndex] = f32tof16(PixelA.r) | f32tof16(PixelB.r) << 16;
+    //CacheG[PixelIndex] = f32tof16(PixelA.g) | f32tof16(PixelB.g) << 16;
+    //CacheB[PixelIndex] = f32tof16(PixelA.b) | f32tof16(PixelB.b) << 16;
+#if XIN_BLOOMCS_BLENDBLUR_PIXEL_PACKED
+    CachedPixels[PixelIndex] = f32tof16(PixelA) | f32tof16(PixelB) << 16;
+#else
+    CachedPixels[0][PixelIndex] = PixelA;
+    CachedPixels[1][PixelIndex] = PixelB;
+#endif
+}
+
+void Load2Pixels(uint PixelIndex, out float3 PixelA, out float3 PixelB)
+{
+    //uint3 PackedPixel = uint3(CacheR[PixelIndex], CacheG[PixelIndex], CacheB[PixelIndex]);
+#if XIN_BLOOMCS_BLENDBLUR_PIXEL_PACKED
+    uint3 PackedPixel = CachedPixels[PixelIndex];
+    PixelA = f16tof32(PackedPixel);
+    PixelB = f16tof32(PackedPixel >> 16);
+#else
+    PixelA = CachedPixels[0][PixelIndex];
+    PixelB = CachedPixels[1][PixelIndex];
+#endif
+}
+
+void Store1Pixel(uint PixelIndex, float3 Pixel)
+{
+    //CacheR[PixelIndex] = asuint(Pixel.r);
+    //CacheG[PixelIndex] = asuint(Pixel.g);
+    //CacheB[PixelIndex] = asuint(Pixel.b);
+#if XIN_BLOOMCS_BLENDBLUR_PIXEL_PACKED
+    CachedPixels[PixelIndex] = asuint(Pixel);
+#else
+    CachedPixels[0][PixelIndex] = Pixel;
+#endif
+}
+
+void Load1Pixel(uint PixelIndex, out float3 Pixel)
+{
+    //Pixel = asfloat(uint3(CacheR[PixelIndex], CacheG[PixelIndex], CacheB[PixelIndex]));
+#if XIN_BLOOMCS_BLENDBLUR_PIXEL_PACKED
+    Pixel = asfloat(CachedPixels[PixelIndex]);
+#else
+    Pixel = CachedPixels[0][PixelIndex];
+#endif
+
+}
+
+// Blur two pixels horizontally.  This reduces LDS reads and pixel unpacking.
+void BlurHorizontally(uint outIndex, uint leftMostIndex)
+{
+    float3 s0, s1, s2, s3, s4, s5, s6, s7, s8, s9;
+    Load2Pixels(leftMostIndex + 0, s0, s1);
+    Load2Pixels(leftMostIndex + 1, s2, s3);
+    Load2Pixels(leftMostIndex + 2, s4, s5);
+    Load2Pixels(leftMostIndex + 3, s6, s7);
+    Load2Pixels(leftMostIndex + 4, s8, s9);
+    
+    Store1Pixel(outIndex, BlurPixels(s0, s1, s2, s3, s4, s5, s6, s7, s8));
+    Store1Pixel(outIndex + 1, BlurPixels(s1, s2, s3, s4, s5, s6, s7, s8, s9));
+}
+
+void BlurVertically(uint2 pixelCoord, uint topMostIndex)
+{
+    float3 s0, s1, s2, s3, s4, s5, s6, s7, s8;
+    Load1Pixel(topMostIndex, s0);
+    Load1Pixel(topMostIndex + 8, s1);
+    Load1Pixel(topMostIndex + 16, s2);
+    Load1Pixel(topMostIndex + 24, s3);
+    Load1Pixel(topMostIndex + 32, s4);
+    Load1Pixel(topMostIndex + 40, s5);
+    Load1Pixel(topMostIndex + 48, s6);
+    Load1Pixel(topMostIndex + 56, s7);
+    Load1Pixel(topMostIndex + 64, s8);
+
+    OutputBloom[pixelCoord] = BlurPixels(s0, s1, s2, s3, s4, s5, s6, s7, s8);
+}
+
+[numthreads(8, 8, 1)]
+void MainCS(uint3 GroupID : SV_GroupID, uint3 GroupThreadID : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+    int2 GroupPixelCoord = (GroupID.xy << 3) - 4; 
+    int2 PixelCoord = (GroupThreadID.xy << 1) + GroupPixelCoord;
+
+    // Texture sample need 0.5 texel size offset in compute shader.
+    float2 TexcoordBlend_00 = (float2(PixelCoord) + 0.5) * InputTexelSize;
+    float2 TexcoordBlend_11 = TexcoordBlend_00 + InputTexelSize;
+    float2 TexcoordBlend_10 = float2(TexcoordBlend_11.x, TexcoordBlend_00.y);
+    float2 TexcoordBlend_01 = float2(TexcoordBlend_00.x, TexcoordBlend_11.y);
+    int PixelIndex= GroupThreadID.x + (GroupThreadID.y << 4);
+
+    float3 Pixel00 = lerp(InputBloom[PixelCoord + uint2(0, 0)], InputBloomBlend.SampleLevel(LinearBorderSampler, TexcoordBlend_00, 0), BlendFactor);
+    float3 Pixel10 = lerp(InputBloom[PixelCoord + uint2(1, 0)], InputBloomBlend.SampleLevel(LinearBorderSampler, TexcoordBlend_10, 0), BlendFactor);
+    Store2Pixels(PixelIndex + 0, Pixel00, Pixel10);
+
+    float3 Pixel01 = lerp(InputBloom[PixelCoord + uint2(0, 1)], InputBloomBlend.SampleLevel(LinearBorderSampler, TexcoordBlend_01, 0), BlendFactor);
+    float3 Pixel11 = lerp(InputBloom[PixelCoord + uint2(1, 1)], InputBloomBlend.SampleLevel(LinearBorderSampler, TexcoordBlend_11, 0), BlendFactor);
+    Store2Pixels(PixelIndex + 8, Pixel01, Pixel11);
+
+    GroupMemoryBarrierWithGroupSync();
+
+    uint PixelBaseIndex = GroupThreadID.y << 4;
+    BlurHorizontally(PixelBaseIndex + (GroupThreadID.x << 1), PixelBaseIndex + GroupThreadID.x + (GroupThreadID.x & 4));
+
+    GroupMemoryBarrierWithGroupSync();
+
+    BlurVertically(DispatchThreadID.xy, GroupThreadID.x + (GroupThreadID.y << 3));
+}

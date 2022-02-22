@@ -1,0 +1,7 @@
+{
+  "Version": "1.0",
+  "Shader": "System/Shaders/DefaultPS.hlsl",
+  "Parameters": {
+    "DiffuseTexture": "assets://Wolf/Wolf_Fur.xtex"
+  }
+}

@@ -1,0 +1,12 @@
+#include "Common.xsh"
+#include "Quad.xsf"
+
+cbuffer PixelShaderParameter
+{
+    float4 Color;
+}
+
+float4 MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD, float AntiAlias : ANTIALIAS) : SV_Target
+{
+    return float4(Color.rgb, Color.a * AntiAlias);
+}

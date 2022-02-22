@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{561E1FED-95E6-4087-9451-6C49DED55C0D}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\phnt\include;..\..\Externals\phnt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\Externals\FreeImage\Lib\x64\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\phnt\include;..\..\Externals\phnt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\Externals\FreeImage\Lib\x64\FreeImage.lib;..\..\Externals\astc-encoder\Lib\x64\debug\astcenc-native-static.lib;..\..\Externals\DirectXTex\Lib\x64\debug\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\phnt\include;..\..\Externals\phnt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\Externals\FreeImage\Lib\x64\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\phnt\include;..\..\Externals\phnt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\Externals\FreeImage\Lib\x64\FreeImage.lib;..\..\Externals\astc-encoder\Lib\x64\release\astcenc-native-static.lib;..\..\Externals\DirectXTex\Lib\x64\release\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\Application.h" />
+    <ClInclude Include="Core\Core.Types.h" />
+    <ClInclude Include="Core\Counter.h" />
+    <ClInclude Include="Core\Debug.h" />
+    <ClInclude Include="Core\Dependency.h" />
+    <ClInclude Include="Core\Dispatcher.h" />
+    <ClInclude Include="Core\DispatcherContext.h" />
+    <ClInclude Include="Core\DispatcherTimer.h" />
+    <ClInclude Include="Core\FileLinePeriod.h" />
+    <ClInclude Include="Core\Freezable.h" />
+    <ClInclude Include="Core\Ini.h" />
+    <ClInclude Include="Core\Json.h" />
+    <ClInclude Include="Core\Logger.h" />
+    <ClInclude Include="Core\Module.h" />
+    <ClInclude Include="Core\ModuleInstance.h" />
+    <ClInclude Include="Core\NamedValue.h" />
+    <ClInclude Include="Core\Procedurer.h" />
+    <ClInclude Include="Core\ReflectionDefines.h" />
+    <ClInclude Include="Core\Regex.h" />
+    <ClInclude Include="Core\Thread.h" />
+    <ClInclude Include="Core\Xml.h" />
+    <ClInclude Include="Media\Animation\Animatable.h" />
+    <ClInclude Include="Media\Brush.h" />
+    <ClInclude Include="Media\Color.h" />
+    <ClInclude Include="Media\Image.h" />
+    <ClInclude Include="Media\Media.Types.h" />
+    <ClInclude Include="Media\Pen.h" />
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Platform\Desktop.h" />
+    <ClInclude Include="Platform\Windows\CoMemPointer.h" />
+    <ClInclude Include="Platform\Windows\Internal\FileVersion.h" />
+    <ClInclude Include="Platform\Windows\Internal\Internal.h" />
+    <ClInclude Include="Platform\Windows\Internal\Internal.Types.h" />
+    <ClInclude Include="Platform\Windows\Internal\Path.h" />
+    <ClInclude Include="Platform\Windows\Internal\Private\InternalNT.h" />
+    <ClInclude Include="Platform\Windows\Internal\Private\Path.h" />
+    <ClInclude Include="Platform\Windows\Internal\Process.h" />
+    <ClInclude Include="Platform\Windows\Internal\Winversion.h" />
+    <ClInclude Include="Platform\Windows\Regkey.h" />
+    <ClInclude Include="Platform\Windows\Unknown.h" />
+    <ClInclude Include="Platform\Windows\WIC.Types.h" />
+    <ClInclude Include="Platform\Windows\Win32Desktop.h" />
+    <ClInclude Include="Platform\Windows\WindowsCore.h" />
+    <ClInclude Include="Platform\Windows\WindowsDispatcherContext.h" />
+    <ClInclude Include="Platform\Windows\WindowsPrivate.h" />
+    <ClInclude Include="Threading\ConditionalVariable.h" />
+    <ClInclude Include="Threading\Lock.h" />
+    <ClInclude Include="Threading\Mutex.h" />
+    <ClInclude Include="Threading\Signal.h" />
+    <ClInclude Include="Utils\FileInfo.h" />
+    <ClInclude Include="X2D\Bitmap.h" />
+    <ClInclude Include="X2D\Font.h" />
+    <ClInclude Include="X2D\Graphics.h" />
+    <ClInclude Include="X2D\Painter.h" />
+    <ClInclude Include="X2D\Path.h" />
+    <ClInclude Include="X2D\TextLayout.h" />
+    <ClInclude Include="X2D\Transform3x2.h" />
+    <ClInclude Include="X2D\Typeface.h" />
+    <ClInclude Include="X2D\X2D.Types.h" />
+    <ClInclude Include="X3D\BoundingBox.h" />
+    <ClInclude Include="X3D\X3D.Types.h" />
+    <ClInclude Include="Xin.Core.h" />
+    <ClInclude Include="Xin.Core.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\Application.cpp" />
+    <ClCompile Include="Core\Counter.cpp" />
+    <ClCompile Include="Core\Debug.cpp" />
+    <ClCompile Include="Core\Dependency.cpp" />
+    <ClCompile Include="Core\Dispatcher.cpp" />
+    <ClCompile Include="Core\DispatcherTimer.cpp" />
+    <ClCompile Include="Core\FileLinePeriod.cpp" />
+    <ClCompile Include="Core\Freezable.cpp" />
+    <ClCompile Include="Core\Ini.cpp" />
+    <ClCompile Include="Core\Json.cpp" />
+    <ClCompile Include="Core\Logger.cpp" />
+    <ClCompile Include="Core\Module.cpp" />
+    <ClCompile Include="Core\ModuleInstance.cpp" />
+    <ClCompile Include="Core\NamedValue.cpp" />
+    <ClCompile Include="Core\Procedurer.cpp" />
+    <ClCompile Include="Core\Regex.cpp" />
+    <ClCompile Include="Core\Thread.cpp" />
+    <ClCompile Include="Core\Xml.cpp" />
+    <ClCompile Include="Media\Animation\Animatable.cpp" />
+    <ClCompile Include="Media\Brush.cpp" />
+    <ClCompile Include="Media\Color.cpp" />
+    <ClCompile Include="Media\Image.cpp" />
+    <ClCompile Include="Media\Media.Types.cpp" />
+    <ClCompile Include="Media\Pen.cpp" />
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Platform\Desktop.cpp" />
+    <ClCompile Include="Platform\Windows\CoMemPointer.cpp" />
+    <ClCompile Include="Platform\Windows\Internal\FileVersion.cpp" />
+    <ClCompile Include="Platform\Windows\Internal\Internal.cpp" />
+    <ClCompile Include="Platform\Windows\Internal\Path.cpp" />
+    <ClCompile Include="Platform\Windows\Internal\Private\InternalNT.cpp" />
+    <ClCompile Include="Platform\Windows\Internal\Private\Path.cpp" />
+    <ClCompile Include="Platform\Windows\Internal\Process.cpp" />
+    <ClCompile Include="Platform\Windows\Internal\Winversion.cpp" />
+    <ClCompile Include="Platform\Windows\Regkey.cpp" />
+    <ClCompile Include="Platform\Windows\WIC.Types.cpp" />
+    <ClCompile Include="Platform\Windows\Win32Desktop.cpp" />
+    <ClCompile Include="Platform\Windows\WindowsCore.cpp" />
+    <ClCompile Include="Platform\Windows\WindowsDispatcherContext.cpp" />
+    <ClCompile Include="Platform\Windows\WindowsPrivate.cpp" />
+    <ClCompile Include="Threading\ConditionalVariable.cpp" />
+    <ClCompile Include="Threading\Mutex.cpp" />
+    <ClCompile Include="Threading\Signal.cpp" />
+    <ClCompile Include="Utils\FileInfo.cpp" />
+    <ClCompile Include="X2D\Bitmap.cpp" />
+    <ClCompile Include="X2D\Font.cpp" />
+    <ClCompile Include="X2D\Graphics.cpp" />
+    <ClCompile Include="X2D\Painter.cpp" />
+    <ClCompile Include="X2D\Path.cpp" />
+    <ClCompile Include="X2D\TextLayout.cpp" />
+    <ClCompile Include="X2D\Transform3x2.cpp" />
+    <ClCompile Include="X2D\X2D.Types.cpp" />
+    <ClCompile Include="X3D\BoundingBox.cpp" />
+    <ClCompile Include="X3D\X3D.Types.cpp" />
+    <ClCompile Include="Xin.Core.cpp" />
+    <ClCompile Include="Xin.Core.Types.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="__Types\Core\Dependency.inl" />
+    <None Include="__Types\Core\DispatcherTimer.inl" />
+    <None Include="__Types\Core\Freezable.inl" />
+    <None Include="__Types\Core\Json.inl" />
+    <None Include="__Types\Media\Animation\Animatable.inl" />
+    <None Include="__Types\Media\Brush.inl" />
+    <None Include="__Types\Media\Color.inl" />
+    <None Include="__Types\Media\Pen.inl" />
+    <None Include="__Types\Platform\Desktop.inl" />
+    <None Include="__Types\Utils\FileInfo.inl" />
+    <None Include="Media\Colors.inl" />
+    <None Include="Xin.Core.Module.cs" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Xin.Base\Xin.Base.vcxproj">
+      <Project>{E014A50D-3F4D-4F15-8FB5-2079C677EB7E}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

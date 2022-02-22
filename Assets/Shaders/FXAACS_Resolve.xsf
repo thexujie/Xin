@@ -1,0 +1,47 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+#include "FXAA.xsh"
+
+RWBuffer<uint> WorkCounter;
+RWBuffer<uint> WorkQueue;
+
+RWBuffer<uint> IndirectParameters;
+
+cbuffer ShaderParameter
+{
+    float2 FXAATexelSize;
+    float1 FXAAEdgeThresholdMin;
+    float1 FXAAEdgeThreshold;
+    float1 FXAASubpix;
+    
+    uint LastQueueIndex;
+    uint2 StartPixel;
+}
+
+[numthreads(64, 1, 1)]
+void MainCS(uint3 GroupID : SV_GroupID, uint GroupIndex : SV_GroupIndex, uint3 GroupThreadID : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+    uint2 PixelCounts = uint2(WorkCounter[0], WorkCounter[1]);
+
+    // Write out padding to the buffer
+    uint PixelCountH = PixelCounts.x;
+    uint PaddedCountH = (PixelCountH + 63) & ~63;
+    if (GroupIndex + PixelCountH < PaddedCountH)
+        WorkQueue[PixelCountH + GroupIndex] = 0xffffffff;
+
+    // Write out padding to the buffer
+    uint PixelCountV = PixelCounts.y;
+    uint PaddedCountV = (PixelCountV + 63) & ~63;
+    if (GroupIndex + PixelCountV < PaddedCountV)
+        WorkQueue[LastQueueIndex - PixelCountV - GroupIndex] = 0xffffffff;
+
+    DeviceMemoryBarrierWithGroupSync();
+
+    if (GroupIndex == 0)
+    {
+        IndirectParameters[0] = PaddedCountH >> 6;
+        IndirectParameters[4] = PaddedCountV >> 6;
+        //WorkCounter[0] = 0;
+        //WorkCounter[1] = 0;
+    }
+}

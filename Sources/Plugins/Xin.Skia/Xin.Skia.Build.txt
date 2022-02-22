@@ -1,0 +1,11 @@
+
+// sync deps
+python tools/git-sync-deps
+
+
+// x64d --> /MDd
+bin\gn.exe gen out/x64d --ide="vs2022" --sln="skia_x64d" --args="is_official_build=false is_debug=false target_cpu=\"x64\" is_component_build=true is_trivial_abi=false clang_win=\"E:/LLVM/18.1.8\" clang_win_version=\"18\" cc=\"clang\" cxx=\"clang++\" skia_use_xps=false skia_enable_pdf=false skia_use_wuffs=false extra_cflags=[\"/MDd\"]"
+
+
+// x64
+bin\gn.exe gen out/x64 --ide="vs2022" --sln="skia_x64" --args="is_official_build=false is_debug=false target_cpu=\"x64\" is_component_build=true is_trivial_abi=false clang_win=\"E:/LLVM/18.1.8\" clang_win_version=\"18\" cc=\"clang\" cxx=\"clang++\" skia_use_xps=false skia_enable_pdf=false skia_use_wuffs=false extra_cflags=[\"/MD\"]"

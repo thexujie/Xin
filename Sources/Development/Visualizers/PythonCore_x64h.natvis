@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="PythonCore_x64h.dll!_typeobject">
+		<DisplayString>{tp_name,na}</DisplayString>
+	</Type>
+
+	<Type Name="PythonCore_x64h.dll!PyIntObject">
+		<DisplayString>{ob_ival}</DisplayString>
+	</Type>
+
+	<Type Name="PythonCore_x64h.dll!PyTupleObject">
+		<DisplayString>{{&lt;tuple&gt; {ob_size} elements}}, {*ob_item,[ob_size]na}</DisplayString>
+		<Expand>
+			<ArrayItems Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyTuple_Type">
+				<Size>ob_size</Size>
+				<ValuePointer>ob_item</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="PythonCore_x64h.dll!_object">
+		<!--<DisplayString>pyobject</DisplayString>-->
+		<!--<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyType_Type">ccc</DisplayString>-->
+
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyInt_Type">{((PythonCore_x64h.dll!PyIntObject*)this)}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyLong_Type">{((PythonCore_x64h.dll!_longobject*)this)->ob_digit[0]}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyFloat_Type">{((PythonCore_x64h.dll!PyFloatObject*)this)->ob_fval}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyString_Type">{((PythonCore_x64h.dll!PyStringObject*)this)->ob_sval,na}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyString_Type">{{&lt;string&gt; }}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyFunction_Type">{{&lt;function&gt; {((PythonCore_x64h.dll!PyFunctionObject*)this)->func_name,na}}}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyCFunction_Type">{{&lt;cfunction&gt; {((PythonCore_x64h.dll!PyCFunctionObject*)this)->m_ml->ml_name,na}}}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyList_Type">{{&lt;list&gt; {((PythonCore_x64h.dll!PyListObject*)this)->ob_size} elements}}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyTuple_Type">{((PythonCore_x64h.dll!PyTupleObject*)this),na}</DisplayString>
+		<DisplayString Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyDict_Type">{{&lt;dict&gt; {((PythonCore_x64h.dll!PyDictObject*)this)} elements}}</DisplayString>
+
+		<DisplayString>{{pyobject &lt;{ob_type->tp_name,s}&gt;}}</DisplayString>
+
+		<Expand>
+			<Item Name="[type]">ob_type->tp_name,s</Item>
+			<!--<Item Name="[type]">ob_type->tp_name,s</Item>-->
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyLong_Type">((PythonCore_x64h.dll!_longobject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyFloat_Type">((PythonCore_x64h.dll!PyFloatObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyString_Type">((PythonCore_x64h.dll!PyStringObject*)this)</ExpandedItem>
+			<!--<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyUnicode_Type">((PythonCore_x64h.dll!PyUnicodeObject*)this)</ExpandedItem>-->
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyCFunction_Type">((PythonCore_x64h.dll!PyCFunctionObject*)this)</ExpandedItem>
+
+			<!--<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyBytes_Type">((PythonCore_x64h.dll!PyBytesObject*)this)</ExpandedItem>-->
+
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyList_Type">((PythonCore_x64h.dll!PyListObject*)this)</ExpandedItem>
+			<!--<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyTuple_Type">((PythonCore_x64h.dll!PyTupleObject*)this)->ob_item</ExpandedItem>-->
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyDict_Type">((PythonCore_x64h.dll!PyDictObject*)this)</ExpandedItem>
+			<ExpandedItem Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyFunction_Type">((PythonCore_x64h.dll!PyFunctionObject*)this)</ExpandedItem>
+			<ArrayItems Condition="(void*)ob_type==(void*)&amp;PythonCore_x64h.dll!PyTuple_Type">
+				<Size>((PythonCore_x64h.dll!PyTupleObject*)this)->ob_size</Size>
+				<ValuePointer>((PythonCore_x64h.dll!PyTupleObject*)this)->ob_item,na</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+</AutoVisualizer>

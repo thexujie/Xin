@@ -1,0 +1,61 @@
+#include "Common.xsh"
+#include "SSAO.xsh"
+
+#if XIN_SSAO_FROM_SCENE_DEPTH
+Texture2D<float> SceneDepth;
+RWTexture2D<float> Depth1x;
+#else
+Texture2D<float> Depth1x;
+#endif
+
+RWTexture2D<float> Depth2x;
+RWTexture2D<float> Depth4x;
+
+RWTexture2DArray<float> DepthTiled8x;
+RWTexture2DArray<float> DepthTiled16x;
+
+cbuffer ShaderParameter
+{
+    float ZMagic;
+}
+
+#if XIN_SSAO_FROM_SCENE_DEPTH
+float GenerateLinearDepth(uint2 Coord)
+{
+    // Reversed Z
+    float NdcDepth = SceneDepth[Coord];
+    float LinearDepthValue = 1.0f / (ZMagic * NdcDepth + 1.0f);
+    return LinearDepthValue;
+}
+#endif
+
+// Dispatch 16x16 thread groups, 8x8 thread per group. down sample 16/8=2x.
+[numthreads(8, 8, 1)]
+void MainCS(uint3 GroupID : SV_GroupID, uint GroupIndex : SV_GroupIndex, uint3 GroupThreadID : SV_GroupThreadID, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+#if XIN_SSAO_FROM_SCENE_DEPTH
+    uint2 PixelCoord1x = ((GroupID.xy << 3) + GroupThreadID.xy) << 1;
+
+    float OutputDepth = GenerateLinearDepth(PixelCoord1x);
+    Depth1x[PixelCoord1x + uint2(0, 0)] = OutputDepth;
+    Depth1x[PixelCoord1x + uint2(1, 0)] = GenerateLinearDepth(PixelCoord1x + uint2(1, 0));
+    Depth1x[PixelCoord1x + uint2(0, 1)] = GenerateLinearDepth(PixelCoord1x + uint2(0, 1));
+    Depth1x[PixelCoord1x + uint2(1, 1)] = GenerateLinearDepth(PixelCoord1x + uint2(1, 1));
+    GroupMemoryBarrierWithGroupSync();
+#else
+    float OutputDepth = Depth1x[DispatchThreadID.xy << 1];
+#endif
+    uint2 Coord2x = DispatchThreadID.xy;
+    uint Slice8x = (Coord2x.y % 4) * 4 + (Coord2x.x % 4);
+
+    Depth2x[Coord2x] = OutputDepth;
+    DepthTiled8x[uint3(DispatchThreadID.xy >> 2, Slice8x)] = OutputDepth;
+    
+    if ((GroupIndex & 011) == 0)
+    {
+        uint2 Coord4x = DispatchThreadID.xy >> 1;
+        uint Slice16x = (Coord4x.x & 3) | ((Coord4x.y & 3) << 2);
+        Depth4x[Coord4x] = OutputDepth;
+        DepthTiled16x[uint3(Coord4x >> 2, Slice16x)] = OutputDepth;
+    }
+}

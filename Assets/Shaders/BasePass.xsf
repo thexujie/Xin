@@ -1,0 +1,213 @@
+#include "Common.xsh"
+#include "Shadows.xsh"
+#include "Material.xsh"
+#include "MaterialFallback.xsh"
+
+struct BaseInputVS
+{
+    float3 Position : POSITION;
+    float2 Texcoord : TEXCOORD;
+    
+    float3 Normal : NORMAL;
+    float3 Tangent : TANGENT;
+    float3 BiTangent : BITANGENT;
+};
+
+struct BaseOutputVS
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+    
+    float3 Normal : NORMAL;
+    float3 Tangent : TANGENT;
+    float3 BiTangent : BITANGENT;
+
+    float3 WorldPosition : WORLDPOSITION;
+    float3 ViewDirection : VIEWDIRECTION; // Point -> Eye
+};
+
+struct BaseOutputPS
+{
+    float4 Color : SV_Target0;
+};
+
+cbuffer GlobalParameter
+{
+    float4x4 ShadowMatrix; // SM -> View * Projection, CSM View
+    float4 ViewPosition;
+    float4 LightDirection; // Point to Light
+    float4 SunColor;
+    float4 AmbientColor;
+    float ShadowTexelSize;
+    float ShadowDepthBias;
+    int PCFBlurLoopBegin;
+    int PCFBlurLoopEnd;
+    
+#if XIN_CSM_CASCADE_COUNT
+	//float4x4 CSMMatrix[XIN_CSM_CASCADE_MAX];
+	float4 CSMScale[XIN_CSM_CASCADE_MAX];
+	float4 CSMOffset[XIN_CSM_CASCADE_MAX];
+    float CSMBorderPaddingMin;
+    float CSMBorderPaddingMax;
+#endif
+}
+
+cbuffer ViewParameter
+{
+    float4x4 ViewMatrix;
+    float4x4 ProjectionMatrix;
+    float4x4 ViewProjectionMatrix;
+};
+
+cbuffer PrimitiveParameter
+{
+    float4x4 WorldMatrix;
+};
+
+//cbuffer MaterialParameters : register(b0)
+//{
+//    float4 Color;
+//};
+
+BaseOutputVS BaseVertexShader(BaseInputVS Input)
+{
+    float4 WorldPosition = mul(float4(Input.Position, 1.0f), WorldMatrix);
+    float4 ScreenPosition = mul(WorldPosition, ViewProjectionMatrix);
+
+    BaseOutputVS Result;
+    Result.Position = ScreenPosition;
+    Result.Texcoord = Input.Texcoord;
+    
+    Result.Normal = normalize(mul(float4(Input.Normal, 0.0f), WorldMatrix).xyz);
+    Result.Tangent = normalize(mul(float4(Input.Tangent, 0.0f), WorldMatrix).xyz);
+    Result.BiTangent = normalize(mul(float4(Input.BiTangent, 0.0f), WorldMatrix).xyz);
+
+    Result.WorldPosition = WorldPosition.xyz;
+    Result.ViewDirection = ViewPosition.xyz - WorldPosition.xyz;
+    return Result;
+}
+
+#if XIN_CSM_CASCADE_COUNT
+Texture2DArray<float> ShadowDepth;
+#else
+Texture2D<float> ShadowDepth;
+#endif
+
+float GetDirectionalShadow(float3 WorldPosition, float2 TexelDepthDelta)
+{
+#if XIN_CSM_CASCADE_COUNT
+    float4 ShadowViewPosition = mul(float4(WorldPosition, 1.0f), ShadowMatrix);
+    float4 ShadowCoord = float4(0, 0, 0, 0);
+    int SelectedCascadeIndex = 0;
+    for (int CascadeIndex = 0; CascadeIndex < XIN_CSM_CASCADE_COUNT; ++CascadeIndex)
+    {
+		//ShadowCoord = mul(float4(WorldPosition, 1.0f), CSMMatrix[CascadeIndex]).xyz;
+		ShadowCoord = ShadowViewPosition * CSMScale[CascadeIndex] + CSMOffset[CascadeIndex];
+        if (CSMBorderPaddingMin < min(ShadowCoord.x, ShadowCoord.y) && max(ShadowCoord.x, ShadowCoord.y) < CSMBorderPaddingMax)
+        {
+            SelectedCascadeIndex = CascadeIndex;
+            break;
+        }
+    }
+#else
+    float4 ShadowCoord = mul(float4(WorldPosition, 1.0f), ShadowMatrix);
+#endif
+
+    float Result = 0.0f;
+    for (int PCFOffsetX = PCFBlurLoopBegin; PCFOffsetX < PCFBlurLoopEnd; ++PCFOffsetX)
+    {
+        for (int PCFOffsetY = PCFBlurLoopBegin; PCFOffsetY < PCFBlurLoopEnd; ++PCFOffsetY)
+        {
+            float DepthCompare = ShadowCoord.z - (TexelDepthDelta.x * (float)PCFOffsetX + TexelDepthDelta.y * (float)PCFOffsetY);
+#if XIN_CSM_CASCADE_COUNT
+            float3 ShadowCoordCompare = float3(ShadowCoord.x + (float)PCFOffsetX * ShadowTexelSize, ShadowCoord.y + (float)PCFOffsetY * ShadowTexelSize, SelectedCascadeIndex);
+            
+#else
+            float2 ShadowCoordCompare = float2(ShadowCoord.x + (float)PCFOffsetX * ShadowTexelSize, ShadowCoord.y + (float)PCFOffsetY * ShadowTexelSize);
+#endif
+            Result += ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoordCompare, DepthCompare);
+        }
+    }
+
+    int PCFBlurLength = PCFBlurLoopEnd - PCFBlurLoopBegin;
+    return Result / float(PCFBlurLength * PCFBlurLength);
+
+    //const float Dilation = 2.0;
+    //float d1 = Dilation * ShadowTexelSize * 0.125;
+    //float d2 = Dilation * ShadowTexelSize * 0.875;
+    //float d3 = Dilation * ShadowTexelSize * 0.625;
+    //float d4 = Dilation * ShadowTexelSize * 0.375;
+    //float Result0 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy, ShadowCoord.z) * 2.0f;
+    //float Result1 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(-d2, d1), ShadowCoord.z);
+    //float Result2 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(-d1, -d2), ShadowCoord.z);
+    //float Result3 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(d2, -d1), ShadowCoord.z);
+    //float Result4 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(d1, d2), ShadowCoord.z);
+    //float Result5 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(-d4, d3), ShadowCoord.z);
+    //float Result6 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(-d3, -d4), ShadowCoord.z);
+    //float Result7 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(d4, -d3), ShadowCoord.z);
+    //float Result8 = ShadowDepth.SampleCmpLevelZero(ShadowSampler, ShadowCoord.xy + float2(d3, d4), ShadowCoord.z);
+
+    //float Result = (Result0 + Result1 + Result2 + Result3 + Result4 + Result5 + Result6 + Result7 + Result8) * 0.1f;
+    //return Result * Result;
+}
+
+void AntiAliasSpecular(inout float3 TextureNormal, inout float Gloss)
+{
+    float normalLenSq = dot(TextureNormal, TextureNormal);
+    float invNormalLen = rsqrt(normalLenSq);
+    TextureNormal *= invNormalLen;
+    float normalLen = normalLenSq * invNormalLen;
+    float flatness = saturate(1 - abs(ddx(normalLen)) - abs(ddy(normalLen)));
+    Gloss = exp2(lerp(0, log2(Gloss), flatness));
+}
+
+#define DefaultSampler TrilinearSampler
+
+BaseOutputPS BasePixelShader(BaseOutputVS Input, bool IsFrontFace : SV_IsFrontFace)
+{
+    MaterialClipping(Input.Texcoord);
+
+    float3 MaterialNormal = GetMaterialNormal(float3(0, 0, 1), Input.Texcoord);
+
+    float Gloss = 128.0f;
+    AntiAliasSpecular(MaterialNormal, Gloss);
+    float3x3 TBN = float3x3(normalize(Input.Tangent), normalize(Input.BiTangent), normalize(Input.Normal));
+    float3 Normal = normalize(mul(MaterialNormal, TBN));
+
+    //float3 ShadowCoordDDX = ddx(ShadowCoord);
+    //float3 ShadowCoordDDY = ddy(ShadowCoord);
+    
+    // We use SlopScaledDepthBias instend of ShadowDepthBias and TexelDepthDelta.
+    float2 TexelDepthDelta = float2(0, 0);
+    //CalculateRightAndUpTexelDepthDeltas(ShadowCoordDDX, ShadowCoordDDY, ShadowTexelSize, TexelDepthDelta);
+    //TexelDepthDelta = clamp(TexelDepthDelta, float2(-0.01f, -0.01f), float2(0.01f, 0.01f));
+    //ShadowCoord.z += ShadowDepthBias;
+    float ShadowDepthResult = GetDirectionalShadow(Input.WorldPosition, TexelDepthDelta);
+
+    float AO = GetMaterialAO(Input.Position);
+
+    float3 ViewDirection = normalize(Input.ViewDirection);
+    float3 HalfVec = normalize(LightDirection + ViewDirection);
+    float NdotH = saturate(dot(HalfVec, Normal));
+    float Fresnel = pow(1.0 - saturate(dot(LightDirection, HalfVec)), 5.0);
+    
+    float3 DiffuseColor = GetMaterialDiffuse(Input.Texcoord);
+    float3 SpecularColor = 0.56f;
+
+    float3 DiffuseAlbedo = lerp(DiffuseColor, 0, Fresnel);
+    float3 SpecularAlbedo = lerp(SpecularColor, 1, Fresnel);
+
+    float SpecularRate = GetMaterialSpecular(0.0f, Input.Texcoord);
+    float SpecularFactor = SpecularRate * pow(NdotH, Gloss) * (Gloss + 2) / 8;
+    
+    float NdotL = saturate(dot(LightDirection.xyz, Normal));
+    float3 AmbientLightValue = AO * DiffuseColor * AmbientColor.xyz;
+    float3 MainLightValue = (DiffuseAlbedo + SpecularFactor * SpecularAlbedo) * SunColor.xyz * NdotL * ShadowDepthResult;
+
+    // Output
+    BaseOutputPS Output;
+    Output.Color = float4(AmbientLightValue + MainLightValue, 1.0f);
+    //Output.Color = float4(ShadowDepthResult * DiffuseAlbedo, 1.0f);
+    //Output.Color = float4(ShadowDepthResult, ShadowDepthResult, ShadowDepthResult, 1.0f);
+    return Output;
+}

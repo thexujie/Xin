@@ -1,0 +1,22 @@
+#include "Common.xsh"
+
+struct VSOutput
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+    float AntiAlias : ANTIALIAS;
+};
+
+cbuffer VertexShaderParameter
+{
+    float4x4 ScreenTransform;
+}
+
+VSOutput MainVS(float4 Position : POSITION, float2 Texcoord : TEXCOORD)
+{
+    VSOutput Output;
+    Output.Position = float4(mul(float4(Position.x, Position.y, 1.0f, 1.0f), ScreenTransform).xy, 1.0f, 1.0f);
+    Output.Texcoord = Texcoord;
+    Output.AntiAlias = Position.w;
+    return Output;
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<!--<OutDir>$(SolutionDir)Binaries\$(Configuration)_$(PlatformTarget)_$(PlatformToolset)\</OutDir>-->
+		<OutDir Condition="'$(Configuration)'=='Release'">$(SolutionDir)Binaries\$(PlatformTarget)\</OutDir>
+		<IntDir Condition="'$(Configuration)'=='Release'">$(SolutionDir)Binaries\$(PlatformTarget)\$(ProjectName)_$(ProjectGuid)\</IntDir>
+		<OutDir Condition="'$(Configuration)'!='Release'">$(SolutionDir)Binaries\$(PlatformTarget)_$(Configuration)\</OutDir>
+		<IntDir Condition="'$(Configuration)'!='Release'">$(SolutionDir)Binaries\$(PlatformTarget)_$(Configuration)\$(ProjectName)_$(ProjectGuid)\</IntDir>
+		<LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
+		<!--<VCToolsVersion>14.31.31103</VCToolsVersion>-->
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<WholeProgramOptimization>false</WholeProgramOptimization>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Development'" Label="Configuration">
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<WholeProgramOptimization>false</WholeProgramOptimization>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<PreprocessorDefinitions>__Xin__;__Xin_$(Configuration)__;__Xin_Configuration__=$(Configuration);__Xin_Platform=$(Platform);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PrecompiledHeader Condition="Exists('$(ProjectDir)\PCH.h')">Use</PrecompiledHeader>
+			<PrecompiledHeaderFile Condition="Exists('$(ProjectDir)\PCH.h')">PCH.h</PrecompiledHeaderFile>
+			<ObjectFileName>$(IntDir)%(RelativeDir)\</ObjectFileName>
+			<WarningLevel>Level4</WarningLevel>
+			<LanguageStandard>stdcpplatest</LanguageStandard>
+			<AdditionalIncludeDirectories> .\;$(EngineRoot)Sources\;$(EngineRoot)Sources\Externals;$(EngineRoot)Sources\Depends;$(EngineRoot)Sources\Runtimes\;$(EngineRoot)Sources\Programs\;$(EngineRoot)Sources\Plugins\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories Condition="$(ProjectRoot) != '' and $(ProjectRoot) != $(EngineRoot)">$(ProjectRoot)Sources\;$(ProjectRoot)Sources\Externals;$(ProjectRoot)Sources\Depends;$(ProjectRoot)Sources\Runtimes\;$(ProjectRoot)Sources\Programs\;$(ProjectRoot)Sources\Plugins\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+			<UseStandardPreprocessor>true</UseStandardPreprocessor>
+			<PreprocessorDefinitions>%(PreprocessorDefinitions);_$(MSBuildProjectName.Replace('.', '_').Replace('-', '_'))_Module_</PreprocessorDefinitions>
+			<AdditionalOptions>/utf-8 /bigobj %(AdditionalOptions)</AdditionalOptions>
+			<!--<AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>-->
+		</ClCompile>
+		<Link>
+			<AdditionalLibraryDirectories> $(EngineRoot)Sources\Externals; $(EngineRoot)Sources\Depends; $(EngineRoot)Sources\Runtime\; $(EngineRoot)Sources\Plugins\; %(AdditionalLibraryDirectories); </AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories Condition="$(ProjectRoot) != '' and $(ProjectRoot) != $(EngineRoot)"> $(ProjectRoot)Sources\Externals; $(ProjectRoot)Sources\Depends; $(ProjectRoot)Sources\Runtime\; $(ProjectRoot)Sources\Plugins\; %(AdditionalLibraryDirectories); </AdditionalLibraryDirectories>
+		</Link>
+		<Manifest>
+			<EnableDpiAwareness>true</EnableDpiAwareness>
+		</Manifest>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)'=='Development'">
+		<ClCompile>
+			<Optimization>Disabled</Optimization>
+			<InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+			<IntrinsicFunctions>false</IntrinsicFunctions>
+			<FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<BasicRuntimeChecks>Default</BasicRuntimeChecks>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<ControlFlowGuard>false</ControlFlowGuard>
+		</ClCompile>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+		<ClCompile>
+			<Optimization>MaxSpeed</Optimization>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+		</ClCompile>
+		<Link>
+			<OptimizeReferences>true</OptimizeReferences>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+		</Link>
+	</ItemDefinitionGroup>
+</Project>

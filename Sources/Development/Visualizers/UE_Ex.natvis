@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<!--Basics-->
+	<Type Name="TArray&lt;*&gt;::ElementType">
+		<DisplayString>{($T1 *)this}</DisplayString>
+	</Type>
+
+	<Type Name="TRefCountPtr&lt;*&gt;">
+		<DisplayString>{Reference,na}</DisplayString>
+		<Expand>
+			<ExpandedItem>Reference</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="TIndexedPtrBase&lt;*&gt;">
+		<DisplayString Condition="(PackedIndex &amp; 1) == 1">Index [{PackedIndex >> 1}]</DisplayString>
+		<DisplayString Condition="(PackedIndex &amp; 1) == 0">{Ptr}</DisplayString>
+		<Expand>
+			<Item Name="PackedIndex" Condition="(PackedIndex &amp; 1) == 1">PackedIndex >> 1</Item>
+			<ExpandedItem Condition="(PackedIndex &amp; 1) == 0">Ptr</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<!--Names-->
+	<Type Name="FNameEntry" Priority="High">
+		<DisplayString Condition="Header.Len &gt; FNameDebugVisualizer::MaxLength">Illegal name (length > NAME_SIZE)</DisplayString>
+		<DisplayString Condition="Header.bIsWide">{WideName,[Header.Len]su}</DisplayString>
+		<DisplayString>{AnsiName,[Header.Len]s}</DisplayString>
+	</Type>
+	<Type Name="FNameEntryId" Priority="High">
+		<DisplayString Condition="Value &amp; FNameDebugVisualizer::UnusedMask">Illegal name (block index out of range)</DisplayString>
+		<DisplayString Condition="!GNameBlocksDebug[Value &gt;&gt; FNameDebugVisualizer::OffsetBits]">Illegal name (null block)</DisplayString>
+		<DisplayString>{(FNameEntry&amp;)GNameBlocksDebug[Value &gt;&gt; FNameDebugVisualizer::OffsetBits][FNameDebugVisualizer::EntryStride * (Value &amp; FNameDebugVisualizer::OffsetMask)]}</DisplayString>
+		<Expand>
+			<Item Name="NameEntry" Condition="(Value &amp; FNameDebugVisualizer::UnusedMask) == 0 &amp;&amp; GNameBlocksDebug[Value &gt;&gt; FNameDebugVisualizer::OffsetBits]">(FNameEntry&amp;)GNameBlocksDebug[Value &gt;&gt; FNameDebugVisualizer::OffsetBits][FNameDebugVisualizer::EntryStride * (Value &amp; FNameDebugVisualizer::OffsetMask)]</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="FName" Priority="High">
+		<DisplayString Condition="Number">{ComparisonIndex}_{Number - 1}</DisplayString>
+		<DisplayString>{ComparisonIndex}</DisplayString>
+	</Type>
+
+	<Type Name="FHashedName" Priority="High">
+		<DisplayString>{DebugString,na}</DisplayString>
+		<StringView>DebugString</StringView>
+	</Type>
+	<Type Name="FScriptName" Priority="High">
+		<DisplayString>{DisplayIndex}</DisplayString>
+	</Type>
+
+	<Type Name="FMemoryImageString">
+		<DisplayString Condition="Data.ArrayNum == 0">Empty</DisplayString>
+		<DisplayString Condition="Data.ArrayNum != 0 &amp;&amp; ((Data.AllocatorInstance.Data.OffsetFromThis &amp; 1) == 0)">{(const wchar_t *)Data.AllocatorInstance.Data.Ptr,su}</DisplayString>
+		<DisplayString Condition="Data.ArrayNum != 0 &amp;&amp; ((Data.AllocatorInstance.Data.OffsetFromThis &amp; 1) != 0)">{(const wchar_t *)((const char *)&amp;Data.AllocatorInstance.Data + (Data.AllocatorInstance.Data.OffsetFromThis >> 1)),su}</DisplayString>
+
+		<StringView Condition="Data.ArrayNum != 0 &amp;&amp; ((Data.AllocatorInstance.Data.OffsetFromThis &amp; 1) == 0)">(const wchar_t *)Data.AllocatorInstance.Data.Ptr,su</StringView>
+		<StringView Condition="Data.ArrayNum != 0 &amp;&amp; ((Data.AllocatorInstance.Data.OffsetFromThis &amp; 1) != 0)">(const wchar_t *)((const char *)&amp;Data.AllocatorInstance.Data + (Data.AllocatorInstance.Data.OffsetFromThis >> 1)),su</StringView>
+		<Expand>
+			<ArrayItems Condition="Data.ArrayNum > 0">
+				<Size>Data.ArrayNum</Size>
+				<ValuePointer Condition="(Data.AllocatorInstance.Data.OffsetFromThis &amp; 1) != 0">(wchar_t *)( (char*)&amp;Data.AllocatorInstance.Data + (Data.AllocatorInstance.Data.OffsetFromThis >> 1))</ValuePointer>
+				<ValuePointer Condition="(Data.AllocatorInstance.Data.OffsetFromThis &amp; 1) == 0">(wchar_t *)Data.AllocatorInstance.Data.Ptr</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="FBlake3Hash" Priority="High">
+		<DisplayString>{(const unsigned __int64 *)&amp;Hash,[4]X}</DisplayString>
+		<!--<DisplayString>{(const char *)(&amp;Hash[0]),[32]}</DisplayString>-->
+		<!--<DisplayString>{&amp;(Hash[0]),[0x20]}</DisplayString>-->
+		<Expand HideRawView="false">
+			
+		</Expand>
+	</Type>
+
+	<!--Objects-->
+	<Type Name="UObjectBase">
+		<DisplayString>{NamePrivate}</DisplayString>
+	</Type>
+
+	<!--Containers-->
+	<Type Name="THashTable&lt;*&gt;">
+		<DisplayString>{{{IndexSize} Elements}}</DisplayString>
+	</Type>
+	<Type Name="TPtrTable&lt;*&gt;">
+		<DisplayString>{{{Pointers.ArrayNum} Elements}}</DisplayString>
+	</Type>
+
+	<!--Shaders-->
+	<Type Name="TShaderMap&lt;*&gt;">
+		<!--<DisplayString>xxx</DisplayString>-->
+		<Expand>
+			<Item Name="[Content]">($T1*)Content</Item>
+		</Expand>
+	</Type>
+	<Type Name="FShaderType">
+		<DisplayString>{{ShaderType {Name,na}}}</DisplayString>
+	</Type>
+	<Type Name="FLocalVertexFactory">
+		<DisplayString>{{LocalVertexFactory {DebugName.DebugName,na}}}</DisplayString>
+	</Type>
+	<Type Name="FVertexFactoryType">
+		<DisplayString>{{VFType {Name,na}}}</DisplayString>
+	</Type>
+	<Type Name="FMaterialTextureParameterInfo">
+		<DisplayString>{{Texture {ParameterInfo.Name}}}</DisplayString>
+	</Type>
+	<Type Name="FMaterialInstanceResource">
+		<DisplayString>{Owner,na}, Parent={Parent,na}</DisplayString>
+	</Type>
+
+	<Type Name="FMeshMaterialShaderMap">
+		<DisplayString>{VertexFactoryTypeName}</DisplayString>
+	</Type>
+
+	<!--Actors-->
+	<Type Name="AStaticMeshActor">
+		<DisplayString>xxf</DisplayString>
+	</Type>
+	
+	<!--Renderring-->
+	<Type Name="FShader">
+		<DisplayString>{VFType.Ptr->Name,na}, {Type.Ptr->Name,na}, {Type.Ptr->SourceFilename,na}</DisplayString>
+	</Type>
+
+	<Type Name="FMaterialResource">
+		<DisplayString>{{Material {Material,na}}}</DisplayString>
+	</Type>
+
+	<Type Name="FMaterialRenderProxy">
+		<DisplayString>{MaterialName}</DisplayString>
+	</Type>
+
+	<Type Name="FShaderMapBase">
+		<!--<DisplayString>{(FName *)(AssociatedAssets.Elements.Data.AllocatorInstance.Data))[0]}</DisplayString>-->
+		<DisplayString Condition="AssociatedAssets.Elements.Data.ArrayNum > 0">{(FName *)AssociatedAssets.Elements.Data.AllocatorInstance.Data,na}</DisplayString>
+		<!--<Expand>
+			<Item Name="ArrayNum">AssociatedAssets.Elements.Data.ArrayNum</Item>
+			<Item Name="ArrayMax">AssociatedAssets.Elements.Data.ArrayMax</Item>
+			<Item Name="XX">(FName *)AssociatedAssets.Elements.Data.AllocatorInstance.Data,na</Item>
+		</Expand>-->
+	</Type>
+
+	<Type Name="FShaderParametersMetadata::FMember">
+		<DisplayString>{{{Name}, [{BaseType}] }}</DisplayString>
+	</Type>
+	<Type Name="TArray&lt;FShaderParametersMetadata::FMember,*>::ElementType">
+		<DisplayString>{(FShaderParametersMetadata::FMember *)this,na}</DisplayString>
+	</Type>
+
+	<Type Name="FMeshBatch">
+		<DisplayString>Material{{{MaterialRenderProxy,na}}}</DisplayString>
+	</Type>
+
+	<Type Name="FPrimitiveSceneInfo">
+		<DisplayString>{Proxy,na}</DisplayString>
+	</Type>
+
+	<Type Name="FPrimitiveSceneProxy">
+		<DisplayString>{{Label={ComponentForDebuggingOnly->OwnerPrivate->ActorLabel}, Resource={ResourceName}}}</DisplayString>
+	</Type>
+	
+	<Type Name="FDefaultMaterialInstance">
+		<DisplayString>Material{{{Material,na}}}</DisplayString>
+	</Type>
+
+	<!--RHI-->
+	<Type Name="FRHIUniformBufferLayout">
+		<DisplayString>{{UniformBuffer {Name,na}, {ConstantBufferSize} Bytes, {Resources.ArrayNum} Resources, Hash[{Hash}]}}</DisplayString>
+	</Type>
+	<Type Name="FRHIUniformBufferLayout::FResourceParameter">
+		<DisplayString>{{{MemberType}}}</DisplayString>
+	</Type>
+
+	<Type Name="FRHIUniformBuffer">
+		<DisplayString>{Layout,na}</DisplayString>
+	</Type>
+
+	<Type Name="FRHIShaderResourceView">
+		<DisplayString>{{ResourceView}}}</DisplayString>
+	</Type>
+
+	<Type Name="FRHITransientResource">
+		<DisplayString>{{{Name,na}}}</DisplayString>
+	</Type>
+
+	<Type Name="TShaderRefBase&lt;*&gt;">
+		<DisplayString>{ShaderMap,na}</DisplayString>
+	</Type>
+
+	<Type Name="FReadOnlyMeshDrawSingleShaderBindings">
+		<Intrinsic Name="GetUniformBuffersDataSize" Expression="ParameterMapInfo.UniformBuffers.ArrayNum * sizeof(void *)" />
+		<Intrinsic Name="GetSamplersOffset" Expression="ParameterMapInfo.UniformBuffers.ArrayNum * sizeof(void *)" />
+		<Intrinsic Name="GetSamplersDataSize" Expression="ParameterMapInfo.TextureSamplers.ArrayNum * sizeof(void *)" />
+		<Intrinsic Name="GetSRVsDataOffset" Expression="GetUniformBuffersDataSize() + GetSamplersDataSize()" />
+		<Intrinsic Name="GetSRVsDataSize" Expression="ParameterMapInfo.SRVs.ArrayNum * sizeof(void *)" />
+		<DisplayString>
+			{{{ParameterMapInfo.UniformBuffers.ArrayNum} UniformBuffers, {ParameterMapInfo.TextureSamplers.ArrayNum} Samplers,
+			{ParameterMapInfo.SRVs.ArrayNum} SRVs, {ParameterMapInfo.LooseParameterBuffers.ArrayNum} LooseBuffers}}</DisplayString>
+		<Expand>
+			<Synthetic Name="UniformBuffers">
+				<DisplayString>--->>> {ParameterMapInfo.UniformBuffers.ArrayNum} UniformBuffers</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>ParameterMapInfo.UniformBuffers.ArrayNum</Size>
+				<ValuePointer>(FRHIResource **)Data</ValuePointer>
+			</ArrayItems>
+			<Synthetic Name="SRVs">
+				<DisplayString>--->>> {ParameterMapInfo.SRVs.ArrayNum} SRVs</DisplayString>
+			</Synthetic>
+			<IndexListItems>
+				<Size>ParameterMapInfo.SRVs.ArrayNum</Size>
+				<ValueNode>((FRHIResource **)(Data + GetSRVsDataOffset()))[$i]</ValueNode>
+			</IndexListItems>
+
+
+			<!--<ArrayItems>
+				<Size>ParameterMapInfo.SRVs.ArrayNum</Size>
+				<ValuePointer>(FRHIResource **)(Data + SRVsDataOffset())</ValuePointer>
+			</ArrayItems>-->
+			<!--<Synthetic Name="[UniformBuffers]">
+				<DisplayString>Expand to view UniformBuffers</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>ParameterMapInfo.UniformBuffers.ArrayNum</Size>
+						<ValuePointer>(FRHIResource **)Data</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>-->
+		</Expand>
+	</Type>
+
+	<Type Name="FShaderParameterMapInfo">
+		<Intrinsic Name="UniformBuffersCount" Expression="UniformBuffers.ArrayNum" />
+		<Intrinsic Name="TextureSamplersCount" Expression="TextureSamplers.ArrayNum" />
+		<Intrinsic Name="SRVsCount" Expression="SRVs.ArrayNum" />
+		<Intrinsic Name="LooseParameterBuffersCount" Expression="LooseParameterBuffers.ArrayNum" />
+		<Intrinsic Name="ResourceBindingsCount" Expression="UniformBuffersCount() + TextureSamplersCount() + SRVsCount()" />
+		<Intrinsic Name="BindingsCount" Expression="UniformBuffersCount() + TextureSamplersCount() + SRVsCount() + LooseParameterBuffersCount()" />
+		<DisplayString>{{{ResourceBindingsCount()} ResourceBindings}}</DisplayString>
+	</Type>
+
+	<Type Name="FMeshDrawShaderBindings">
+		<Intrinsic Name="GetMaxBindingsCount" Expression="Size / sizeof(void *)" />
+		<DisplayString>{{{GetMaxBindingsCount()} Resource Bindings}}</DisplayString>
+		<Expand>
+			<Item Name="ShaderLayouts">ShaderLayouts</Item>
+			<ArrayItems>
+				<Size>GetMaxBindingsCount()</Size>
+				<ValuePointer Condition="GetMaxBindingsCount() &lt;= 10">(FRHIResource **)&amp;(Data.InlineStorage[0])</ValuePointer>
+				<ValuePointer Condition="GetMaxBindingsCount() &gt; 10">(FRHIResource **)Data.InlineStorage[0]</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="FMeshDrawSingleShaderBindings">
+		<Intrinsic Name="UniformBuffersCount" Expression="ParameterMapInfo.UniformBuffers.ArrayNum" />
+		<Intrinsic Name="TextureSamplersCount" Expression="ParameterMapInfo.TextureSamplers.ArrayNum" />
+		<Intrinsic Name="SRVsCount" Expression="ParameterMapInfo.SRVs.ArrayNum" />
+		<Intrinsic Name="LooseParameterBuffersCount" Expression="ParameterMapInfo.LooseParameterBuffers.ArrayNum" />
+		<Intrinsic Name="ResourceBindingsCount" Expression="UniformBuffersCount() + TextureSamplersCount() + SRVsCount()" />
+		<Intrinsic Name="BindingsCount" Expression="UniformBuffersCount() + TextureSamplersCount() + SRVsCount() + LooseParameterBuffersCount()" />
+		<DisplayString>{{{ResourceBindingsCount()} ResourceBindings &lt;{UniformBuffersCount()} UniformBuffers, {TextureSamplersCount()} TextureSamplers, {SRVsCount()} SRVs&gt;}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>ResourceBindingsCount()</Size>
+				<ValuePointer Condition="BindingsCount() &lt;= 10">(FRHIResource **)Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="FMeshDrawCommandDebugData">
+		<DisplayString>{{{PrimitiveSceneProxyIfNotUsingStateBuckets,na}, {MaterialRenderProxy,na}}}</DisplayString>
+	</Type>
+
+	<Type Name="FMeshDrawCommand">
+		<DisplayString>{DebugData}</DisplayString>
+	</Type>
+
+	<Type Name="FVisibleMeshDrawCommand">
+		<DisplayString>{MeshDrawCommand,na}</DisplayString>
+	</Type>
+
+	<Type Name="FShaderParametersMetadata">
+		<DisplayString>{ShaderVariableName,su} -> {StructTypeName,su}</DisplayString>
+	</Type>
+
+
+	<!--D3D12-->
+	<Type Name="FD3D12Resource">
+		<DisplayString>{{{DebugName}}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12VertexBuffer">
+		<DisplayString>{{D3D12VertexBuffer}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12StructuredBuffer">
+		<DisplayString>{{D3D12StructuredBuffer {Size} Bytes, {Stride} Stride}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12ShaderResourceView">
+		<DisplayString>{{D3D12ShaderResourceView Resource{Resource,na}}}</DisplayString>
+		<!--<DisplayString Condition="Desc.ViewDimension == D3D12_SRV_DIMENSION_BUFFER">{{BufferView {Resource->DebugName}, {Desc.Format}, {DynamicResource}}}</DisplayString>-->
+		<!--<DisplayString Condition="Desc.ViewDimension == D3D12_SRV_DIMENSION_TEXTURE2D">{{Texture2DView {Resource->DebugName}, {Desc.Format}, [{Resource->Desc.Width}x{Resource->Desc.Height}]}}</DisplayString>-->
+	</Type>
+	<Type Name="FD3D12TextureReference">
+		<DisplayString>{{D3D12Texture}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12SamplerState">
+		<DisplayString>{{D3D12SamplerState}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12Texture3D">
+		<DisplayString>{{D3D12Texture3D Size=[{SizeX},{SizeY},{SizeZ}]}}</DisplayString>
+	</Type>
+	<Type Name="TD3D12Texture2D&lt;*&gt;">
+		<DisplayString>{{D3D12Texture2D Size=[{SizeX},{SizeY}]}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12UnorderedAccessView">
+		<DisplayString>{{UnorderedAccessView}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12PixelShader">
+		<DisplayString>{{D3D12PixelShader}}</DisplayString>
+	</Type>
+
+	<!--RenderGraph-->
+	<Type Name="FRDGEventName">
+		<DisplayString>{FormattedEventName,na}</DisplayString>
+	</Type>
+	<Type Name="FRDGParentResource">
+		<DisplayString>{{RDGResource {Name,na}}}</DisplayString>
+	</Type>
+	<Type Name="FRDGBuffer">
+		<DisplayString>{{RDGBuffer {Name,na}}}</DisplayString>
+	</Type>
+	<Type Name="FRDGTexture">
+		<DisplayString>{{RDGTexture {Name,na}}}</DisplayString>
+	</Type>
+	<Type Name="FRDGBuilder::FUploadedBuffer">
+		<DisplayString>{{UploadedBuffer {Buffer,na}, {DataSize} Bytes}}</DisplayString>
+	</Type>
+	<Type Name="FRDGUniformBuffer">
+		<DisplayString>{{RDGUniformBuffer {Name,na}}}</DisplayString>
+	</Type>
+	<Type Name="FPooledRenderTarget">
+		<DisplayString>{{PooledRenderTarget {Desc.DebugName,na}}}</DisplayString>
+	</Type>
+</AutoVisualizer>
+

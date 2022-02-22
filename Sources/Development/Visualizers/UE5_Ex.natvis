@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<!--Basics-->
+	<Type Name="TMemoryImagePtr&lt;*&gt;">
+		<Intrinsic Name="IsFrozened"  Expression="Frozen.Packed &amp; 1" />
+		<Intrinsic Name="GetFrozenedPtr"  Expression="($T1 *)((char*)this + (int64(Frozen.Packed) >> 24))" />
+		<DisplayString Condition="IsFrozened()">{GetFrozenedPtr()}</DisplayString>
+		<DisplayString Condition="!IsFrozened()">{UnfrozenPtr}</DisplayString>
+		<Expand>
+			<ExpandedItem Condition="IsFrozened()">GetFrozenedPtr()</ExpandedItem>
+			<ExpandedItem Condition="!IsFrozened()">UnfrozenPtr</ExpandedItem>
+		</Expand>
+	</Type>
+	
+	<!--<Type Name="AActor">
+		<DisplayString>(Name={NamePrivate})</DisplayString>
+	</Type>-->
+	<Type Name="AController">
+		<DisplayString>(Name={NamePrivate}, Pawn={Pawn,na})</DisplayString>
+	</Type>
+
+	<Type Name="FStaticMeshBatch">
+		<DisplayString Condition="PrimitiveSceneInfo->Proxy == nullptr">{{'null proxy'}}</DisplayString>
+		<DisplayString Condition="PrimitiveSceneInfo->Proxy != nullptr">{{ResourceName={PrimitiveSceneInfo->Proxy->ResourceName}}}</DisplayString>
+	</Type>
+
+
+	<!--Rendering-->
+	<Type Name="FPrimitiveSceneInfo">
+		<DisplayString>{Proxy,na}</DisplayString>
+	</Type>
+
+	<Type Name="FPrimitiveSceneProxy">
+		<DisplayString>{{Label={ComponentForDebuggingOnly->OwnerPrivate->ActorLabel}, Resource={ResourceName}}}</DisplayString>
+	</Type>
+
+	<Type Name="FMaterialRenderProxy">
+		<DisplayString>{{{MaterialName}}}</DisplayString>
+	</Type>
+
+	<!--<Type Name="FDefaultMaterialInstance">
+		<DisplayString>Material{{{Material,na}}}</DisplayString>
+	</Type>-->
+
+	<Type Name="FLightSceneProxy">
+		<DisplayString>{{Owner={OwnerNameOrLabel}}}</DisplayString>
+	</Type>
+
+	<Type Name="FMeshBatch">
+		<DisplayString>{{Material={MaterialRenderProxy,na}, {Elements.ArrayNum} Elements}}</DisplayString>
+	</Type>
+
+	<Type Name="FMeshBatchAndRelevance">
+		<DisplayString>{{Primitive={PrimitiveSceneProxy,na}, Material={Mesh->MaterialRenderProxy,na}, {Mesh->Elements.ArrayNum} Elements}}</DisplayString>
+	</Type>
+	
+	<Type Name="FMeshDrawCommandDebugData">
+		<DisplayString Condition="PrimitiveSceneProxyIfNotUsingStateBuckets != nullptr">{PrimitiveSceneProxyIfNotUsingStateBuckets->ComponentForDebuggingOnly->OwnerPrivate->ActorLabel} {MaterialName}</DisplayString>
+		<DisplayString Condition="PrimitiveSceneProxyIfNotUsingStateBuckets == nullptr">{ResourceName} {MaterialName}</DisplayString>
+	</Type>
+
+	<Type Name="FMeshDrawCommand">
+		<DisplayString>{{{DebugData}, {NumPrimitives} Primitives}}</DisplayString>
+	</Type>
+	
+</AutoVisualizer>
+

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Xin.RHID3D12.cpp" />
+    <ClCompile Include="D3D12Adapter.cpp" />
+    <ClCompile Include="D3D12CommandList.cpp" />
+    <ClCompile Include="D3D12Device.cpp" />
+    <ClCompile Include="D3D12Factory.cpp" />
+    <ClCompile Include="D3D12PipelineState.cpp" />
+    <ClCompile Include="D3D12Resource.cpp" />
+    <ClCompile Include="D3D12Shader.cpp" />
+    <ClCompile Include="D3D12Viewport.cpp" />
+    <ClCompile Include="D3D12Types.cpp" />
+    <ClCompile Include="D3D12RootSignature.cpp" />
+    <ClCompile Include="D3D12ResourceView.cpp" />
+    <ClCompile Include="D3D12Fence.cpp" />
+    <ClCompile Include="D3D12Compiler.cpp" />
+    <ClCompile Include="D3D12Heap.cpp" />
+    <ClCompile Include="D3D12CommandQueue.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="Xin.RHID3D12.h" />
+    <ClInclude Include="D3D12Adapter.h" />
+    <ClInclude Include="D3D12CommandList.h" />
+    <ClInclude Include="D3D12Device.h" />
+    <ClInclude Include="D3D12Factory.h" />
+    <ClInclude Include="D3D12PipelineState.h" />
+    <ClInclude Include="D3D12Resource.h" />
+    <ClInclude Include="D3D12Shader.h" />
+    <ClInclude Include="D3D12Viewport.h" />
+    <ClInclude Include="D3D12Types.h" />
+    <ClInclude Include="D3D12RootSignature.h" />
+    <ClInclude Include="D3D12ResourceView.h" />
+    <ClInclude Include="D3D12Fence.h" />
+    <ClInclude Include="D3D12Compiler.h" />
+    <ClInclude Include="D3D12Heap.h" />
+    <ClInclude Include="D3D12CommandQueue.h" />
+  </ItemGroup>
+</Project>

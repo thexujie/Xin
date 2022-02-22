@@ -1,0 +1,15 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+RWBuffer<uint> Source;
+
+cbuffer ShaderParameter
+{
+    uint ClearValue;
+}
+
+[numthreads(16, 16, 1)]
+void MainCS(uint GroupIndex : SV_GroupIndex)
+{
+    Source[GroupIndex] = ClearValue;
+}

@@ -1,0 +1,207 @@
+#include "Common.xsh"
+
+Texture2D<float> Depth;
+Texture2D<float> OcclusionMerged;
+
+#if XIN_SSAO_UPSAMPLE_COMBINE_WITH_LOWER
+Texture2D<float> OcclusionHQ;
+#endif
+
+VK_IMAGE_FORMAT("r8")
+RWTexture2D<float> OcclusionX2;
+
+cbuffer ShaderParameter
+{
+    float2 InputTexelSizeX2;
+    float2 InputTexelSize;
+
+    float StepSize;
+    float BlurTolerance;
+    float UpsampleTolerance;
+    float NoiseFilterStrength;
+}
+
+float FetchOcclusion(int2 PixelCoord)
+{
+    //float Occlusion1x = OcclusionMerged[PixelCoord];
+    float Occlusion1x = OcclusionMerged.SampleLevel(PointClampSampler, PixelCoord * InputTexelSize + 0.5 * InputTexelSize, 0);
+#if XIN_SSAO_UPSAMPLE_COMBINE_WITH_LOWER
+    //Occlusion1x = min(Occlusion1x, OcclusionHQ[PixelCoord]);
+    Occlusion1x = min(Occlusion1x, OcclusionHQ.SampleLevel(PointClampSampler, PixelCoord * InputTexelSize + 0.5 * InputTexelSize, 0));
+#endif
+    return Occlusion1x;
+}
+
+float FetchDepth(int2 PixelCoord)
+{
+    //return rcp(Depth[PixelCoord]);
+    return rcp(Depth.SampleLevel(PointClampSampler, PixelCoord * InputTexelSize + 0.5 * InputTexelSize, 0));
+}
+
+float SmartBlur(float OcclusionA, float OcclusionB, float OcclusionC, float OcclusionD, float OcclusionE, bool Left, bool Middle, bool Right)
+{
+    OcclusionB = Left | Middle ? OcclusionB : OcclusionC;
+    OcclusionA = Left ? OcclusionA : OcclusionB;
+    OcclusionD = Right | Middle ? OcclusionD : OcclusionC;
+    OcclusionE = Right ? OcclusionE : OcclusionD;
+    return ((OcclusionA + OcclusionE) / 2.0 + OcclusionB + OcclusionC + OcclusionD) / 4.0;
+}
+
+static const float Weights5[3] = { 6.0f / 16.0f, 4.0f / 16.0f, 1.0f / 16.0f };
+float StupidBlur(float OcclusionA, float OcclusionB, float OcclusionC, float OcclusionD, float OcclusionE,
+	float DepthA, float DepthB, float DepthC, float DepthD, float DepthE)
+{
+    float SigmaS = 3;
+    //float SigmaR = 1;
+    float FilterSigmaS = 1.0 / (2 * SigmaS * SigmaS); // 1.0f / (2 * SigmaS * SigmaS)
+    float FilterSigmaR = 1.0 / (2 * BlurTolerance /*SigmaR * SigmaR*/); // 1.0f / (2 * SigmaR * SigmaR)
+    float OcclusionSum = OcclusionC;
+    float WeightSum = 1;
+    //OcclusionSum = OcclusionC * Weights5[0];
+    //WeightSum = Weights5[0];
+    // A
+    {
+        float WeightSpatial = exp(-1 * pow(2, 2) * FilterSigmaS);
+        //WeightSpatial = Weights5[2];
+        float WeightRange = exp(-1 * pow(DepthA - DepthC, 2) * FilterSigmaR);
+        float Weight = WeightSpatial * WeightRange;
+
+        OcclusionSum += Weight * OcclusionA;
+        WeightSum += Weight;
+    }
+    
+    // B
+    {
+        float WeightSpatial = exp(-1 * pow(1, 2) * FilterSigmaS);
+        //WeightSpatial = Weights5[1];
+        float WeightRange = exp(-1 * pow(DepthB - DepthC, 2) * FilterSigmaR);
+        float Weight = WeightSpatial * WeightRange;
+
+        OcclusionSum += Weight * OcclusionB;
+        WeightSum += Weight;
+    }
+    
+    // D
+    {
+        float WeightSpatial = exp(-1 * pow(1, 2) * FilterSigmaS);
+        //WeightSpatial = Weights5[1];
+        float WeightRange = exp(-1 * pow(DepthD - DepthC, 2) * FilterSigmaR);
+        float Weight = WeightSpatial * WeightRange;
+
+        OcclusionSum += Weight * OcclusionD;
+        WeightSum += Weight;
+    }
+    
+    // E
+    {
+        float WeightSpatial = exp(-1 * pow(2, 2) * FilterSigmaS);
+        //WeightSpatial = Weights5[2];
+        float WeightRange = exp(-1 * pow(DepthE - DepthC, 2) * FilterSigmaR);
+        float Weight = WeightSpatial * WeightRange;
+
+        OcclusionSum += Weight * OcclusionE;
+        WeightSum += Weight;
+    }
+
+    return OcclusionSum / WeightSum;
+}
+
+bool CompareDeltas(float DepthDelta1, float DepthDelta2, float l1, float l2)
+{
+    float Temp = DepthDelta1 * DepthDelta2 + StepSize;
+    return Temp * Temp > l1 * l2 * BlurTolerance;
+}
+
+bool CompareDepthDeltas(float DepthDelta1, float DepthDelta2)
+{
+    float l1 = DepthDelta1 * DepthDelta1 + StepSize;
+    float l2 = DepthDelta2 * DepthDelta2 + StepSize;
+    float Temp = DepthDelta1 * DepthDelta2 + StepSize;
+    return Temp * Temp > l1 * l2 * BlurTolerance;
+}
+
+float SSAO_GuideBlur_H(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD) : SV_Target
+{
+    int2 PixelCoord = int2(Position.xy);
+    //float Occlusion0 = OcclusionMerged[PixelCoord + int2(-3, 0)];
+    float Occlusion1 = FetchOcclusion(PixelCoord + int2(-2, 0));
+    float Occlusion2 = FetchOcclusion(PixelCoord + int2(-1, 0));
+    float Occlusion3 = FetchOcclusion(PixelCoord + int2(+0, 0));
+    float Occlusion4 = FetchOcclusion(PixelCoord + int2(+1, 0));
+    float Occlusion5 = FetchOcclusion(PixelCoord + int2(+2, 0));
+    //float Occlusion6 = OcclusionMerged[PixelCoord + int2(+2, 0)];
+
+    //float Depth0 = Depth[PixelCoord + int2(-3, 0)];
+    float Depth1 = FetchDepth(PixelCoord + int2(-2, 0));
+    float Depth2 = FetchDepth(PixelCoord + int2(-1, 0));
+    float Depth3 = FetchDepth(PixelCoord + int2(+0, 0));
+    float Depth4 = FetchDepth(PixelCoord + int2(+1, 0));
+    float Depth5 = FetchDepth(PixelCoord + int2(+2, 0));
+    //float Depth6 = Depth[PixelCoord + int2(+2, 0)];
+    
+    //float DepthDelta01 = Depth1 - Depth0;
+    float DepthDelta12 = Depth2 - Depth1;
+    float DepthDelta23 = Depth3 - Depth2;
+    float DepthDelta34 = Depth4 - Depth3;
+    float DepthDelta45 = Depth5 - Depth4;
+    //float DepthDelta56 = Depth6 - Depth5;
+
+    //float l01 = DepthDelta01 * DepthDelta01 + StepSize;
+    float l12 = DepthDelta12 * DepthDelta12 + StepSize;
+    float l23 = DepthDelta23 * DepthDelta23 + StepSize;
+    float l34 = DepthDelta34 * DepthDelta34 + StepSize;
+    float l45 = DepthDelta45 * DepthDelta45 + StepSize;
+    //float l56 = DepthDelta56 * DepthDelta56 + StepSize;
+
+    //bool c02 = CompareDepthDeltas(DepthDelta01, DepthDelta12);
+    bool c13 = CompareDepthDeltas(DepthDelta12, DepthDelta23);
+    bool c24 = CompareDepthDeltas(DepthDelta23, DepthDelta34);
+    bool c35 = CompareDepthDeltas(DepthDelta34, DepthDelta45);
+    //bool c46 = CompareDepthDeltas(DepthDelta45, DepthDelta56);
+    
+    return SmartBlur(Occlusion1, Occlusion2, Occlusion3, Occlusion4, Occlusion5, c13, c24, c35);
+    //return StupidBlur(Occlusion1, Occlusion2, Occlusion3, Occlusion4, Occlusion5, Depth1, Depth2, Depth3, Depth4, Depth5);
+}
+
+float SSAO_GuideBlur_V(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD) : SV_Target
+{
+    int2 PixelCoord = int2(Position.xy);
+    //float Occlusion0 = OcclusionMerged[PixelCoord + int2(-3, 0)];
+    float Occlusion1 = FetchOcclusion(PixelCoord + int2(0, -2));
+    float Occlusion2 = FetchOcclusion(PixelCoord + int2(0, -1));
+    float Occlusion3 = FetchOcclusion(PixelCoord + int2(0, +0));
+    float Occlusion4 = FetchOcclusion(PixelCoord + int2(0, +1));
+    float Occlusion5 = FetchOcclusion(PixelCoord + int2(0, +2));
+    //float Occlusion6 = OcclusionMerged[PixelCoord + int2(+2, 0)];
+
+    //float Depth0 = Depth[PixelCoord + int2(-3, 0)];
+    float Depth1 = FetchDepth(PixelCoord + int2(0, -2));
+    float Depth2 = FetchDepth(PixelCoord + int2(0, -1));
+    float Depth3 = FetchDepth(PixelCoord + int2(0, +0));
+    float Depth4 = FetchDepth(PixelCoord + int2(0, +1));
+    float Depth5 = FetchDepth(PixelCoord + int2(0, +2));
+    //float Depth6 = Depth[PixelCoord + int2(+2, 0)];
+    
+    //float DepthDelta01 = Depth1 - Depth0;
+    float DepthDelta12 = Depth2 - Depth1;
+    float DepthDelta23 = Depth3 - Depth2;
+    float DepthDelta34 = Depth4 - Depth3;
+    float DepthDelta45 = Depth5 - Depth4;
+    //float DepthDelta56 = Depth6 - Depth5;
+
+    //float l01 = DepthDelta01 * DepthDelta01 + StepSize;
+    float l12 = DepthDelta12 * DepthDelta12 + StepSize;
+    float l23 = DepthDelta23 * DepthDelta23 + StepSize;
+    float l34 = DepthDelta34 * DepthDelta34 + StepSize;
+    float l45 = DepthDelta45 * DepthDelta45 + StepSize;
+    //float l56 = DepthDelta56 * DepthDelta56 + StepSize;
+
+    //bool c02 = CompareDepthDeltas(DepthDelta01, DepthDelta12);
+    bool c13 = CompareDepthDeltas(DepthDelta12, DepthDelta23);
+    bool c24 = CompareDepthDeltas(DepthDelta23, DepthDelta34);
+    bool c35 = CompareDepthDeltas(DepthDelta34, DepthDelta45);
+    //bool c46 = CompareDepthDeltas(DepthDelta45, DepthDelta56);
+    
+    return SmartBlur(Occlusion1, Occlusion2, Occlusion3, Occlusion4, Occlusion5, c13, c24, c35);
+    //return StupidBlur(Occlusion1, Occlusion2, Occlusion3, Occlusion4, Occlusion5, Depth1, Depth2, Depth3, Depth4, Depth5);
+}

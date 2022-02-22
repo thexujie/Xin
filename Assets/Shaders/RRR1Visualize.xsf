@@ -1,0 +1,16 @@
+#include "Common.xsh"
+
+struct VSOutput
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+};
+
+Texture2D Source;
+
+float4 MainPS(VSOutput Input, bool IsFrontFace : SV_IsFrontFace) : SV_Target
+{
+    float R = Source.Sample(PointClampSampler, Input.Texcoord).r;
+    return float4(R, R, R, 1);
+}
+

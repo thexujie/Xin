@@ -1,0 +1,47 @@
+#include "Common.xsh"
+#include "SSAO.xsh"
+
+Texture2D<float> Depth1x;
+
+cbuffer ShaderParameter
+{
+    float2 InputTexelSize;
+    float TexcocordOffsetY;
+    float TileIndex;
+}
+
+struct PSOutout
+{
+    float Depth00 : SV_Target0;
+    float Depth10 : SV_Target1;
+    float Depth20 : SV_Target2;
+    float Depth30 : SV_Target3;
+
+    float Depth01 : SV_Target4;
+    float Depth11 : SV_Target5;
+    float Depth21 : SV_Target6;
+    float Depth31 : SV_Target7;
+};
+
+PSOutout MainPS(float4 Position : SV_POSITION)
+{
+    float2 Texcoord = int2(Position.xy) * 4.0f * InputTexelSize;
+    PSOutout Output = (PSOutout)0;
+    
+// w   z   w   z 
+//   A       B   
+// x   y   x   y 
+    float4 DepthQuadA = Depth1x.Gather(LinearBorderSampler, float2(Texcoord.x + 1.0f * InputTexelSize.x, Texcoord.y + TexcocordOffsetY));
+    float4 DepthQuadB = Depth1x.Gather(LinearBorderSampler, float2(Texcoord.x + 3.0f * InputTexelSize.x, Texcoord.y + TexcocordOffsetY));
+
+    Output.Depth00 = DepthQuadA.w;
+    Output.Depth10 = DepthQuadA.z;
+    Output.Depth20 = DepthQuadB.w;
+    Output.Depth30 = DepthQuadB.z;
+
+    Output.Depth01 = DepthQuadA.x;
+    Output.Depth11 = DepthQuadA.y;
+    Output.Depth21 = DepthQuadB.x;
+    Output.Depth31 = DepthQuadB.y;
+    return Output;
+}

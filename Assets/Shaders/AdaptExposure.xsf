@@ -1,0 +1,54 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Buffer<uint> Histogram;
+RWBuffer<float> Exposure;
+
+cbuffer ShaderParameter
+{
+    float TargetLuminance;
+    float AdaptationRate;
+    float MinExposure;
+    float MaxExposure;
+    uint PixelCount;
+}
+
+void MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD)
+{
+    float Weights = 0;
+    for (int HistogramIndex = 0; HistogramIndex < 256; ++HistogramIndex)
+        Weights += (float) (HistogramIndex * Histogram[HistogramIndex]);
+
+    if (Weights > 0)
+    {
+        float MinLog = Exposure[4];
+        float MaxLog = Exposure[5];
+        float LogRange = Exposure[6];
+        float RcpLogRange = Exposure[7];
+
+        float WeightedHistAvg = Weights / (max(1, PixelCount - Histogram[0])) - 1.0;
+        float LogAvgLuminance = exp2(WeightedHistAvg / 254.0 * LogRange + MinLog);
+        float TargetExposure = TargetLuminance / LogAvgLuminance;
+
+        float CurrentExposure = Exposure[0];
+        float FinalExposure = lerp(CurrentExposure, TargetExposure, AdaptationRate);
+        FinalExposure = clamp(FinalExposure, MinExposure, MaxExposure);
+
+        Exposure[0] = FinalExposure;
+        Exposure[1] = 1.0 / FinalExposure;
+        Exposure[2] = FinalExposure;
+        Exposure[3] = WeightedHistAvg;
+
+        float BiasToCenter = (floor(WeightedHistAvg) - 118.0) / 255.0;
+        if (abs(BiasToCenter) > 0.1)
+        {
+            MinLog += BiasToCenter * RcpLogRange;
+            MaxLog += BiasToCenter * RcpLogRange;
+        }
+
+        Exposure[4] = MinLog;
+        Exposure[5] = MaxLog;
+        Exposure[6] = LogRange;
+        Exposure[7] = 1.0 / LogRange;
+    }
+}

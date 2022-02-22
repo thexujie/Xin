@@ -1,0 +1,40 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Texture2D Source;
+
+#ifndef XIN_BLOOM_DOWNSAMPLE_X4X16
+#define XIN_BLOOM_DOWNSAMPLE_X4X16 0
+#endif
+cbuffer ShaderParameter
+{
+    float2 InputTexelSize;
+}
+
+// default 2x
+float4 MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD) : SV_Target
+{
+#if XIN_BLOOM_DOWNSAMPLE_X4X16
+    //return Source.SampleLevel(LinearBorderSampler, Texcoord, 1);
+
+    float2 Texcoord_00 = Texcoord - InputTexelSize;
+    float2 Texcoord_11 = Texcoord + InputTexelSize;
+
+    float4 Bloom_00 = Source.SampleLevel(LinearBorderSampler, Texcoord_00, 1);
+    float4 Bloom_10 = Source.SampleLevel(LinearBorderSampler, float2(Texcoord_11.x, Texcoord_00.y), 1);
+    float4 Bloom_01 = Source.SampleLevel(LinearBorderSampler, float2(Texcoord_00.x, Texcoord_11.y), 1);
+    float4 Bloom_11 = Source.SampleLevel(LinearBorderSampler, Texcoord_11, 1);
+    return 0.25 * (Bloom_00 + Bloom_10 + Bloom_01 + Bloom_11);
+#else
+    return Source.SampleLevel(LinearBorderSampler, Texcoord, 1);
+    
+    //float2 TexcoordOffset = InputTexelSize;
+    //float2 Texcoord_00 = Texcoord;
+    //float2 Texcoord_11 = Texcoord + InputTexelSize;
+    //float4 Bloom_00 = Source.SampleLevel(LinearBorderSampler, Texcoord_00, 1);
+    //float4 Bloom_10 = Source.SampleLevel(LinearBorderSampler, float2(Texcoord_11.x, Texcoord_00.y), 1);
+    //float4 Bloom_01 = Source.SampleLevel(LinearBorderSampler, float2(Texcoord_00.x, Texcoord_11.y), 1);
+    //float4 Bloom_11 = Source.SampleLevel(LinearBorderSampler, Texcoord_11, 1);
+    //return 0.25 * (Bloom_00 + Bloom_10 + Bloom_01 + Bloom_11);
+#endif
+}

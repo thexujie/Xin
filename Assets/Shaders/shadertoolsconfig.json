@@ -1,0 +1,10 @@
+{
+  "hlsl.preprocessorDefinitions": {
+  },
+  "hlsl.additionalIncludeDirectories": [
+    ".\\"
+  ],
+  "hlsl.virtualDirectoryMappings": {
+    //"/Project": "C:\\MyProject\\Shaders"
+  }
+}

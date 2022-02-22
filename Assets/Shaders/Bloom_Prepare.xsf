@@ -1,0 +1,79 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+struct VSOutput
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
+};
+
+struct PSOutput
+{
+    float3 Color : SV_Target0;
+    uint Luminance : SV_Target1;
+};
+
+Texture2D SceneColor;
+Buffer<float> Exposure;
+
+
+cbuffer ShaderParameter
+{
+    float2 InputTexelSize;
+    float BloomLuminanceThreshold;
+}
+
+PSOutput MainPS(float4 Position : SV_POSITION, float2 Texcoord : TEXCOORD)
+{
+    float2 TexcoordOffset = InputTexelSize * 0.5f;
+
+    float3 Color_1 = SceneColor.SampleLevel(LinearClampSampler, Texcoord + float2(-TexcoordOffset.x, -TexcoordOffset.y), 0);
+    float3 Color_2 = SceneColor.SampleLevel(LinearClampSampler, Texcoord + float2(+TexcoordOffset.x, -TexcoordOffset.y), 0);
+    float3 Color_3 = SceneColor.SampleLevel(LinearClampSampler, Texcoord + float2(-TexcoordOffset.x, +TexcoordOffset.y), 0);
+    float3 Color_4 = SceneColor.SampleLevel(LinearClampSampler, Texcoord + float2(+TexcoordOffset.x, +TexcoordOffset.y), 0);
+    
+    float Luminance_1 = RGBToLuminance(Color_1);
+    float Luminance_2 = RGBToLuminance(Color_2);
+    float Luminance_3 = RGBToLuminance(Color_3);
+    float Luminance_4 = RGBToLuminance(Color_4);
+
+    float ScaledLuminanceThreshold = BloomLuminanceThreshold * Exposure[1];
+    
+    const float SmallEpsilon = 0.0001;
+    Color_1 *= max(SmallEpsilon, Luminance_1 - ScaledLuminanceThreshold) / (Luminance_1 + SmallEpsilon);
+    Color_2 *= max(SmallEpsilon, Luminance_2 - ScaledLuminanceThreshold) / (Luminance_2 + SmallEpsilon);
+    Color_3 *= max(SmallEpsilon, Luminance_3 - ScaledLuminanceThreshold) / (Luminance_3 + SmallEpsilon);
+    Color_4 *= max(SmallEpsilon, Luminance_4 - ScaledLuminanceThreshold) / (Luminance_4 + SmallEpsilon);
+    
+    // The shimmer filter helps remove stray bright pixels from the bloom buffer by inversely weighting
+    // them by their luminance.  The overall effect is to shrink bright pixel regions around the border.
+    // Lone pixels are likely to dissolve completely.  This effect can be tuned by adjusting the shimmer
+    // filter inverse strength.  The bigger it is, the less a pixel's luminance will matter.
+    const float ShimmerFilterInverseStrength = 1.0f;
+    float Weight_1 = 1.0f / (Luminance_1 + ShimmerFilterInverseStrength);
+    float Weight_2 = 1.0f / (Luminance_2 + ShimmerFilterInverseStrength);
+    float Weight_3 = 1.0f / (Luminance_3 + ShimmerFilterInverseStrength);
+    float Weight_4 = 1.0f / (Luminance_4 + ShimmerFilterInverseStrength);
+    float TotalWeight = Weight_1 + Weight_2 + Weight_3 + Weight_4;
+    
+    PSOutput Output = (PSOutput) 0;
+    Output.Color = (Color_1 * Weight_1 + Color_2 * Weight_2 + Color_3 * Weight_3 + Color_4 * Weight_4) / TotalWeight;
+
+    float LuminanceAvg = (Luminance_1 + Luminance_2 + Luminance_3 + Luminance_4) * 0.25;
+    // Prevent log(0) and put only pure black pixels in Histogram[0]
+    if (LuminanceAvg == 0.0)
+    {
+        Output.Luminance = 0;
+    }
+    else
+    {
+        const float MinLog = Exposure[4];
+        //const float MaxLog = Exposure[5];
+        //const float LogRange = Exposure[6];
+        const float RcpLogRange = Exposure[7];
+        float LogLuminance = saturate((log2(LuminanceAvg) - MinLog) * RcpLogRange);
+        Output.Luminance = LogLuminance * 254.0 + 1.0;
+    }
+
+    return Output;
+}

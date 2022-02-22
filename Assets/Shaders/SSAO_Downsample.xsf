@@ -1,0 +1,9 @@
+#include "Common.xsh"
+#include "SSAO.xsh"
+
+Texture2D<float> Source;
+
+float MainPS(float4 Position : SV_POSITION) : SV_Target
+{
+    return Source[uint2(Position.xy) << 1];
+}

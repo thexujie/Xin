@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="callstack.h" />
+    <ClInclude Include="criticalsection.h" />
+    <ClInclude Include="crtmfcpatch.h" />
+    <ClInclude Include="dbghelp.h" />
+    <ClInclude Include="loaderlock.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="ntapi.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="set.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="tests\basics\Allocs.h">
+      <Filter>tests\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\basics\stdafx.h">
+      <Filter>tests\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\basics\targetver.h">
+      <Filter>tests\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\corruption\stdafx.h">
+      <Filter>tests\corruption</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\corruption\targetver.h">
+      <Filter>tests\corruption</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\corruption\Tests.h">
+      <Filter>tests\corruption</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\dynamic_app\LoadTests.h">
+      <Filter>tests\dynamic_app</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\dynamic_app\stdafx.h">
+      <Filter>tests\dynamic_app</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\dynamic_app\targetver.h">
+      <Filter>tests\dynamic_app</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\dynamic_app\ThreadTests.h">
+      <Filter>tests\dynamic_app</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\dynamic_dll\dynamic.h">
+      <Filter>tests\dynamic_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\dynamic_dll\stdafx.h">
+      <Filter>tests\dynamic_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\dynamic_dll\targetver.h">
+      <Filter>tests\dynamic_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc_dll\mfc.h">
+      <Filter>tests\mfc_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc_dll\Resource.h">
+      <Filter>tests\mfc_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc_dll\stdafx.h">
+      <Filter>tests\mfc_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc_dll\targetver.h">
+      <Filter>tests\mfc_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc\resource.h">
+      <Filter>tests\mfc</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc\StdAfx.h">
+      <Filter>tests\mfc</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc\vldmfc.h">
+      <Filter>tests\mfc</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\mfc\vldmfcdlg.h">
+      <Filter>tests\mfc</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_ComTest\dllmain.h">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_ComTest\MyMath.h">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_ComTest\Resource.h">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_ComTest\stdafx.h">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_ComTest\targetver.h">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_ComTest\xdlldata.h">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_dll1\stdafx.h">
+      <Filter>tests\vld_dll1</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_dll1\targetver.h">
+      <Filter>tests\vld_dll1</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_dll2\stdafx.h">
+      <Filter>tests\vld_dll2</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_dll2\targetver.h">
+      <Filter>tests\vld_dll2</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_main_test\stdafx.h">
+      <Filter>tests\vld_main_test</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_main_test\targetver.h">
+      <Filter>tests\vld_main_test</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_main\stdafx.h">
+      <Filter>tests\vld_main</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_main\targetver.h">
+      <Filter>tests\vld_main</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_unload\stdafx.h">
+      <Filter>tests\vld_unload</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vld_unload\targetver.h">
+      <Filter>tests\vld_unload</Filter>
+    </ClInclude>
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="utility.h" />
+    <ClInclude Include="vld_def.h" />
+    <ClInclude Include="vld.h" />
+    <ClInclude Include="vldallocator.h" />
+    <ClInclude Include="vldheap.h" />
+    <ClInclude Include="vldint.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="callstack.cpp" />
+    <ClCompile Include="dllspatches.cpp" />
+    <ClCompile Include="ntapi.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="tests\basics\Allocs.cpp">
+      <Filter>tests\basics</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\basics\basics_disabled.cpp">
+      <Filter>tests\basics</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\basics\basics.cpp">
+      <Filter>tests\basics</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\basics\stdafx.cpp">
+      <Filter>tests\basics</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\console\main.c">
+      <Filter>tests\console</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\console\main.cpp">
+      <Filter>tests\console</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\corruption\corruption.cpp">
+      <Filter>tests\corruption</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\corruption\stdafx.cpp">
+      <Filter>tests\corruption</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\corruption\Tests.cpp">
+      <Filter>tests\corruption</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dynamic_app\dynamic_app.cpp">
+      <Filter>tests\dynamic_app</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dynamic_app\LoadTests.cpp">
+      <Filter>tests\dynamic_app</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dynamic_app\stdafx.cpp">
+      <Filter>tests\dynamic_app</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dynamic_app\ThreadTest.cpp">
+      <Filter>tests\dynamic_app</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dynamic_dll\dllmain.cpp">
+      <Filter>tests\dynamic_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dynamic_dll\dynamic.cpp">
+      <Filter>tests\dynamic_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dynamic_dll\stdafx.cpp">
+      <Filter>tests\dynamic_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\mfc_dll\mfc.cpp">
+      <Filter>tests\mfc_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\mfc_dll\stdafx.cpp">
+      <Filter>tests\mfc_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\mfc\StdAfx.cpp">
+      <Filter>tests\mfc</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\mfc\vldmfc.cpp">
+      <Filter>tests\mfc</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\mfc\vldmfcdlg.cpp">
+      <Filter>tests\mfc</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\suite\testsuite.cpp">
+      <Filter>tests\suite</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_ComTest\ComTest.cpp">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_ComTest\dlldata.c">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_ComTest\dllmain.cpp">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_ComTest\MyMath.cpp">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_ComTest\stdafx.cpp">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_ComTest\xdlldata.c">
+      <Filter>tests\vld_ComTest</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_dll1\dllmain.cpp">
+      <Filter>tests\vld_dll1</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_dll1\stdafx.cpp">
+      <Filter>tests\vld_dll1</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_dll2\dllmain.cpp">
+      <Filter>tests\vld_dll2</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_dll2\stdafx.cpp">
+      <Filter>tests\vld_dll2</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_main_test\stdafx.cpp">
+      <Filter>tests\vld_main_test</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_main_test\vld_main_test.cpp">
+      <Filter>tests\vld_main_test</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_main\stdafx.cpp">
+      <Filter>tests\vld_main</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_main\vld_main.cpp">
+      <Filter>tests\vld_main</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_unload\stdafx.cpp">
+      <Filter>tests\vld_unload</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\vld_unload\vld_unload.cpp">
+      <Filter>tests\vld_unload</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp" />
+    <ClCompile Include="vld_hooks.cpp" />
+    <ClCompile Include="vld.cpp" />
+    <ClCompile Include="vldapi.cpp" />
+    <ClCompile Include="vldheap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests\Common.props">
+      <Filter>tests</Filter>
+    </None>
+    <None Include="vld.Module.cs" />
+    <None Include="vld.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="tests">
+      <UniqueIdentifier>{fafb908d-3ac8-412e-ba6d-f0d91e868b1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\basics">
+      <UniqueIdentifier>{f1f993cd-5b46-4b18-b2cc-06af98807862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\console">
+      <UniqueIdentifier>{acd195c3-bc08-4a6e-9e5f-d85f2d0ad62c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\corruption">
+      <UniqueIdentifier>{6602db05-d5e6-443e-9f25-a3d799fde069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\dynamic_app">
+      <UniqueIdentifier>{3e1ba57a-b335-49c1-9706-33ab1e58e1a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\dynamic_dll">
+      <UniqueIdentifier>{a0a5513b-3dff-488c-a74e-af1ae091d46e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\mfc">
+      <UniqueIdentifier>{66f5f8f9-660c-4a9d-8da1-f2f945389afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\mfc_dll">
+      <UniqueIdentifier>{8d29b3a4-dc5d-4e0f-969c-db52370dc17b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\suite">
+      <UniqueIdentifier>{b5e86c0d-8ff5-4113-b694-5b33688a2146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\vld_ComTest">
+      <UniqueIdentifier>{29735acf-a966-47c5-8ef1-45a1519a5783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\vld_dll1">
+      <UniqueIdentifier>{3f98b732-bcf0-4494-8f67-ca82fef094d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\vld_dll2">
+      <UniqueIdentifier>{91ea88a8-8eb1-4f3b-a14a-c37d4a75d27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\vld_main">
+      <UniqueIdentifier>{b3eeff56-b640-4822-b1de-7512da5ac881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\vld_main_test">
+      <UniqueIdentifier>{c76b03b1-57b9-431e-b771-c0093d274523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\vld_unload">
+      <UniqueIdentifier>{7e36a5f9-66f6-4de0-bf87-0ae0dbb28a65}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

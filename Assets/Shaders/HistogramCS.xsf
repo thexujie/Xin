@@ -1,0 +1,31 @@
+#include "Common.xsh"
+#include "Utility.xsh"
+
+Texture2D<uint> Luminance;
+RWBuffer<uint> Histogram;
+
+groupshared uint CachedHistogram[256];
+
+cbuffer ShaderParameter
+{
+    uint BufferHeight;
+}
+
+[numthreads(16, 16, 1)]
+void MainCS(uint GroupIndex : SV_GroupIndex, uint3 DispatchThreadID : SV_DispatchThreadID)
+{
+    CachedHistogram[GroupIndex] = 0;
+
+    GroupMemoryBarrierWithGroupSync();
+
+    for (uint2 Coord = DispatchThreadID.xy; Coord.y < BufferHeight; Coord.y += 16)
+    {
+        uint QuantizedLogLuma = Luminance[Coord];
+        InterlockedAdd(CachedHistogram[QuantizedLogLuma], 1);
+    }
+
+    GroupMemoryBarrierWithGroupSync();
+
+    InterlockedAdd(Histogram[GroupIndex], CachedHistogram[GroupIndex]);
+}
+

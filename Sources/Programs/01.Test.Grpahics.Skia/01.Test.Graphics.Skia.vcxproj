@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C41F74CC-04BC-4A8A-ABFB-BBD4557D9D90}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="01.Test.Graphics.Skia.h" />
+    <ClInclude Include="01.Test.Graphics.Skia.Types.h" />
+    <ClInclude Include="PCH.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="01.Test.Graphics.Skia.cpp" />
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="01.Test.Graphics.Skia.Module.cs" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ProjectReference Include="..\01.Test.Graphics\01.Test.Graphics.vcxproj">
+      <Project>{5DA7CE47-4D1C-4CC2-9FAA-BF18F7E1A2EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtimes\Xin.Base\Xin.Base.vcxproj">
+      <Project>{E014A50D-3F4D-4F15-8FB5-2079C677EB7E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtimes\Xin.Core\Xin.Core.vcxproj">
+      <Project>{561E1FED-95E6-4087-9451-6C49DED55C0D}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Xin.Skia\Xin.Skia.vcxproj">
+      <Project>{96155418-A8D4-4CBD-AE78-E42E6046A0FE}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

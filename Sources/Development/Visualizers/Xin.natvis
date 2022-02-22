@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="__m128">
+		<DisplayString>{m128_f32,na}</DisplayString>
+	</Type>
+	
+	<!--stl override-->
+	<Type Name="std::basic_string&lt;char8_t,*&gt;">
+		<Intrinsic Name="size" Expression="_Mypair._Myval2._Mysize" />
+		<Intrinsic Name="capacity" Expression="_Mypair._Myval2._Myres" />
+		<!--_BUF_SIZE = 16 / sizeof(char32_t) &lt; 1 ? 1 : 16 / sizeof(char32_t) == 16-->
+		<Intrinsic Name="bufSize" Expression="16" />
+		<Intrinsic Name="isShortString" Expression="capacity() &lt; bufSize()" />
+		<Intrinsic Name="isLongString" Expression="capacity() &gt;= bufSize()" />
+		<DisplayString Condition="isShortString()">{_Mypair._Myval2._Bx._Alias,s8}</DisplayString>
+		<DisplayString Condition="isLongString()">{*(char**)(&amp;(_Mypair._Myval2._Bx._Alias[0])),s8}</DisplayString>
+		<!--<DisplayString Condition="isLongString()">{{isLongString}}</DisplayString>-->
+	</Type>
+
+	<Type Name="std::basic_string_view&lt;char8_t,*&gt;">
+		<DisplayString>{*((char**)this),s8}</DisplayString>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">_Mysize</Item>
+			<ArrayItems>
+				<Size>_Mysize</Size>
+				<ValuePointer>*((char**)this)</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	
+	<!--Basic-->
+	<Type Name="Xin::ISharedRefer">
+		<DisplayString>{{{SharedRefer} refs}}</DisplayString>
+	</Type>
+	
+	<Type Name="Xin::TReferenceWrapper&lt;*&gt;">
+		<DisplayString>{Inner}</DisplayString>
+		<Expand>
+			<ExpandedItem>Inner</ExpandedItem>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TObject&lt;*&gt;">
+		<DisplayString>{{{ObjectName}, {StrongRefer} refs}}</DisplayString>
+		<StringView>ObjectName.Data,[ObjectName.Size]</StringView>
+	</Type>
+	<Type Name="Xin::FDateTime">
+		<DisplayString>{{{Year}-{Month}-{Day} {Hour}:{Minute}:{Second} {Millisecond}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FXmlDocument">
+		<DisplayString>{{[{FilePath}]}}</DisplayString>
+	</Type>
+	<Type Name="Xin::FXmlNode">
+		<DisplayString>{{[{DebugName}]}}</DisplayString>
+	</Type>
+	<Type Name="Xin::FXmlAttribute">
+		<DisplayString>{{{DebugName}={DebugValue}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FTypeEntry">
+		<DisplayString Condition="Identifier == 0">&lt;Unkown Type&gt;</DisplayString>
+		<DisplayString Condition="Identifier != 0">{(const void *)DebugType,na}</DisplayString>
+		<Expand>
+			<Item Name="Identifier">Identifier</Item>
+			<Item Name="DebugType">(const type_info *)DebugType</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::FTypeid">
+		<DisplayString>{Entry}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FMeta">
+		<DisplayString>{Name}</DisplayString>
+	</Type>
+
+	<!--<Type Name="Xin::TValueProperty&lt;*,*&gt;">
+		<DisplayString>ValueProperty {Name}</DisplayString>
+	</Type>-->
+
+	<Type Name="Xin::FNameSpace">
+		<DisplayString >{{{Name,na}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FNameEntry">
+		<DisplayString>{Name}</DisplayString>
+	</Type>
+	
+	<Type Name="Xin::FName">
+		<DisplayString Condition="NameEntry == 0">'NONAME'</DisplayString>
+		<DisplayString Condition="(uintptr_t(NameEntry) &amp; 1) == 0">{NameEntry,na}</DisplayString>
+		<DisplayString Condition="(uintptr_t(NameEntry) &amp; 1) != 0">{(INameEntry *)(uintptr_t(NameEntry) &amp; ~1),na}</DisplayString>
+		<Expand>
+			<Item Name="Nameid">Nameid</Item>
+			<Item Condition="(uintptr_t(NameEntry) &amp; 1) == 0" Name="NameEntry">NameEntry</Item>
+			<Item Condition="(uintptr_t(NameEntry) &amp; 1) != 0" Name="NameEntry">(INameEntry *)(uintptr_t(NameEntry) &amp; ~1)</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::FTextEntry">
+		<DisplayString>{Text}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FText">
+		<DisplayString Condition="TextEntry==nullptr">'nullptr'</DisplayString>
+		<DisplayString Condition="TextEntry!=nullptr">{TextEntry,na}</DisplayString>
+		<Expand>
+			<Item Name="Nameid">Nameid</Item>
+			<Item Name="TextEntry">TextEntry</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::FVector2">
+		<DisplayString>{{{X}, {Y}}}</DisplayString>
+		<Expand>
+			<Item Name="X">X</Item>
+			<Item Name="Y">Y</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::FVector3">
+		<DisplayString>{{{X}, {Y}, {Z}}}</DisplayString>
+		<Expand>
+			<Item Name="X">X</Item>
+			<Item Name="Y">Y</Item>
+			<Item Name="Z">Z</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::FVector4">
+		<DisplayString>{{{X}, {Y}, {Z}, {W}}}</DisplayString>
+		<Expand>
+			<Item Name="X">X</Item>
+			<Item Name="Y">Y</Item>
+			<Item Name="Z">Z</Item>
+			<Item Name="W">W</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::FQuat">
+		<DisplayString>{{{X}, {Y}, {Z}, {W}}}</DisplayString>
+		<Expand>
+			<Item Name="X">X</Item>
+			<Item Name="Y">Y</Item>
+			<Item Name="Z">Z</Item>
+			<Item Name="W">W</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TTransform3x2&lt;*&gt;">
+		<DisplayString>{{{Row0},{Row1},{Trans}}}</DisplayString>
+		<Expand>
+			<Item Name="[0]">Row0</Item>
+			<Item Name="[1]">Row1</Item>
+			<Item Name="[2]">Trans</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::FMatrix">
+		<DisplayString>{{{Row0},{Row1},{Row2},{Row3}}}</DisplayString>
+		<Expand>
+			<Item Name="[0]">Row0</Item>
+			<Item Name="[1]">Row1</Item>
+			<Item Name="[2]">Row2</Item>
+			<Item Name="[3]">Row3</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TOptional&lt;*&gt;">
+		<DisplayString Condition="HasValue == false">'noval'</DisplayString>
+		<DisplayString Condition="HasValue != false">{Value}</DisplayString>
+		<Expand>
+			<Item Name="HasValue">HasValue</Item>
+			<ExpandedItem Condition="HasValue">Value</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::FVariantKind">
+		<DisplayString Condition="(Value &amp; 1)">{Xin::EVariantKind::Adapter,en} {(Xin::IVariantAdapter *)(Value &amp; ~1),na}</DisplayString>
+		<DisplayString Condition="!(Value &amp; 1)">{Xin::EVariantKind(Value >> 1)}</DisplayString>
+		<Expand>
+			<Item Condition="(Value &amp; 1)" Name="Kind">Xin::EVariantKind::Adapter</Item>
+			<Item Condition="!(Value &amp; 1)" Name="Kind">Xin::EVariantKind(Value >> 1)</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TVariantAdapter&lt;*&gt;">
+		<DisplayString Condition="(Value &amp; 1)">{Value}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FVariant">
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::None">'noval'</DisplayString>
+
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Integer">{IntegerValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Float32">{Float32Value}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Float64">{Float64Value}</DisplayString>
+		
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2I">{Vec2IValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3I">{Vec3IValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4I">{Vec4IValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2U">{Vec2UValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3U">{Vec3UValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4U">{Vec4UValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2F">{Vec2FValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3F">{Vec3FValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4F">{Vec4FValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2D">{Vec2DValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3D">{Vec3DValue}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4D">{Vec4DValue}</DisplayString>
+		
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vector2">{Vector2Value}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vector3">{Vector3Value}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vector4">{Vector4Value}</DisplayString>
+		
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Name">{NameValue}N</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Text">{TextValue}T</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::String">{StringValue}</DisplayString>
+		
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::ReferPointer">{ReferPointerValue}}</DisplayString>
+		<DisplayString Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::ObjectPointer">{ObjectEntryValue}}</DisplayString>
+		
+		<DisplayString Condition="(Kind.Value &amp; 1)">{(Xin::IVariantAdapter *)(Kind.Value &amp; ~1),na}</DisplayString>
+		
+		<StringView Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::String">StringValue</StringView>
+
+		
+		<Expand>
+			<Item Name="Int64" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Integer">IntegerValue</Item>
+			<Item Name="Float32" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Float32">Float32Value</Item>
+			<Item Name="Float64" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Float64">Float64Value</Item>
+
+			<Item Name="Name" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Name">NameValue</Item>
+			<Item Name="Text" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Text">TextValue</Item>
+			
+			<Item Name="Vec2I" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2I">Vec2IValue</Item>
+			<Item Name="Vec3I" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3I">Vec3IValue</Item>
+			<Item Name="Vec4I" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4I">Vec4IValue</Item>
+			<Item Name="Vec2U" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2U">Vec2UValue</Item>
+			<Item Name="Vec3U" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3U">Vec3UValue</Item>
+			<Item Name="Vec4U" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4U">Vec4UValue</Item>
+			<Item Name="Vec2F" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2F">Vec2FValue</Item>
+			<Item Name="Vec3F" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3F">Vec3FValue</Item>
+			<Item Name="Vec4F" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4F">Vec4FValue</Item>
+			<Item Name="Vec2F" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec2D">Vec2DValue</Item>
+			<Item Name="Vec3F" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec3D">Vec3DValue</Item>
+			<Item Name="Vec4F" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vec4D">Vec4DValue</Item>
+			
+			<Item Name="Vector2" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vector2">Vector2Value</Item>
+			<Item Name="Vector3" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vector3">Vector3Value</Item>
+			<Item Name="Vector4" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Vector4">Vector4Value</Item>
+
+			<Item Name="Name" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Name">NameValue</Item>
+			<Item Name="Text" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::Text">TextValue</Item>
+			<Item Name="String" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::String">StringValue</Item>
+			
+			<Item Name="ReferPointer" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::ReferPointer">ReferPointerValue</Item>
+			<Item Name="ObjectPointer" Condition="!(Kind.Value &amp; 1) &amp;&amp; (Kind.Value >> 1)==Xin::EVariantKind::ObjectPointer">ObjectEntryValue</Item>
+
+			<Item Name="Adapter" Condition="(Kind.Value &amp; 1)">(Xin::IVariantAdapter *)(Kind.Value &amp; ~1)</Item>
+			<!--<Item Name="InlineValue" Condition="(Kind.Value &amp; 1)">InlineValue</Item>-->
+		</Expand>
+	</Type>
+	
+	<Type Name="Xin::TVec2&lt;*&gt;">
+		<DisplayString>{{{X}, {Y}}}</DisplayString>
+		<Expand>
+			<Item Name="X">X</Item>
+			<Item Name="Y">Y</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TVec3&lt;*&gt;">
+		<DisplayString>{{{X}, {Y}, {Z}}}</DisplayString>
+		<Expand>
+			<Item Name="X">X</Item>
+			<Item Name="Y">Y</Item>
+			<Item Name="Z">Z</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TVec4&lt;*&gt;">
+		<DisplayString>{{{X}, {Y}, {Z}, {W}}}</DisplayString>
+		<Expand>
+			<Item Name="X">X</Item>
+			<Item Name="Y">Y</Item>
+			<Item Name="Z">Z</Item>
+			<Item Name="W">W</Item>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TThickness&lt;*&gt;">
+		<DisplayString>{{{Left}, {Top}, {Right}, {Bottom}}}</DisplayString>
+		<Expand>
+			<Item Name="X">Left</Item>
+			<Item Name="Y">Top</Item>
+			<Item Name="Z">Right</Item>
+			<Item Name="W">Bottom</Item>
+		</Expand>
+	</Type>
+
+	<!--<Type Name="Xin::TVec4&lt;float&gt;">
+		<DisplayString>{{{X,g}, {Y,g}, {Z,g}, {W,g}}}</DisplayString>
+	</Type>-->
+
+	<Type Name="Xin::FColor">
+		<DisplayString>({int(X)},{int(Y)},{int(Z)},{int(W)})</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FGuid">
+		<DisplayString>{{{Data1,Xb}-{Data2,Xb}-{Data3,Xb}-{(unsigned short)((Data4[0]&lt;&lt;8) | Data4[1]),Xb}-{(unsigned short)((Data4[2]&lt;&lt;8) | Data4[3]),Xb}{(unsigned short)((Data4[4]&lt;&lt;8) | Data4[5]),Xb}{(unsigned short)((Data4[6]&lt;&lt;8) | Data4[7]),Xb}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::vec2&lt;*&gt;">
+		<DisplayString>{{{x}, {y}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::vec3&lt;*&gt;">
+		<DisplayString>{{{x}, {y}, {z}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::size&lt;*&gt;">
+		<DisplayString>{{{w}, {h}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::vec4&lt;*&gt;">
+		<DisplayString>{{({x},{y}), [{cx},{cy}]}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::Int128">
+		<DisplayString>({LowValue}, {HighValue})</DisplayString>
+	</Type>
+	<!--<Type Name="std::basic_string_view&lt;char8_t,*&gt;" Priority="High">
+    <DisplayString>{xxxx}</DisplayString>
+  </Type>-->
+
+	<!--<Type Name="std::basic_string_view&lt;char8_t,*&gt;">
+    <Intrinsic Name="size" Expression="_Mysize" />
+    <Intrinsic Name="data" Expression="_Mydata" />
+    <DisplayString>{_Mydata,[_Mysize]}</DisplayString>
+    <Expand>
+      <Item Name="[size]" ExcludeView="simple">size()</Item>
+      <ArrayItems>
+        <Size>size()</Size>
+        <ValuePointer>data()</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>-->
+
+	<Type Name="Xin::Atomic&lt;*&gt;">
+		<DisplayString>{Value}</DisplayString>
+	</Type>
+	<Type Name="Xin::TFlag&lt;*&gt;">
+		<DisplayString>{Value}</DisplayString>
+	</Type>
+	<Type Name="Xin::TDeleterDefault&lt;*&gt;">
+		<DisplayString>{{default delter}}</DisplayString>
+	</Type>
+	<Type Name="Xin::IObjectEntry">
+		<DisplayString>{SharedRefer} shared refs, {EntryRefer} entry refs</DisplayString>
+	</Type>
+	<Type Name="Xin::IObject" Inheritable="false">
+		<DisplayString Condition="ObjectEntry == nullptr">{Name} 'nullptr'</DisplayString>
+		<DisplayString Condition="ObjectEntry != nullptr">{Name}, [{ObjectEntry,na}]</DisplayString>
+	</Type>
+	<Type Name="Xin::TPointerPtr&lt;*&gt;">
+		<SmartPointer Usage="Minimal">Pointer</SmartPointer>
+		<DisplayString Condition="Pointer == nullptr">'nullptr'</DisplayString>
+		<DisplayString Condition="Pointer != nullptr" Optional="true">{Pointer->ObjectEntry,na}, {Pointer}</DisplayString>
+		<Expand>
+			<ExpandedItem Condition="Pointer != nullptr">Pointer</ExpandedItem>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TReferPtr&lt;*&gt;">
+		<SmartPointer Usage="Minimal">Pointer</SmartPointer>
+		<DisplayString Condition="Pointer == nullptr">'nullptr'</DisplayString>
+		<DisplayString Condition="Pointer != nullptr" Optional="true">{Pointer->ObjectEntry,na}, {Pointer}</DisplayString>
+		<Expand>
+			<ExpandedItem Condition="Pointer != nullptr">Pointer</ExpandedItem>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TObjectPtr&lt;*&gt;">
+		<SmartPointer Usage="Minimal">Entry->Pointer</SmartPointer>
+		<DisplayString Condition="Entry == nullptr">'nullptr'</DisplayString>
+		<DisplayString Condition="Entry != nullptr &amp;&amp; Entry->SharedRefer == 0">{Entry,na}, 'deleted'</DisplayString>
+		<DisplayString Condition="Entry != nullptr &amp;&amp; Entry->SharedRefer != 0">{Entry,na}, {Entry->Pointer}</DisplayString>
+		<Expand>
+			<ExpandedItem Condition="Entry != nullptr">Entry->Pointer</ExpandedItem>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TPointerReferencer&lt;*&gt;">
+		<SmartPointer Usage="Minimal">Pointer</SmartPointer>
+		<DisplayString>{SharedRefer}/{WeakRefer}(weak) refs, {Pointer}</DisplayString>
+	</Type>
+	<Type Name="Xin::TSharedPtr&lt;*&gt;">
+		<SmartPointer Usage="Minimal">Referencer->Pointer</SmartPointer>
+		<DisplayString Condition="Referencer==nullptr">'nullptr'</DisplayString>
+		<DisplayString Condition="Referencer!=nullptr">{Referencer,na}</DisplayString>
+		<Expand>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TWeakPtr&lt;*&gt;">
+		<SmartPointer Usage="Minimal">Referencer->Pointer</SmartPointer>
+		<DisplayString Condition="Referencer==nullptr">'nullptr'</DisplayString>
+		<DisplayString Condition="Referencer!=nullptr">{Referencer,na}</DisplayString>
+		<Expand>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TUniquePtr&lt;*,*&gt;">
+		<SmartPointer Usage="Minimal">Pointer</SmartPointer>
+		<DisplayString Condition="Pointer!=0">{Pointer}, {Deleter}</DisplayString>
+		<DisplayString Condition="Pointer==0">nullptr</DisplayString>
+	</Type>
+	<Type Name="Xin::TString&lt;*&gt;">
+		<DisplayString Condition="Length==0">""</DisplayString>
+		<DisplayString Condition="Length!=0">{Data,[Length]na}</DisplayString>
+		<StringView>Data,na</StringView>
+		<Expand>
+			<Synthetic Name="--->">
+				<DisplayString>{Length} char(s), Capacity={Capacity}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>Length</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<!--<Type Name="Xin::TString&lt;char8_t&gt;">
+		<DisplayString Condition="Size==0">NULL</DisplayString>
+		<DisplayString Condition="Size!=0">{DataPtr,s8}</DisplayString>
+		<StringView>Data,s8</StringView>
+		<Expand>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>DataCharPtr</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>-->
+
+	<Type Name="Xin::TSlice&lt;*&gt;" Priority="High">
+		<DisplayString Encoding="Ansi">Size={Size}, {Data,[Size]na}</DisplayString>
+		<StringView>Data,[Size]</StringView>
+		<Expand>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	
+	<Type Name="Xin::TView&lt;*&gt;" Priority="High">
+		<DisplayString Encoding="Ansi">{{Size={Size}, {Data,[Size]na}}}</DisplayString>
+		<StringView>Data,[Size]</StringView>
+		<Expand>
+			<Synthetic Name="----">
+				<DisplayString>Size={Size}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TView&lt;char&gt;" Priority="High">
+		<DisplayString Encoding="Ansi">{Data,[Size]s}</DisplayString>
+		<StringView>Data,[Size]s8</StringView>
+		<Expand>
+			<Synthetic Name="----">
+				<DisplayString>Size={Size}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TView&lt;wchar_t&gt;" Priority="High">
+		<DisplayString>{Data,[Size]su}</DisplayString>
+		<StringView>Data,[Size]su</StringView>
+		<Expand>
+			<Synthetic Name="----">
+				<DisplayString>Size={Size}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TView&lt;char8_t&gt;" Priority="High">
+		<DisplayString>{*(char **)this,[Size]s8}</DisplayString>
+		<StringView>*(char **)this,[Size]s8</StringView>
+		<Expand>
+			<Synthetic Name="----">
+				<DisplayString>Size={Size}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>*(char **)this,s8</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TView&lt;char16_t&gt;" Priority="High">
+		<DisplayString>{*(char16_t **)this,[Size]su}</DisplayString>
+		<StringView>*(char16_t **)this,[Size]su</StringView>
+		<Expand>
+			<Synthetic Name="----">
+				<DisplayString>Size={Size}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>*(char16_t **)this,su</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="Xin::TView&lt;char32_t&gt;" Priority="High">
+		<DisplayString>{*(char32_t **)this,[Size]s32}</DisplayString>
+		<StringView>*(char32_t **)this,[Size]s32</StringView>
+		<Expand>
+			<Synthetic Name="----">
+				<DisplayString>Size={Size}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>*(char32_t **)this,s32</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TTupleStorage&lt;.*&gt;,&lt;.*&gt;">
+		<DisplayString>{First}, {Second}</DisplayString>
+		<Expand>
+			<Item Name="First">First</Item>
+			<Item Name="Second">Second</Item>
+		</Expand>
+	</Type>
+
+	<!--<Type Name="Xin::TTuple&lt;*,*&gt;" Priority="High">
+		<DisplayString>[{First}] {Second}</DisplayString>
+		<Expand>
+			<Item Name="First">First</Item>
+			<Item Name="Second">Second</Item>
+		</Expand>
+	</Type>-->
+	<!--<Type Name="Xin::TTuple&lt;*, *&gt;" IncludeView="MapHelper">
+		<DisplayString>{Value}</DisplayString>
+		<Expand>
+			<Item Name="First">First</Item>
+			<Item Name="Second">Second</Item>
+		</Expand>
+	</Type>-->
+
+	<Type Name="Xin::FBitSet">
+		<DisplayString>{{Size={Size}}}</DisplayString>
+		<Expand>
+			<IndexListItems>
+				<Size>Size</Size>
+				<ValueNode>(Data[$i / sizeof(Data[0]) / 8] &gt;&gt; ($i % (sizeof(Data[0]) * 8))) &amp; 1,d</ValueNode>
+			</IndexListItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TArray&lt;*,*&gt;">
+		<DisplayString>Size={$T2}, {Data,na}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>$T2</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TView&lt;*&gt;">
+		<DisplayString Condition="Size == 0">&lt;Empty&gt;</DisplayString>
+		<DisplayString Condition="Size&gt;0">{{Size={Size}, {Data}}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TList&lt;*&gt;">
+		<DisplayString Condition="Size == 0">&lt;Empty&gt;</DisplayString>
+		<DisplayString Condition="Size&gt;0">{{Size={Size}}}</DisplayString>
+		<Expand>
+			<Item Name="Size">Size</Item>
+			<Item Name="Capacity">Capacity</Item>
+			<ArrayItems>
+				<Size>Size</Size>
+				<ValuePointer>Data</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TMap&lt;*&gt;" Priority="High">
+		<DisplayString>{{ Size={_Mypair._Myval2._Myval2._Mysize} }}</DisplayString>
+		<Expand>
+			<Item Name="[comparator]" ExcludeView="simple">_Mypair</Item>
+			<Item Name="[allocator]" ExcludeView="simple">_Mypair._Myval2</Item>
+			<TreeItems>
+				<Size>_Mypair._Myval2._Myval2._Mysize</Size>
+				<HeadPointer>_Mypair._Myval2._Myval2._Myhead-&gt;_Parent</HeadPointer>
+				<LeftPointer>_Left</LeftPointer>
+				<RightPointer>_Right</RightPointer>
+				<ValueNode Condition="_Isnil == 0" Name="[{_Myval.First}]">_Myval.Second,view(MapHelper)</ValueNode>
+			</TreeItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TMultiMap&lt;*&gt;">
+		<!--<AlternativeType Name="std::multimap&lt;*&gt;" />-->
+		<!--<AlternativeType Name="std::set&lt;*&gt;" />-->
+		<!--<AlternativeType Name="std::multiset&lt;*&gt;" />-->
+		<DisplayString>{{ size={_Mypair._Myval2._Myval2._Mysize} }}</DisplayString>
+		<Expand>
+			<Item Name="[comparator]" ExcludeView="simple">_Mypair</Item>
+			<Item Name="[allocator]" ExcludeView="simple">_Mypair._Myval2</Item>
+			<TreeItems>
+				<Size>_Mypair._Myval2._Myval2._Mysize</Size>
+				<HeadPointer>_Mypair._Myval2._Myval2._Myhead-&gt;_Parent</HeadPointer>
+				<LeftPointer>_Left</LeftPointer>
+				<RightPointer>_Right</RightPointer>
+				<ValueNode Condition="_Isnil == 0">_Myval</ValueNode>
+			</TreeItems>
+		</Expand>
+	</Type>
+
+	<Type Name="Xin::TPair&lt;*&gt;">
+		<DisplayString>[{First}, {Second}]</DisplayString>
+	</Type>
+
+	<Type Name="Xin::TFunction&lt;*&gt;">
+		<DisplayString Condition="Invoker==nullptr">'nullptr'</DisplayString>
+		<DisplayString Condition="Invoker!=nullptr">{*Invoker}</DisplayString>
+	</Type>
+	
+	<!--X2D Graphics-->
+	<Type Name="Xin::FFontFace">
+		<DisplayString>{FaceName}, {FontWeight,en}, {FontStyle,en}</DisplayString>
+	</Type>
+	
+	<Type Name="Xin::IFontFace">
+		<DisplayString>{{{FontFace}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FScriptCode">
+		<DisplayString>{ScriptName,na4}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FShapeRun">
+		<DisplayString>{String}, [{ScriptCode,en}, {BiDiLevel,en}], Text[{TextIndex},{TextIndex+TextLength}), Cluster[{ClusterIndex},{ClusterIndex+ClusterLength}), {FontFace.FontFace.FaceName}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FScriptCluster">
+		<DisplayString>{String}, Run[{RunIndex}], Text[{TextIndex},{TextIndex+TextLength}), Glyph[{GlyphIndex}, {GlyphIndex+GlyphLength}), {BreakCondition,en}, {Advance}</DisplayString>
+	</Type>
+	
+	<Type Name="Xin::FClusterRun">
+		<DisplayString>Line[{LineIndex}], {String}, Text[{TextIndex},{TextIndex+TextLength}), Cluster[{ClusterIndex},{ClusterIndex+ClusterLength}), Glyph[{GlyphIndex}, {GlyphIndex+GlyphLength}), {FontFace.FontFace.FaceName}, [{Position},{Size}]</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FLayoutLine">
+		<DisplayString>{String}, Run[{RunIndex},{RunIndex+RunLength}), Text[{TextIndex},{TextIndex+TextLength}), Cluster[{ClusterIndex},{ClusterIndex+ClusterLength})</DisplayString>
+	</Type>
+	
+	<!--Json-->
+	<Type Name="Xin::FJsonArray">
+		<DisplayString>Array {Items}</DisplayString>
+		<Expand>
+			<ExpandedItem>Items</ExpandedItem>
+		</Expand>
+	</Type>
+	<Type Name="Xin::FJsonObject">
+		<DisplayString>Object {Items}</DisplayString>
+		<Expand>
+			<ExpandedItem>Items</ExpandedItem>
+		</Expand>
+	</Type>
+	<!--<Type Name="Xin::TSet&lt;*,*&gt;">
+		<DisplayString>{{Size={_Mypair._Myval2._Myval2._Mysize}, Root={Anchor.Parent}}}</DisplayString>
+		<Expand>
+			--><!--<Item Name="&lt;Root&gt;">Anchor.Parent</Item>--><!--
+			<TreeItems>
+				<HeadPointer>Anchor.Parent</HeadPointer>
+				<LeftPointer>Left</LeftPointer>
+				<RightPointer>Right</RightPointer>
+				<ValueNode Name="{Item}">Item,view(MapHelper)</ValueNode>
+			</TreeItems>
+		</Expand>
+	</Type>-->
+
+	<Type Name="Xin::Core3D::FLambdaCommand&lt;*&gt;">
+		<DisplayString>{Name,na}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::TAttribute&lt;*&gt;">
+		<DisplayString>{Value}</DisplayString>
+	</Type>
+	<Type Name="Xin::FPath">
+		<DisplayString>{FilePath}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::FSolidBrush">
+		<DisplayString>{{SolidBrush {Color}}}</DisplayString>
+	</Type>
+
+
+	<Type Name="Xin::Windows::TCoMemPtr&lt;*&gt;">
+		<DisplayString>{Pointer,na}</DisplayString>
+		<Expand HideRawView="true">
+			<Item Name="-> Pointer">Pointer</Item>
+			<ExpandedItem>Pointer</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="_ITEMIDLIST">
+		<DisplayString>{(wchar_t*)(mkid.abID + 78),na}...</DisplayString>
+	</Type>
+
+
+	<Type Name="Xin::FGPUMemoryAllocator">
+		<DisplayString Condition="FirstNode == 0">Empty</DisplayString>
+		<DisplayString Condition="FirstNode != 0">{FirstNode}</DisplayString>
+		<Expand>
+			<LinkedListItems>
+				<HeadPointer>FirstNode</HeadPointer>
+				<NextPointer>Next</NextPointer>
+				<ValueNode>this,na</ValueNode>
+			</LinkedListItems>
+		</Expand>
+	</Type>
+	
+	<!--Render-->
+	<Type Name="Xin::Rendering::IRenderingObject">
+		<DisplayString>{{DebugName={DebugName}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::Rendering::FLocalAssetLoader">
+		<DisplayString>{{AssetsPath={AssetsPath}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::Engine::IAssetResource">
+		<DisplayString>{{{AssetPath}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::Rendering::FTransientResource">
+		<DisplayString>{{Resource={Resource}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::Engine::FEngineResource">
+		<DisplayString>{ResourceName}</DisplayString>
+	</Type>
+	<Type Name="Xin::Engine::FRGResource">
+		<DisplayString>[{Desc.Dimension,nvo}] {Semantic}</DisplayString>
+	</Type>
+	<Type Name="Xin::Engine::FRenderPass">
+		<DisplayString>{PassName}</DisplayString>
+	</Type>
+	<Type Name="Xin::Engine::FResourceParameter">
+		<DisplayString Condition="Resource != nullptr">{ReflectParameter->Name} -&gt; {Resource,na}</DisplayString>
+		<DisplayString Condition="ResourceView != nullptr">{ReflectParameter->Name} -&gt; {ResourceView,na}</DisplayString>
+		<DisplayString Condition="RGResource != nullptr">{ReflectParameter->Name} -&gt; {RGResource,na}</DisplayString>
+		<DisplayString Condition="RGResourceView != nullptr">{ReflectParameter->Name} -&gt; {RGResourceView,na}</DisplayString>
+		<DisplayString>{ReflectParameter->Name} -&gt; [Not Bound]</DisplayString>
+	</Type>
+
+	<Type Name="Xin::Node">
+		<DisplayString>{id}</DisplayString>
+	</Type>
+
+	<!--RHI-->
+	<Type Name="Xin::RHI::IRHIObject">
+		<DisplayString>{{DebugName={DebugName}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::RHI::FInputElement">
+		<DisplayString>Stream[{StreamIndex}], {SemanticName,en}[{SemanticIndex}] (+{ByteOffset})</DisplayString>
+	</Type>
+	<Type Name="Xin::RHI::FRHIRegisterIndex">
+		<DisplayString>{{{Index}, s{Space}}}</DisplayString>
+	</Type>
+	
+	<Type Name="Xin::RHI::IRHIConstBufferReflectParameter">
+		<DisplayString>[b{RegisterIndex}] {Name}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::RHI::IRHIShaderResourceReflectParameter">
+		<DisplayString>[t{RegisterIndex}] {Name}</DisplayString>
+	</Type>
+
+	<!--D3D12-->
+	<Type Name="Xin::RHI::D3D12::FD3D12MemoryBlock">
+		<DisplayString Condition="Location.Size == 0">&lt;Invalid&gt;</DisplayString>
+		<DisplayString Condition="MemoryPool == nullptr">[Standalone] {Location}</DisplayString>
+		<DisplayString Condition="LocateResource.Pointer != nullptr">[Located] {Location}</DisplayString>
+		<DisplayString Condition="LocateResource.Pointer == nullptr">[Placed] {Location}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::RHI::D3D12::FD3D12RootSignature::FParameter">
+		<DisplayString>{{{ShaderType} {Type} {RegisterIndex}, {DescriptorIndex}}}</DisplayString>
+	</Type>
+
+	<Type Name="Xin::RHI::D3D12::FD3D12ConstBuffer">
+		<DisplayString>{{ConstBuffer {MemoryBlock,na}}}</DisplayString>
+	</Type>
+	
+	<!--Rendering-->
+	<Type Name="Xin::Rendering::FRenderResources::FResource">
+		<DisplayString>{Parameter.Name} {RHIResource,na}</DisplayString>
+	</Type>
+
+</AutoVisualizer>

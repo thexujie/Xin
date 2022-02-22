@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E8618F89-2206-4796-9E7F-6E8CBB03F91A}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Asset\Asset.h" />
+    <ClInclude Include="Asset\Material.h" />
+    <ClInclude Include="Asset\StaticMesh.h" />
+    <ClInclude Include="Asset\Texture.h" />
+    <ClInclude Include="DrawCommand\DrawCommand.h" />
+    <ClInclude Include="DrawCommand\DrawCommandCollector.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Engine\MeshPrimitive.h" />
+    <ClInclude Include="Engine\Primitive.h" />
+    <ClInclude Include="Engine\RenderMesh.h" />
+    <ClInclude Include="Engine\Scene.h" />
+    <ClInclude Include="Engine\SceneView.h" />
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Pipeline\BasePassRendering.h" />
+    <ClInclude Include="Pipeline\DefferedSceneRenderer.h" />
+    <ClInclude Include="Pipeline\DepthRendering.h" />
+    <ClInclude Include="Pipeline\Pipeline.Types.h" />
+    <ClInclude Include="Pipeline\PostProcesses\Bloom.h" />
+    <ClInclude Include="Pipeline\PostProcesses\FXAA.h" />
+    <ClInclude Include="Pipeline\PostProcessRenderer.h" />
+    <ClInclude Include="Pipeline\RenderGraph.h" />
+    <ClInclude Include="Pipeline\RenderPass.h" />
+    <ClInclude Include="Pipeline\ShadowDepthRenderer.h" />
+    <ClInclude Include="Pipeline\SSAO.h" />
+    <ClInclude Include="World\Actor.h" />
+    <ClInclude Include="World\ActorComponent.h" />
+    <ClInclude Include="World\ActorController.h" />
+    <ClInclude Include="World\CameraComponent.h" />
+    <ClInclude Include="World\MeshComponent.h" />
+    <ClInclude Include="World\StaticMeshComponent.h" />
+    <ClInclude Include="World\World.h" />
+    <ClInclude Include="World\World.Types.h" />
+    <ClInclude Include="Xin.Engine.h" />
+    <ClInclude Include="Xin.Engine.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Asset\Material.cpp" />
+    <ClCompile Include="Asset\StaticMesh.cpp" />
+    <ClCompile Include="Asset\Texture.cpp" />
+    <ClCompile Include="DrawCommand\DrawCommand.cpp" />
+    <ClCompile Include="DrawCommand\DrawCommandCollector.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Engine\MeshPrimitive.cpp" />
+    <ClCompile Include="Engine\Primitive.cpp" />
+    <ClCompile Include="Engine\RenderMesh.cpp" />
+    <ClCompile Include="Engine\Scene.cpp" />
+    <ClCompile Include="Engine\SceneView.cpp" />
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Pipeline\BasePassRendering.cpp" />
+    <ClCompile Include="Pipeline\DefferedSceneRenderer.cpp" />
+    <ClCompile Include="Pipeline\DepthRendering.cpp" />
+    <ClCompile Include="Pipeline\Pipeline.Types.cpp" />
+    <ClCompile Include="Pipeline\PostProcesses\Bloom.cpp" />
+    <ClCompile Include="Pipeline\PostProcesses\FXAA.cpp" />
+    <ClCompile Include="Pipeline\PostProcessRenderer.cpp" />
+    <ClCompile Include="Pipeline\RenderGraph.cpp" />
+    <ClCompile Include="Pipeline\RenderPass.cpp" />
+    <ClCompile Include="Pipeline\ShadowDepthRenderer.cpp" />
+    <ClCompile Include="Pipeline\SSAO.cpp" />
+    <ClCompile Include="World\Actor.cpp" />
+    <ClCompile Include="World\ActorComponent.cpp" />
+    <ClCompile Include="World\ActorController.cpp" />
+    <ClCompile Include="World\CameraComponent.cpp" />
+    <ClCompile Include="World\MeshComponent.cpp" />
+    <ClCompile Include="World\StaticMeshComponent.cpp" />
+    <ClCompile Include="World\World.cpp" />
+    <ClCompile Include="Xin.Engine.cpp" />
+    <ClCompile Include="Xin.Engine.Types.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xin.Engine.Module.cs" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Xin.Base\Xin.Base.vcxproj">
+      <Project>{E014A50D-3F4D-4F15-8FB5-2079C677EB7E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Xin.Core\Xin.Core.vcxproj">
+      <Project>{561E1FED-95E6-4087-9451-6C49DED55C0D}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Xin.Rendering\Xin.Rendering.vcxproj">
+      <Project>{B8CD32B1-54A1-4F4A-85AA-0C00A832B8AE}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Xin.RHI\Xin.RHI.vcxproj">
+      <Project>{C9F6B307-2AFA-4F8C-A8BB-58BA69AD8A64}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

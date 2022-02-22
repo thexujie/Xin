@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<!--Pointers-->
+	<Type Name="Messiah::TRef&lt;*&gt;">
+		<DisplayString>{mObject}</DisplayString>
+		<Expand>
+			<ExpandedItem>mObject</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<!--Globals-->
+	<Type Name="Messiah::Guid">
+		<DisplayString>{{{(mUint8Array[0] &lt;&lt; 24) | (mUint8Array[1] &lt;&lt; 16)| (mUint8Array[2] &lt;&lt; 8)| mUint8Array[3],xb}-{(unsigned short)((mUint8Array[4] &lt;&lt; 8) | (mUint8Array[5] &lt;&lt; 0)),xb}-{(unsigned short)((mUint8Array[6] &lt;&lt; 8) | (mUint8Array[7] &lt;&lt; 0)),xb}-{(unsigned short)((mUint8Array[8] &lt;&lt; 8) | (mUint8Array[9] &lt;&lt; 0)),xb}-{(mUint8Array[10] &lt;&lt; 24) | (mUint8Array[11] &lt;&lt; 16)| (mUint8Array[12] &lt;&lt; 8) | mUint8Array[13],xb}{(unsigned short)((mUint8Array[14] &lt;&lt; 8) | (mUint8Array[15] &lt;&lt; 0)),xb}}}</DisplayString>
+		<!--<StringView>{{{(mUint8Array[0] &lt;&lt; 24) | (mUint8Array[1] &lt;&lt; 16)| (mUint8Array[2] &lt;&lt; 8)| mUint8Array[3],xb}-{(unsigned short)((mUint8Array[4] &lt;&lt; 8) | (mUint8Array[5] &lt;&lt; 0)),xb}-{(unsigned short)((mUint8Array[6] &lt;&lt; 8) | (mUint8Array[7] &lt;&lt; 0)),xb}-{(unsigned short)((mUint8Array[8] &lt;&lt; 8) | (mUint8Array[9] &lt;&lt; 0)),xb}-{(mUint8Array[10] &lt;&lt; 24) | (mUint8Array[11] &lt;&lt; 16)| (mUint8Array[12] &lt;&lt; 8) | mUint8Array[13],xb}{(unsigned short)((mUint8Array[14] &lt;&lt; 8) | (mUint8Array[15] &lt;&lt; 0)),xb}}}</StringView>-->
+	</Type>
+	<Type Name="Intrinsic::XMFLOAT3">
+		<DisplayString>{{{x}, {y}, {z}}}</DisplayString>
+	</Type>
+	<Type Name="Intrinsic::XMFLOAT4">
+		<DisplayString>{{{x}, {y}, {z}, {w}}}</DisplayString>
+	</Type>
+	<Type Name="Intrinsic::XMFLOAT4X3">
+		<DisplayString>{{{_11}, {_12}, {_13}, ...}}</DisplayString>
+		<Expand>
+			<Item Name="[0]">((Intrinsic::XMFLOAT3 *)this)[0]</Item>
+			<Item Name="[1]">((Intrinsic::XMFLOAT3 *)this)[1]</Item>
+			<Item Name="[2]">((Intrinsic::XMFLOAT3 *)this)[2]</Item>
+			<Item Name="[3]">((Intrinsic::XMFLOAT3 *)this)[3]</Item>
+		</Expand>
+	</Type>
+	<Type Name="Messiah::TVec3&lt;*&gt;">
+		<DisplayString>{{{x}, {y}, {z}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::TVec4&lt;*&gt;">
+		<DisplayString>{{{x}, {y}, {z}, {w}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::TMatrix4x3&lt;*&gt;">
+		<DisplayString>{{{m30}, {m31}, {m32}, ...}}</DisplayString>
+		<Expand>
+			<Item Name="[0]">((Messiah::TVec3&lt;$T1&gt; *)this)[0]</Item>
+			<Item Name="[1]">((Messiah::TVec3&lt;$T1&gt; *)this)[1]</Item>
+			<Item Name="[2]">((Messiah::TVec3&lt;$T1&gt; *)this)[2]</Item>
+			<Item Name="[3]">((Messiah::TVec3&lt;$T1&gt; *)this)[3]</Item>
+		</Expand>
+	</Type>
+	<Type Name="Messiah::TMatrix4x4&lt;*&gt;">
+		<DisplayString>{{{m00}, {m01}, {m02}, {m03}, ...}}</DisplayString>
+		<Expand>
+			<Item Name="[0]">((Messiah::TVec4&lt;$T1&gt; *)this)[0]</Item>
+			<Item Name="[1]">((Messiah::TVec4&lt;$T1&gt; *)this)[1]</Item>
+			<Item Name="[2]">((Messiah::TVec4&lt;$T1&gt; *)this)[2]</Item>
+			<Item Name="[3]">((Messiah::TVec4&lt;$T1&gt; *)this)[3]</Item>
+		</Expand>
+	</Type>
+	<Type Name="Messiah::Name">
+		<DisplayString>{mEntry->mName,na}</DisplayString>
+		<StringView>mEntry->mName,na</StringView>
+	</Type>
+	<Type Name="Messiah::IObject">
+		<DisplayString>{{{mName,na}, id={mObjectID}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::TObjectComponent&lt;*&gt;::ComponentSlot">
+		<DisplayString>{Component,na}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SpaceVolumeBase">
+		<DisplayString>{mPrimitive,na}</DisplayString>
+	</Type>
+	<!--Resources-->
+	<Type Name="Messiah::Package">
+		<DisplayString>{mFullPath}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ResourceObject">
+		<DisplayString>{mItem,na}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ResourceItem">
+		<DisplayString>{mType} {{{mPackage->mFullPath,sb}/{mAnnotation->mName,sb}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ModelResource">
+		<DisplayString>Model{{{mItem->mPackage->mFullPath,sb}:{mItem->mAnnotation->mName,sb}}}</DisplayString>
+	</Type>
+	<!--Components-->
+	<Type Name="Messiah::IComponent">
+		<DisplayString>{{{mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::IStoryboard">
+		<DisplayString>{{IStoryboard {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::IAppearanceComponent">
+		<DisplayString>{{IAppearanceComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ActorComponent">
+		<DisplayString>{{ActorComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::TachComponent">
+		<DisplayString>{{TachComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::CharCtrlComponent">
+		<DisplayString>{{CharCtrlComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::FilterComponent">
+		<DisplayString>{{FilterComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::BoardComponent">
+		<DisplayString>{{BoardComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::TerrainComponent">
+		<DisplayString>{{TerrainComponent [Chunk {_ChunkIndexStorage}], {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::AmbienceComponent">
+		<DisplayString>{{AmbienceComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::PhysicsSpaceDisplayerComponent">
+		<DisplayString>{{PhysicsSpaceDisplayerComponent {mName,na}, Parent={mParent,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ModelComponent">
+		<DisplayString>{{{mName,na}, Parent{mParent,na} {mModel.mPtr,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ResourceNameEnabled">
+		<DisplayString >{{{mResourceName,na}}}</DisplayString>
+	</Type>
+
+	<!--Primitives-->
+	<Type Name="Messiah::TerrainPrimitive">
+		<DisplayString>{{TerrainPrimitive={mTerrain,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::DensityFoliagePrimitive">
+		<DisplayString>{{Messiah::DensityFoliagePrimitive {mFoliage,na}}}</DisplayString>
+	</Type>
+
+	<!--Renderer-->
+	<Type Name="Messiah::SemanticConstantEntry">
+		<DisplayString>Semantic {Name,na}</DisplayString>
+	</Type>
+	<Type Name="Messiah::RenderScene">
+		<DisplayString>{mViewType}</DisplayString>
+		<Expand>
+			<LinkedListItems>
+				<HeadPointer>mHead</HeadPointer>
+				<NextPointer>Next</NextPointer>
+				<ValueNode>this,na</ValueNode>
+			</LinkedListItems>
+		</Expand>
+	</Type>
+	<Type Name="Messiah::RenderItemInfo">
+		<DisplayString>{{{Primitive,na}, Shading={Shading->mShader,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::RenderItem">
+		<DisplayString>{Info,na}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ShaderTechnique">
+		<DisplayString>{{{mCollection->mName,sb}.{mName,sb}}}, VS={mTechnique->mVertexShader,na}, PS={mTechnique->mPixelShader,na}</DisplayString>
+		<Expand>
+			<Item Name="Profile">mTechnique->mProfile</Item>
+			<Item Name="Collection">mCollection</Item>
+			<Item Name="VertexShader">mTechnique->mVertexShader</Item>
+			<Item Name="PixelShader">mTechnique->mPixelShader</Item>
+		</Expand>
+	</Type>
+	<Type Name="Messiah::ShadingState">
+		<DisplayString>ShadingState {mShader,na}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ShadingTechniqueMaterial">
+		<DisplayString>{mTechnique,na}</DisplayString>
+	</Type>
+	<Type Name="Messiah::Shader">
+		<DisplayString>{mTechnique.mPtr,na}</DisplayString>
+	</Type>
+
+	<!--Rendering-->
+	<Type Name="Messiah::IRenderNode">
+		<DisplayString>{{IRenderNode {mNodeName,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::IRenderPass">
+		<DisplayString>{{IRenderPass {mNodeName,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::PassTargetNode">
+		<DisplayString>{{{(Messiah::EPassTargetNodeStatus)mStatus}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::IShaderParameter">
+		<DisplayString>{{IShaderParameter {mName,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Symbol">
+		<DisplayString>{mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Definition">
+		<DisplayString>{mStructure->mName,na} -> {mName,na}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Frame">
+		<DisplayString>{mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Property">
+		<DisplayString>Property {mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Structure">
+		<DisplayString>Structure {mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Variable">
+		<DisplayString>Variable {mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Function">
+		<DisplayString>Function {mName.mObject->mText}</DisplayString>
+		<Expand>
+			<IndexListItems>
+				<Size>mParameters._Mypair._Myval2._Mylast- mParameters._Mypair._Myval2._Myfirst</Size>
+				<ValueNode>mParameters._Mypair._Myval2._Myfirst</ValueNode>
+			</IndexListItems>
+		</Expand>
+	</Type>
+	<Type Name="Messiah::SL::TextureObject">
+		<DisplayString>Texture {mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::SamplerObject">
+		<DisplayString>Sampler {mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Technique">
+		<DisplayString>Technique {mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::SL::Shader">
+		<DisplayString>{mFunction->mName.mObject->mText}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ShaderCollection">
+		<DisplayString>{{{mName}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::ShaderProfile">
+		<DisplayString>{{{mUint64Array[0]}}</DisplayString>
+		<Expand>
+			<Item Name="Platform">mUint64Array[0] &amp; ((1ull&lt;&lt;EShaderProfile_Platform0) | (1ull&lt;&lt;EShaderProfile_Platform1) | (1ull&lt;&lt;EShaderProfile_Platform2) | (1ull&lt;&lt;EShaderProfile_Platform3))</Item>
+
+			<Item Name="Feature0">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Feature0)</Item>
+			<Item Name="Fog">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Fog)</Item>
+			<Item Name="DeferredShading">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_DeferredShading)</Item>
+			<Item Name="HDR">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_HDR)</Item>
+			<Item Name="ENCODEHDR">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_ENCODEHDR)</Item>
+			<Item Name="CastSunShadow">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_CastSunShadow)</Item>
+			<Item Name="VolumetricFog">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_VolumetricFog)</Item>
+
+			<Item Name="SSS">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_SSS)</Item>
+			<Item Name="Ripple">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Ripple)</Item>
+			<Item Name="Weather">mUint64Array[0] &amp; ((1ull&lt;&lt;EShaderProfile_Weather0) | (1ull&lt;&lt;EShaderProfile_Weather1))</Item>
+			<Item Name="ShelterMapEnable">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_ShelterMapEnable)</Item>
+			<Item Name="EnvMapEnable">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_EnvMapEnable)</Item>
+			<Item Name="EnvArrayMapEnable">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_EnvArrayMapEnable)</Item>
+			<Item Name="SSR">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_SSR)</Item>
+			<Item Name="ReflectionMapEnable">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_ReflectionMapEnable)</Item>
+			<Item Name="Candela">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Candela)</Item>
+			<Item Name="LodLevel">(mUint64Array[0] &amp; ((1ull&lt;&lt;EShaderProfile_LodLevel0) | (1ull&lt;&lt;EShaderProfile_LodLevel1))) &gt;&gt; EShaderProfile_LodLevel0</Item>
+			<Item Name="Skinning">(mUint64Array[0] &amp; ((1ull&lt;&lt;EShaderProfile_Skinning0) | (1ull&lt;&lt;EShaderProfile_Skinning1))) &gt;&gt; EShaderProfile_Skinning0</Item>
+			<Item Name="Clipping">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Clipping)</Item>
+
+			<Item Name="Transparent">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Transparent)</Item>
+			<Item Name="NoFarPlaneClip">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_NoFarPlaneClip)</Item>
+			<Item Name="NoNearPlaneClip">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_NoNearPlaneClip)</Item>
+			<Item Name="Emissive">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Emissive)</Item>
+			<Item Name="Dissolving">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Dissolving)</Item>
+			<Item Name="Billboard">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Billboard)</Item>
+			<Item Name="IsMirror">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_IsMirror)</Item>
+			<Item Name="ReceiveDynamicShadow">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_ReceiveDynamicShadow)</Item>
+			<Item Name="LitCount">(mUint64Array[0] &amp; ((1ull&lt;&lt;EShaderProfile_LitCount0) | (1ull&lt;&lt;EShaderProfile_LitCount1))) &gt;&gt; EShaderProfile_LitCount0</Item>
+
+			<Item Name="Tangent">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Tangent)</Item>
+			<Item Name="VertexColor">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_VertexColor)</Item>
+			<Item Name="LightMap">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_LightMap)</Item>
+			<Item Name="UV3UV4">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_UV3UV4)</Item>
+			<Item Name="Instanced">mUint64Array[0] &amp; (1ull&lt;&lt;EShaderProfile_Instanced)</Item>
+
+			<Item Name="Debug">mUint64Array[0] &amp; ((1ull&lt;&lt;EShaderProfile_Debug0) | (1ull&lt;&lt;EShaderProfile_Debug1) | (1ull&lt;&lt;EShaderProfile_Debug2) | (1ull&lt;&lt;EShaderProfile_Debug3) | (1ull&lt;&lt;EShaderProfile_Debug4))</Item>
+		</Expand>
+	</Type>
+	<Type Name="Messiah::IGeometryBinding::SVertexStream">
+		<DisplayString>{{{Format}, Stride={Stride}}}</DisplayString>
+	</Type>
+	
+	<Type Name="Messiah::RenderScene">
+		<DisplayString>{{RenderScene {mViewType}}}</DisplayString>
+	</Type>
+
+	<!--constexpr-->
+	<Type Name="Messiah::constexpr_type">
+		<DisplayString>{_module}::{_name}</DisplayString>
+	</Type>
+
+	<Type Name="ConstExpr::constexpr_string_key">
+		<DisplayString>{Content,na}</DisplayString>
+	</Type>
+
+	<Type Name="Messiah::IType">
+		<DisplayString>{__type,nvo}</DisplayString>
+	</Type>
+
+	<Type Name="Messiah::IProperty">
+		<DisplayString>{_data._type} {_data._name}</DisplayString>
+	</Type>
+
+	<!--Animation-->
+	<Type Name="AnimationCore::RawBone">
+		<DisplayString>{identifier_}</DisplayString>
+		<StringView>identifier_</StringView>
+	</Type>
+	<Type Name="AnimationCore::Bone">
+		<DisplayString>{rawBone_->identifier_}</DisplayString>
+		<StringView>rawBone_->identifier_</StringView>
+	</Type>
+
+	<!--Graph-->
+	<Type Name="Character::Graph">
+		<DisplayString>{{Graph {resourceID_}}}</DisplayString>
+	</Type>
+	<Type Name="Character::BlendTree">
+		<DisplayString>{{BlendTree}}</DisplayString>
+	</Type>
+	<Type Name="Character::AIMouthShape">
+		<DisplayString>{{AIMouthShape}}</DisplayString>
+	</Type>
+	<Type Name="Character::StateMachine">
+		<DisplayString>{{StateMachine {data_->startNodeName_}}}</DisplayString>
+	</Type>
+
+	<!--DrawCall-->
+	<Type Name="Messiah::IPipelineState">
+		<DisplayString>{{PipelineState {mShader,na}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::IRenderScenePass::DrawCallCollection">
+		<DisplayString>{{ContextId={Context ? Context->mContextId : 9999}, RenderSet={(Messiah::ERenderSet)RenderSet}, TotalDrawcall={TotalDrawcall}, QueuedDrawcall={QueuedDrawcall}}}</DisplayString>
+	</Type>
+	<Type Name="Messiah::RenderDrawCall">
+		<DisplayString Condition="Item != nullptr">{Item->Info->Primitive,na}</DisplayString>
+	</Type>
+</AutoVisualizer>

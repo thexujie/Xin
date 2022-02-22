@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E014A50D-3F4D-4F15-8FB5-2079C677EB7E}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile />
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Basic\Affine.h" />
+    <ClInclude Include="Basic\Archive.h" />
+    <ClInclude Include="Basic\Array.h" />
+    <ClInclude Include="Basic\Basic.h" />
+    <ClInclude Include="Basic\Basic.Types.h" />
+    <ClInclude Include="Basic\Bind.h" />
+    <ClInclude Include="Basic\Bits.h" />
+    <ClInclude Include="Basic\Callable.h" />
+    <ClInclude Include="Basic\DoubleInterger.h" />
+    <ClInclude Include="Basic\Encoding.h" />
+    <ClInclude Include="Basic\Enumerable.h" />
+    <ClInclude Include="Basic\Event.h" />
+    <ClInclude Include="Basic\Format.h" />
+    <ClInclude Include="Basic\Formatter.h" />
+    <ClInclude Include="Basic\Fraction.h" />
+    <ClInclude Include="Basic\Function.h" />
+    <ClInclude Include="Basic\Guid.h" />
+    <ClInclude Include="Basic\HashMap.h" />
+    <ClInclude Include="Basic\KeyCode.h" />
+    <ClInclude Include="Basic\LinkedList.h" />
+    <ClInclude Include="Basic\List.h" />
+    <ClInclude Include="Basic\Locale.h" />
+    <ClInclude Include="Basic\Log.h" />
+    <ClInclude Include="Basic\Map.h" />
+    <ClInclude Include="Basic\Matrix.h" />
+    <ClInclude Include="Basic\Matrix3x3.h" />
+    <ClInclude Include="Basic\MultiMap.h" />
+    <ClInclude Include="Basic\Name.h" />
+    <ClInclude Include="Basic\Object.h" />
+    <ClInclude Include="Basic\Pair.h" />
+    <ClInclude Include="Basic\Pointer.h" />
+    <ClInclude Include="Basic\Quat.h" />
+    <ClInclude Include="Basic\Random.h" />
+    <ClInclude Include="Basic\Refer.h" />
+    <ClInclude Include="Basic\Set.h" />
+    <ClInclude Include="Basic\SharedPtr.h" />
+    <ClInclude Include="Basic\Stream.h" />
+    <ClInclude Include="Basic\Strings.h" />
+    <ClInclude Include="Basic\System.h" />
+    <ClInclude Include="Basic\Text.h" />
+    <ClInclude Include="Basic\Thickness.h" />
+    <ClInclude Include="Basic\Transform.h" />
+    <ClInclude Include="Basic\Tuple.h" />
+    <ClInclude Include="Basic\Typeid.h" />
+    <ClInclude Include="Basic\UniquePtr.h" />
+    <ClInclude Include="Basic\Utils.h" />
+    <ClInclude Include="Basic\Variant.h" />
+    <ClInclude Include="Basic\Vec2.h" />
+    <ClInclude Include="Basic\Vec3.h" />
+    <ClInclude Include="Basic\Vec4.h" />
+    <ClInclude Include="Basic\Vector2.h" />
+    <ClInclude Include="Basic\Vector3.h" />
+    <ClInclude Include="Basic\Vector4.h" />
+    <ClInclude Include="Basic\XMath.h" />
+    <ClInclude Include="Cryptography\MD5.h" />
+    <ClInclude Include="IO\Directory.h" />
+    <ClInclude Include="IO\File.h" />
+    <ClInclude Include="IO\FileStream.h" />
+    <ClInclude Include="IO\FileTransaction.h" />
+    <ClInclude Include="IO\IO.Types.h" />
+    <ClInclude Include="IO\MemoryStream.h" />
+    <ClInclude Include="IO\Path.h" />
+    <ClInclude Include="Meta\Attribute.h" />
+    <ClInclude Include="Meta\Class.h" />
+    <ClInclude Include="Meta\Enum.h" />
+    <ClInclude Include="Meta\Field.h" />
+    <ClInclude Include="Meta\Meta.h" />
+    <ClInclude Include="Meta\Method.h" />
+    <ClInclude Include="Meta\Property.h" />
+    <ClInclude Include="Meta\Type.h" />
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Platform\Platform.h" />
+    <ClInclude Include="Platform\Windows\Windows.h" />
+    <ClInclude Include="Platform\Windows\WindowsHeader.h" />
+    <ClInclude Include="Platform\Windows\WindowsTypes.h" />
+    <ClInclude Include="System\Console.h" />
+    <ClInclude Include="System\DateTime.h" />
+    <ClInclude Include="Types\Types.h" />
+    <ClInclude Include="Xin.Base.h" />
+    <ClInclude Include="Xin.Base.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Basic\Affine.cpp" />
+    <ClCompile Include="Basic\Basic.cpp" />
+    <ClCompile Include="Basic\Encoding.cpp" />
+    <ClCompile Include="Basic\Enumerable.cpp" />
+    <ClCompile Include="Basic\Event.cpp" />
+    <ClCompile Include="Basic\Format.cpp" />
+    <ClCompile Include="Basic\Formatter.cpp" />
+    <ClCompile Include="Basic\Guid.cpp" />
+    <ClCompile Include="Basic\Locale.cpp" />
+    <ClCompile Include="Basic\Log.cpp" />
+    <ClCompile Include="Basic\Matrix.cpp" />
+    <ClCompile Include="Basic\Matrix3x3.cpp" />
+    <ClCompile Include="Basic\Name.cpp" />
+    <ClCompile Include="Basic\Object.cpp" />
+    <ClCompile Include="Basic\Quat.cpp" />
+    <ClCompile Include="Basic\Random.cpp" />
+    <ClCompile Include="Basic\Stream.cpp" />
+    <ClCompile Include="Basic\Strings.cpp" />
+    <ClCompile Include="Basic\System.cpp" />
+    <ClCompile Include="Basic\Text.cpp" />
+    <ClCompile Include="Basic\Transform.cpp" />
+    <ClCompile Include="Basic\Typeid.cpp" />
+    <ClCompile Include="Basic\Variant.cpp" />
+    <ClCompile Include="Basic\Vector2.cpp" />
+    <ClCompile Include="Basic\Vector3.cpp" />
+    <ClCompile Include="Basic\Vector4.cpp" />
+    <ClCompile Include="Cryptography\MD5.cpp" />
+    <ClCompile Include="IO\Directory.cpp" />
+    <ClCompile Include="IO\File.cpp" />
+    <ClCompile Include="IO\FileStream.cpp" />
+    <ClCompile Include="IO\FileTransaction.cpp" />
+    <ClCompile Include="IO\Path.cpp" />
+    <ClCompile Include="Meta\Attribute.cpp" />
+    <ClCompile Include="Meta\Class.cpp" />
+    <ClCompile Include="Meta\Enum.cpp" />
+    <ClCompile Include="Meta\Field.cpp" />
+    <ClCompile Include="Meta\Meta.cpp" />
+    <ClCompile Include="Meta\Method.cpp" />
+    <ClCompile Include="Meta\Property.cpp" />
+    <ClCompile Include="Meta\Type.cpp" />
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\Windows.cpp" />
+    <ClCompile Include="System\Console.cpp" />
+    <ClCompile Include="System\DateTime.cpp" />
+    <ClCompile Include="Types\Types_Allcoator.cpp" />
+    <ClCompile Include="Types\Types_Atomic.cpp" />
+    <ClCompile Include="Types\Types_Hash.cpp" />
+    <ClCompile Include="Types\Types.cpp" />
+    <ClCompile Include="Xin.Base.cpp" />
+    <ClCompile Include="Xin.Base.Types.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="__Types\Basic\Name.inl" />
+    <None Include="__Types\Basic\Object.inl" />
+    <None Include="__Types\Basic\Strings.inl" />
+    <None Include="__Types\Basic\Text.inl" />
+    <None Include="__Types\Basic\Thickness.inl" />
+    <None Include="__Types\Basic\Vec2.inl" />
+    <None Include="__Types\Basic\Vec3.inl" />
+    <None Include="__Types\Basic\Vec4.inl" />
+    <None Include="__Types\Basic\Vector2.inl" />
+    <None Include="__Types\Basic\Vector3.inl" />
+    <None Include="__Types\Basic\Vector4.inl" />
+    <None Include="__Types\Meta\Type.inl" />
+    <None Include="__Types\System\DateTime.inl" />
+    <None Include="Types\Types_Algorithm.inl" />
+    <None Include="Types\Types_Allocator.inl" />
+    <None Include="Types\Types_Atomic.inl" />
+    <None Include="Types\Types_Flag.inl" />
+    <None Include="Types\Types_Hash.inl" />
+    <None Include="Types\Types_Math.inl" />
+    <None Include="Xin.Base.Module.cs" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Depends\cityhash\cityhash.vcxproj">
+      <Project>{39C66DEC-EF29-4706-BC9B-3A10F6305A99}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

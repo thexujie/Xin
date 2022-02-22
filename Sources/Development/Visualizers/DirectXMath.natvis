@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="__m128">
+		<DisplayString>{{{m128_f32[0]}, {m128_f32[1]}, {m128_f32[2]}, {m128_f32[3]}}}</DisplayString>
+		<Expand>
+			<Item Name="X">m128_f32[0]</Item>
+			<Item Name="Y">m128_f32[1]</Item>
+			<Item Name="Z">m128_f32[2]</Item>
+			<Item Name="W">m128_f32[3]</Item>
+		</Expand>
+	</Type>
+</AutoVisualizer>

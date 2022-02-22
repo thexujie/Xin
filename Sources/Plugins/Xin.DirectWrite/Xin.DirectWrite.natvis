@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="DWRITE_SHAPING_GLYPH_PROPERTIES">
+		<DisplayString>isClusterStart:{isClusterStart}, isDiacritic:{isDiacritic}, isZeroWidthSpace:{isZeroWidthSpace}</DisplayString>
+	</Type>
+	<Type Name="Xin::DWrite::FDWTextAnalysisSource">
+		<DisplayString>{String}</DisplayString>
+	</Type>
+	<Type Name="Xin::DWrite::FDWScriptRun">
+		<DisplayString>{ScriptCode,en}, {U16String}, Utf16[{Utf16Index}, {Utf16Index+Utf16Length})</DisplayString>
+	</Type>
+	<Type Name="Xin::DWrite::FDWGlyphRun">
+		<DisplayString>{String}, Text[{TextIndex}, {TextIndex+TextLength}), Glyph[{GlyphIndex}, {GlyphIndex + GlyphLength}], Utf16[{Utf16Index},{Utf16Index+Utf16Length}), Cluster[{ClusterIndex},{ClusterIndex+ClusterLength}), {ScriptCode}</DisplayString>
+	</Type>
+	
+	<Type Name="Xin::DWrite::FDWTextRun">
+		<DisplayString>Text:{{{TextIndex}, {TextIndex + TextLength}}}, Glyph:{{{GlyphIndex}, {GlyphIndex + GlyphLength}}}, {StringW}</DisplayString>
+	</Type>
+	<Type Name="Xin::DWrite::FDWFontFace">
+		<DisplayString>{{{FontFace}}}</DisplayString>
+	</Type>
+	<Type Name="Xin::DWrite::FDWFont">
+		<DisplayString>{{{FontFace}}}</DisplayString>
+	</Type>
+</AutoVisualizer>

@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Asset\Asset.h">
+      <Filter>Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Material.h">
+      <Filter>Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\StaticMesh.h">
+      <Filter>Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Texture.h">
+      <Filter>Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawCommand\DrawCommand.h">
+      <Filter>DrawCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawCommand\DrawCommandCollector.h">
+      <Filter>DrawCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Engine\MeshPrimitive.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Primitive.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RenderMesh.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SceneView.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Pipeline\BasePassRendering.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\DefferedSceneRenderer.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\DepthRendering.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\Pipeline.Types.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\PostProcesses\Bloom.h">
+      <Filter>Pipeline\PostProcesses</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\PostProcesses\FXAA.h">
+      <Filter>Pipeline\PostProcesses</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\PostProcessRenderer.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\RenderGraph.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\RenderPass.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\ShadowDepthRenderer.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline\SSAO.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Actor.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ActorComponent.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ActorController.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CameraComponent.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MeshComponent.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\StaticMeshComponent.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\World.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\World.Types.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Xin.Engine.h" />
+    <ClInclude Include="Xin.Engine.Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Asset\Material.cpp">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\StaticMesh.cpp">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Texture.cpp">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCommand\DrawCommand.cpp">
+      <Filter>DrawCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCommand\DrawCommandCollector.cpp">
+      <Filter>DrawCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Engine\MeshPrimitive.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Primitive.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\RenderMesh.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SceneView.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp" />
+    <ClCompile Include="Pipeline\BasePassRendering.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\DefferedSceneRenderer.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\DepthRendering.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Pipeline.Types.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\PostProcesses\Bloom.cpp">
+      <Filter>Pipeline\PostProcesses</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\PostProcesses\FXAA.cpp">
+      <Filter>Pipeline\PostProcesses</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\PostProcessRenderer.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\RenderGraph.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\RenderPass.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\ShadowDepthRenderer.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\SSAO.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Actor.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ActorComponent.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ActorController.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CameraComponent.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MeshComponent.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\StaticMeshComponent.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\World.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Xin.Engine.cpp" />
+    <ClCompile Include="Xin.Engine.Types.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xin.Engine.Module.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Asset">
+      <UniqueIdentifier>{0792685f-6354-47b6-898d-640d92d21163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DrawCommand">
+      <UniqueIdentifier>{d769523d-21fa-4872-a690-ade5a204df2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{e3e93d5c-abd5-4e12-9b34-75ad1abc47f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline">
+      <UniqueIdentifier>{2113ff0b-2b3b-4f24-8118-6ab5e710f164}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\PostProcesses">
+      <UniqueIdentifier>{1fdfce82-2b12-465d-8660-1ed7003e42e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{b52cc5f8-32d9-4037-b9cd-c2c360a9c217}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

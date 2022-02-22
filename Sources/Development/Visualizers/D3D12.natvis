@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="D3D12_DESCRIPTOR_RANGE1">
+		<DisplayString Condition="RangeType==0">{{{NumDescriptors} SRVs, [t{BaseShaderRegister}-t{BaseShaderRegister+NumDescriptors}]}}</DisplayString>
+		<DisplayString Condition="RangeType==1">{{{NumDescriptors} UAVs, [u{BaseShaderRegister}-u{BaseShaderRegister+NumDescriptors}]}}</DisplayString>
+		<DisplayString Condition="RangeType==1">{{{NumDescriptors} CBVs, [b{BaseShaderRegister}-b{BaseShaderRegister+NumDescriptors}]}}</DisplayString>
+		<DisplayString Condition="RangeType==3">{{{NumDescriptors} Samplers, [s{BaseShaderRegister}-s{BaseShaderRegister+NumDescriptors}]}}</DisplayString>
+	</Type>
+
+	<Type Name="D3D12_ROOT_PARAMETER1">
+		<DisplayString Condition="ParameterType==0">{{DescriptorTable, {DescriptorTable.NumDescriptorRanges} Ranges, {ShaderVisibility}, {DescriptorTable.pDescriptorRanges,[DescriptorTable.NumDescriptorRanges]na}}}</DisplayString>
+		<DisplayString Condition="ParameterType==2">{{ConstBuffer, {ShaderVisibility}, r{Descriptor.ShaderRegister}, {Descriptor.Flags}}}</DisplayString>
+		<DisplayString Condition="ParameterType==3">{{ShaderResource, {ShaderVisibility}, t{Descriptor.ShaderRegister}, {Descriptor.Flags}}}</DisplayString>
+		<Expand>
+			<Item Name="ParameterType">ParameterType</Item>
+			<Item Name="ShaderVisibility">ShaderVisibility</Item>
+
+			<ArrayItems Condition="ParameterType==0">
+				<Size>DescriptorTable.NumDescriptorRanges</Size>
+				<ValuePointer>DescriptorTable.pDescriptorRanges</ValuePointer>
+			</ArrayItems>
+			<ExpandedItem Condition="ParameterType==2">Descriptor</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="D3D12_VERSIONED_ROOT_SIGNATURE_DESC">
+		<DisplayString Condition="Version==2">[V1.1], {Desc_1_1.NumParameters} Parameters, {Desc_1_1.pParameters,[Desc_1_1.NumParameters]na}</DisplayString>
+		<Expand>
+			<!--<CustomListItems Condition="Version==2">-->
+			<!--</CustomListItems>-->
+			<IndexListItems>
+				<Size>Desc_1_1.NumParameters</Size>
+				<ValueNode>Desc_1_1.pParameters[$i]</ValueNode>
+			</IndexListItems>
+		</Expand>
+	</Type>
+
+	<Type Name="D3D12_ROOT_SIGNATURE_DESC1">
+		<DisplayString>{NumParameters} Parameters, {pParameters,[NumParameters]na}</DisplayString>
+		<Expand>
+			<Synthetic Name="Parameters">
+				<DisplayString>-------- {NumParameters} Parameters --------</DisplayString>
+			</Synthetic>
+			<IndexListItems>
+				<Size>NumParameters</Size>
+				<ValueNode>pParameters[$i]</ValueNode>
+			</IndexListItems>
+			<Synthetic Name="StaticSamplers">
+				<DisplayString>>-------- {NumStaticSamplers} StaticSamplers --------</DisplayString>
+			</Synthetic>
+			<IndexListItems>
+				<Size>NumStaticSamplers</Size>
+				<ValueNode>pStaticSamplers[$i]</ValueNode>
+			</IndexListItems>
+		</Expand>
+	</Type>
+</AutoVisualizer>
+

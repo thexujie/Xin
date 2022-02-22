@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<!--spine-->
+	<Type Name="spAnimation">
+		<DisplayString>{{{name,na}, duration={duration}}}</DisplayString>
+	</Type>
+	<Type Name="spTrackEntry">
+		<DisplayString>{{{animation,na}}}</DisplayString>
+	</Type>
+	<Type Name="spBoneData">
+		<DisplayString>{{[{index}] {name,na}}}</DisplayString>
+	</Type>
+	<Type Name="spBone">
+		<DisplayString>{{bone {data,na}, pos=({x},{y}), rot=({rotation}), scale=({scaleX},{scaleY})}}</DisplayString>
+		<!--<Expand HideRawView="false">
+			<Item Name="[this]">this</Item>
+			<Synthetic Name="[translation]">
+				<DisplayString>({x}, {y})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[rotation]">
+				<DisplayString>({rotation}, {wrotation})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[scale]">
+				<DisplayString>({scaleX}, {scaleY})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[wscale]">
+				<DisplayString>({wscaleX}, {wscaleY})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[shear]">
+				<DisplayString>({shearX}, {shearY})</DisplayString>
+			</Synthetic>
+		</Expand>-->
+	</Type>
+	<Type Name="spSlotData">
+		<DisplayString>{{[{index}] {name,na}}}</DisplayString>
+	</Type>
+	<Type Name="spSlot">
+		<DisplayString>{{slot {data,na}}}</DisplayString>
+	</Type>
+	<Type Name="spAnimationState">
+		<DisplayString>{{{tracksCount} tracks}, {(spine::SkeletonAnimation *)rendererObject,na}, {tracks,[tracksCount]na}}</DisplayString>
+		<Expand>
+			<Item Name="[animation]">(spine::SkeletonAnimation *)rendererObject</Item>
+			<ArrayItems>
+				<Size>tracksCount</Size>
+				<ValuePointer>tracks</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="_spAnimationState">
+		<DisplayString>{{{eventsCount} events}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>eventsCount</Size>
+				<ValuePointer>events</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="spSkin">
+		<DisplayString>{{skin {name,na}}}</DisplayString>
+	</Type>
+	<Type Name="spSkeletonData">
+		<DisplayString>{{{bonesCount} bones, {animationsCount} animations, {slotsCount} slots}}</DisplayString>
+		<Expand>
+			<Item Name="[version]">version,na</Item>
+			<Synthetic Name="[bones]">
+				<DisplayString>&gt; {bonesCount} bones</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>bonesCount</Size>
+						<ValuePointer>bones</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+			<Synthetic Name="[animations]">
+				<DisplayString>&gt; {animationsCount} animations</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>animationsCount</Size>
+						<ValuePointer>animations</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+			<Synthetic Name="[skins]">
+				<DisplayString>&gt; {skinsCount} skins</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>skinsCount</Size>
+						<ValuePointer>skins</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+			<Synthetic Name="[slots]">
+				<DisplayString>&gt; {slotsCount} slots</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>slotsCount</Size>
+						<ValuePointer>slots</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+	<Type Name="spSkeleton">
+		<DisplayString>{{{skin,na}, {data,na}}}</DisplayString>
+		<Expand>
+			<Item Name="[skin]">skin</Item>
+			<Item Name="[data]">data</Item>
+			<Synthetic Name="[bones]">
+				<DisplayString>&gt; {bonesCount} bones</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>bonesCount</Size>
+						<ValuePointer>bones,na</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+			<Synthetic Name="[drawOrders]">
+				<DisplayString>&gt; {slotsCount} drawOrder</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>slotsCount</Size>
+						<ValuePointer>drawOrder</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+
+	<Type Name="spAnimation">
+		<DisplayString>{{{name,na} {timelinesCount} timelines}}</DisplayString>
+		<Expand>
+			<Item Name="[duration]">duration</Item>
+			<Synthetic Name="[timelines]">
+				<DisplayString>&gt; {timelinesCount} timeline</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>timelinesCount</Size>
+						<ValuePointer>timelines</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+
+	<!--timeline-->
+	<Type Name="spTimeline">
+		<DisplayString>{{{type}}}</DisplayString>
+	</Type>
+	<Type Name="spFlipTimeline">
+		<DisplayString>{{{framesCount} frames}}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>framesCount</Size>
+				<ValuePointer>frames</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="spBaseTimeline">
+		<DisplayString Condition="super.super.type==SP_TIMELINE_TRANSLATE">{{{framesCount / 3} frames}</DisplayString>
+		<DisplayString Condition="super.super.type==SP_TIMELINE_ROTATE">{{{framesCount / 3} frames}</DisplayString>
+		<Expand>
+			<Item Name="[boneIndex]">boneIndex</Item>
+			<Item Name="[type]">super.super.type</Item>
+			<IndexListItems Condition="super.super.type==SP_TIMELINE_TRANSLATE">
+				<Size>framesCount / 3</Size>
+				<ValueNode>frames + $i * 3,[3]nag</ValueNode>
+			</IndexListItems>
+			<IndexListItems Condition="super.super.type==SP_TIMELINE_ROTATE">
+				<Size>framesCount / 3</Size>
+				<ValueNode>frames + $i * 3,[3]nag</ValueNode>
+			</IndexListItems>
+		</Expand>
+
+
+		<!--<CustomListItems Condition="super.super.type==SP_TIMELINE_TRANSLATE">
+				<Variable Name="FrameIndex" InitialValue="0"/>
+				<Size>framesCount</Size>
+				<Loop>
+					<If Condition="FrameIndex &lt; framesCount">
+						<Item Name="time [{FrameIndex}]">frames[FrameIndex]</Item>
+						<Item Name="xy [{FrameIndex}]">frames + FrameIndex * 3 + 1,[2]nag</Item>
+						<Exec>FrameIndex = FrameIndex + 1</Exec>
+					</If>
+				</Loop>
+			</CustomListItems>-->
+	</Type>
+	<Type Name="spAttachmentTimeline">
+		<DisplayString>{{{framesCount} frames}</DisplayString>
+		<Expand>
+			<Item Name="[slotIndex]">slotIndex</Item>
+			<ArrayItems>
+				<Size>framesCount</Size>
+				<ValuePointer>frames</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<!--inner-->
+	<Type Name="_spUpdate">
+		<DisplayString Condition="type==SP_UPDATE_BONE">{{[bone update] {((spBone*)object)->data,na}}}</DisplayString>
+		<Expand>
+			<Item Name="[bone]" Condition="type==SP_UPDATE_BONE">(spBone*)object</Item>
+		</Expand>
+	</Type>
+	<Type Name="_spSkeleton">
+		<DisplayString>{{{updateCacheCount} updateCaches, {super}}}</DisplayString>
+		<Expand>
+			<Item Name="[super]">super</Item>
+			<Synthetic Name="[updateCaches]">
+				<DisplayString>&gt; {updateCacheCount} updateCaches</DisplayString>
+				<Expand>
+					<ArrayItems>
+						<Size>updateCacheCount</Size>
+						<ValuePointer>updateCache</ValuePointer>
+					</ArrayItems>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+</AutoVisualizer>

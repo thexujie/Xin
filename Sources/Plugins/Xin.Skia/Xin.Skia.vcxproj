@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{96155418-A8D4-4CBD-AE78-E42E6046A0FE}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)Documents\Build\MSBuild\Cpp.Derived.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\Externals\skia\bin\x64d\skia.dll.lib;..\..\Externals\harfbuzz\bin\x64d\harfbuzz.lib;..\..\Externals\icu\bin\x64d\icudt.lib;..\..\Externals\icu\bin\x64d\icuucd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;..\..\Externals\harfbuzz\src\;..\..\Externals\icu\include\;..\..\Externals\skia\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\Externals\skia\bin\x64\skia.dll.lib;..\..\Externals\harfbuzz\bin\x64\harfbuzz.lib;..\..\Externals\icu\bin\x64\icudt.lib;..\..\Externals\icu\bin\x64\icuuc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="PCH.h" />
+    <ClInclude Include="Platform\Windows\WindowsSkiaPainter.h" />
+    <ClInclude Include="SkiaBitmap.h" />
+    <ClInclude Include="SkiaGraphics.h" />
+    <ClInclude Include="SkiaModule.h" />
+    <ClInclude Include="SkiaPainter.h" />
+    <ClInclude Include="SkiaPath.h" />
+    <ClInclude Include="SkiaShaper.h" />
+    <ClInclude Include="SkiaTypes.h" />
+    <ClInclude Include="Xin.Skia.h" />
+    <ClInclude Include="Xin.Skia.Private.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\WindowsSkiaPainter.cpp" />
+    <ClCompile Include="SkiaBitmap.cpp" />
+    <ClCompile Include="SkiaGraphics.cpp" />
+    <ClCompile Include="SkiaPainter.cpp" />
+    <ClCompile Include="SkiaPath.cpp" />
+    <ClCompile Include="SkiaShaper.cpp" />
+    <ClCompile Include="SkiaTypes.cpp" />
+    <ClCompile Include="Xin.Skia.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xin.Skia.Module.cs" />
+    <None Include="Xin.Skia.natvis" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Runtimes\Xin.Base\Xin.Base.vcxproj">
+      <Project>{E014A50D-3F4D-4F15-8FB5-2079C677EB7E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtimes\Xin.Core\Xin.Core.vcxproj">
+      <Project>{561E1FED-95E6-4087-9451-6C49DED55C0D}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

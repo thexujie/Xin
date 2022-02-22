@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<!--Basic Containers-->
+	<Type Name="cocos2d::Vector&lt;*&gt;">
+		<!--<Intrinsic Name="size" Expression="_data._Mypair._Myval2._Mylast - _data._Mypair._Myval2._Myfirst" />
+		<Intrinsic Name="capacity" Expression="_data._Mypair._Myval2._Myend - _data._Mypair._Myval2._Myfirst" />
+		<DisplayString>{{ size={size()} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>size()</Size>
+				<ValuePointer>_data._Mypair._Myval2._Myfirst</ValuePointer>
+			</ArrayItems>
+		</Expand>-->
+		<DisplayString>_data</DisplayString>
+		<Expand>
+			<ExpandedItem>_data, view(simple)</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<!--timeline-->
+	<Type Name="cocostudio::timeline::Timeline">
+		<DisplayString>{{timeline::Timeline [{_fromIndex}, {_toIndex}], {_frames._data._Mypair._Myval2._Mylast - _frames._data._Mypair._Myval2._Myfirst} frames, -&gt;{_node,na}}}</DisplayString>
+		<Expand HideRawView="false">
+			<Item Name="[node]">_node</Item>
+			<Synthetic Name="[time]">
+				<DisplayString>({_fromIndex},{_toIndex})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[frames]" Expression="_frames">
+				<DisplayString>&gt; {_frames._data._Mypair._Myval2._Mylast - _frames._data._Mypair._Myval2._Myfirst} frames</DisplayString>
+				<Expand>
+					<ExpandedItem>_frames</ExpandedItem>
+					<!--<ArrayItems>
+						<Size>_frames._data._Mypair._Myval2._Mylast - _frames._data._Mypair._Myval2._Myfirst</Size>
+						<ValuePointer>_frames._data._Mypair._Myval2._Myfirst</ValuePointer>
+					</ArrayItems>-->
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+	<Type Name="cocostudio::timeline::ActionTimeline">
+		<DisplayString>{{timeline::ActionTimeline [{_startFrame},{_endFrame}, loop?{_loop}] [{_time}]}}}</DisplayString>
+	</Type>
+	<Type Name="cocostudio::timeline::Frame">
+		<DisplayString>{{timeline::Frame [{_frameIndex}] -&gt;{_node,na}}}</DisplayString>
+	</Type>
+	<Type Name="cocostudio::timeline::PositionFrame">
+		<DisplayString>{{timeline::PositionFrame [{_frameIndex}] -&gt;{_node,na}}}</DisplayString>
+	</Type>
+
+	<!--Node-->
+	<!--<Type Name="cocos2d::Vector&lt;cocos2d::Node *&gt;">
+		<Intrinsic Name="size" Expression="_data._Mypair._Myval2._Mylast - _data._Mypair._Myval2._Myfirst" />
+		<Intrinsic Name="capacity" Expression="_data._Mypair._Myval2._Myend - _data._Mypair._Myval2._Myfirst" />
+		<Expand>
+			<ArrayItems>
+				<Size>size()</Size>
+				<ValuePointer>_data._Mypair._Myval2._Myfirst, view(recursive)</ValuePointer>
+			</ArrayItems>
+			<IndexListItems>
+				<Size>size()</Size>
+				<ValueNode>_data._Mypair._Myval2._Myfirst[$i]->_children, view(recursive)</ValueNode>
+			</IndexListItems>
+		</Expand>
+	</Type>-->
+
+	<Type Name="cocos2d::Node">
+		<Intrinsic Name="GetChildrenCount" Expression="_children._data._Mypair._Myval2._Mylast - _children._data._Mypair._Myval2._Myfirst" />
+		<DisplayString>{{{_name}, {GetChildrenCount()} child nodes}}</DisplayString>
+		<Expand>
+			<Item Name="[parent]" ExcludeView="simple">_parent</Item>
+			<Item Name="[filename]" Condition="_filename._Mypair._Myval2._Mysize != 0" ExcludeView="simple">_filename</Item>
+			<Synthetic Name="[children]" Optional="true">
+				<Expand>
+					<ExpandedItem>_children, view(simple)</ExpandedItem>
+				</Expand>
+			</Synthetic>
+			<Synthetic Name="[all child nodes]" Optional="true">
+				<DisplayString>&gt; all child nodes (Depth first search)</DisplayString>
+				<Expand>
+					<CustomListItems MaxItemsPerView="512">
+						<Variable Name="CurrentNode" InitialValue="_children._data._Mypair._Myval2._Myfirst[0]" />
+						<Variable Name="ParentChildrenCount" InitialValue="0"/>
+						<Variable Name="IterNode" InitialValue="_children._data._Mypair._Myval2._Myfirst"/>
+						<Variable Name="IterNode2" InitialValue="_children._data._Mypair._Myval2._Myfirst"/>
+						<Loop Condition="CurrentNode != this">
+							<!--Recalculate node index-->
+							<Exec>IterNode2 = CurrentNode->_parent->_children._data._Mypair._Myval2._Myfirst</Exec>
+							<Loop Condition="IterNode2 != CurrentNode->_parent->_children._data._Mypair._Myval2._Mylast">
+								<If Condition="(*IterNode2) == CurrentNode">
+									<Break />
+								</If>
+								<Exec>++IterNode2</Exec>
+							</Loop>
+
+							<Item Name="{CurrentNode->_parent->_name}[{IterNode2 - CurrentNode->_parent->_children._data._Mypair._Myval2._Myfirst}] ">CurrentNode</Item>
+							<If Condition="CurrentNode->_children._data._Mypair._Myval2._Mylast - CurrentNode->_children._data._Mypair._Myval2._Myfirst &gt; 0">
+								<Exec>CurrentNode = CurrentNode->_children._data._Mypair._Myval2._Myfirst[0]</Exec>
+							</If>
+							<Else>
+								<Loop Condition="CurrentNode != this">
+									<Exec>ParentChildrenCount = CurrentNode->_parent->_children._data._Mypair._Myval2._Mylast - CurrentNode->_parent->_children._data._Mypair._Myval2._Myfirst</Exec>
+									<If Condition="CurrentNode != CurrentNode->_parent->_children._data._Mypair._Myval2._Myfirst[ParentChildrenCount - 1]">
+										<Exec>IterNode = CurrentNode->_parent->_children._data._Mypair._Myval2._Myfirst</Exec>
+										<Loop Condition="IterNode != CurrentNode->_parent->_children._data._Mypair._Myval2._Mylast">
+											<If Condition="(*IterNode) == CurrentNode">
+												<Exec>CurrentNode = *(IterNode + 1)</Exec>
+												<Break />
+											</If>
+											<Exec>++IterNode</Exec>
+										</Loop>
+										<Break />
+									</If>
+									<Else>
+										<Exec>CurrentNode = CurrentNode->_parent</Exec>
+									</Else>
+								</Loop>
+							</Else>
+						</Loop>
+					</CustomListItems>
+				</Expand>
+			</Synthetic>
+		</Expand>
+	</Type>
+
+	<Type Name="cocos2d::Layer">
+		<DisplayString>{{Layer {_name}}}</DisplayString>
+		<!--<Expand>
+			<ExpandedItem>(cocos2d::Node *)this</ExpandedItem>
+		</Expand>-->
+	</Type>
+
+	<!--UI-->
+	<!--<Type Name="cocos2d::ui::ScrollView" Inheritable="false">
+		<DisplayString>{{ui::ScrollView { (cocos2d::Node *)this,na}}</DisplayString>
+	</Type>
+	<Type Name="cocos2d::ui::ImageView">
+		<DisplayString>{{ui::ImageView}}</DisplayString>
+	</Type>-->
+</AutoVisualizer>
