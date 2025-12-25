@@ -1732,6 +1732,4 @@ namespace Xin
 
 	template<typename T>
 	inline TOptional<T> TOptional<T>::None;
-
-	static_assert(IsOperatorCastableToV<TOptional<int32>, FVariant>);
 }

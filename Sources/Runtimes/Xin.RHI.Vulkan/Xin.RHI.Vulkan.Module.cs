@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using ProjectModel;
 
@@ -14,13 +15,17 @@ public class Module : IModule
 
         PublicDependencyModules.AddRange(new[] { "Core", "Windows", "RHI", "ShaderCompiler" });
 
+        string VulkanSDKRoot = Environment.GetEnvironmentVariable("VULKAN_SDK");
         //AdditionalFiles.Add(Path.Combine(LLVMRoot, "llvm\\utils\\LLVMVisualizers\\llvm.natvis"));
         //AdditionalFiles.Add(Path.Combine(LLVMRoot, "clang\\utils\\ClangVisualizers\\clang.natvis"));
 
-        PrivateIncludePaths.Add(Path.Combine(VulkanSDKRoot, "Include"));
-        PrivateLibraryPaths.Add(Path.Combine(VulkanSDKRoot, "Lib"));
+		if(!string.IsNullOrEmpty(VulkanSDKRoot))
+		{
+			Console.WriteLine($"Using VULKAN_SDK: \"{VulkanSDKRoot}\"");
+			PrivateIncludePaths.Add(Path.Combine(VulkanSDKRoot, "Include"));
+			PrivateLibraryPaths.Add(Path.Combine(VulkanSDKRoot, "Lib"));
+		}
 		
-		
-        PrivateLibraries.Add("vulkan-1.lib");
+		PrivateLibraries.Add("vulkan-1.lib");
     }
 }

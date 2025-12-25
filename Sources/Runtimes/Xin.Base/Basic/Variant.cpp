@@ -6,6 +6,8 @@
 
 namespace Xin
 {
+	static_assert(IsOperatorCastableToV<TOptional<int32>, FVariant>);
+
 	FVariant FVariant::None;
 
 	const FType & FVariant::Type() const
