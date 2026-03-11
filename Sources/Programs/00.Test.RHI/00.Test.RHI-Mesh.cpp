@@ -214,7 +214,7 @@ int TestRHI_Mesh(FEngine & Engine)
 				CommandList.EndPass();
 			}
 			CommandList.ResourceAccess(BackBuffer, EResourceAccess::Present);
-			CommandList.Flush();
+			CommandList.Finish();
 
 			Viewport->EndFrame();
 		}

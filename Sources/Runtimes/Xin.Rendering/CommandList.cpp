@@ -22,22 +22,9 @@ namespace Xin::Rendering
 		RHICommandList = nullptr;
 	}
 
-	void FCommandList::Execute()
-	{
-		Executor.Execute(*this);
-
-		for (FRHIMemory & InflightMemoryBlock : InflightMemoryBlocks)
-			Executor.FenceMemoryBlock(InflightMemoryBlock);
-		InflightMemoryBlocks.Clear();
-
-		for (IRHIResourceRef & InflightResource : InflightResources)
-			Executor.FenceResource(InflightResource);
-		InflightResources.Clear();
-	}
-
 	void FCommandList::Flush()
 	{
-		Executor.Flush(*this);
+		Executor.Execute(*this);
 
 		for (FRHIMemory & InflightMemoryBlock : InflightMemoryBlocks)
 			Executor.FenceMemoryBlock(InflightMemoryBlock);
@@ -118,7 +105,7 @@ namespace Xin::Rendering
 		{
 			FCommandList CommandList(Executor);
 			CommandList.UpdateBuffer(Resource, InitialBytes);
-			CommandList.Execute();
+			CommandList.Flush();
 		}
 
 		InflightResources.Add(Resource);

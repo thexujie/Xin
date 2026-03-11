@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="FRayTracingGeometryInstance22">
+		<DisplayString>{{GeometryRHI={GeometryRHI,na}, {NumTransforms} Transforms}}</DisplayString>
+	</Type>
+	<Type Name="FD3D12RayTracingGeometry">
+		<DisplayString>{{{DebugName}, {Segments.ArrayNum} Segments}}</DisplayString>
+	</Type>
+
+	<Type Name="FD3D12RayTracingShader">
+		<DisplayString>{{SF_RayGen {EntryPoint}, Hash={Hash}}}</DisplayString>
+	</Type>
 </AutoVisualizer>
 

@@ -73,7 +73,7 @@ int TestRHI_Texture(FEngine & Engine)
 	float4 Color = { 1, 1, 1, 1 };
 	IRHIResourceRef PixelParameters = CommandExecutor.CreateBuffer(FBufferDesc { sizeof(float4), EResourceUsage::UniformBuffer | EResourceUsage::HostWrite }, ViewBytes(Color));
 
-	CommandList.Execute();
+	CommandList.Flush();
 
 	float64 Time = FDateTime::Steady();
 	MSG msg = {};
@@ -119,7 +119,7 @@ int TestRHI_Texture(FEngine & Engine)
 					CommandList.EndPass();
 				}
 				CommandList.ResourceAccess(BackBuffer, EResourceAccess::Present);
-				CommandList.Execute();
+				CommandList.Flush();
 				Viewport->EndFrame();
 			}
 			Viewport->EndFrame();

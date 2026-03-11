@@ -9,16 +9,6 @@ namespace Xin::Engine
 		if (!Resource)
 			return;
 
-		if (ResourceLoad == EResourceLoad::None)
-		{
-			if (ResourceAccess & EResourceAccess::SampledTexture)
-				ResourceLoad = EResourceLoad::Load;
-			else if (ResourceAccess & EResourceAccess::DepthRead)
-				ResourceLoad = EResourceLoad::Load;
-			else
-				ResourceLoad = EResourceLoad::Discard;
-		}
-
 		Resource->ResourceAccess |= ResourceAccess;
 		if (!Resource->InitialPass)
 			Resource->InitialPass = &RenderPass;

@@ -22,19 +22,23 @@ namespace Xin::UI
 	{
 	public:
 		FResourceTable() = default;
+		FResourceTable(TInitializerList<TReferPtr<FResourceTable>> ResourceLists);
 		~FResourceTable() = default;
 
-		IResourceRef FindResource(FName Name, const FType & ResourceType = FType::None);
+		IResourceRef FindResource(FName Name, const FType & ResourceType = FType::None) const;
 
 		template<DerivedOfC<IResource> T>
-		TReferPtr<T> FindResourceT(FName Name)
+		TReferPtr<T> FindResourceT(FName Name) const
 		{
 			return StaticCast<T>(FindResource(Name), Typeof<T>());
 		}
 
 	public:
 		TList<IResourceRef> Resources;
-		TList<TReferPtr<FResourceTable>> Tables;
+		TList<TReferPtr<FResourceTable>> ResourceLists;
+
+	public:
+		static TReferPtr<FResourceTable> Default();
 	};
 
 	using FResourceTableRef = TReferPtr<FResourceTable>;

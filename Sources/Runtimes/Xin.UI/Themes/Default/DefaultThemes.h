@@ -13,6 +13,5 @@
 
 namespace Xin::UI::Themes::Default
 {
-	UI_API TList<IResourceRef> LoadDefaultThemesResources();
 }
 

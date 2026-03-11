@@ -9,10 +9,6 @@
 
 void InitialWindow_Atlas(UWindow & Window)
 {
-	FResourceTableRef GlobalResourceSheet = MakeRefer<FResourceTable>();
-
-	GlobalResourceSheet->Resources.AddRange(Themes::Default::LoadDefaultThemesResources());
-
 	Window.Title = u8"Samples 00"T;
 	Window.WindowShowPosition = EWindowShowPosition::ScreenCenter;
 
@@ -31,11 +27,8 @@ void InitialWindow_Atlas(UWindow & Window)
 	PopupWindow.ToolTip = u8"测试一下"T;
 	PopupWindow[FToolTip::PlacementProperty()] = EPopupPosition::Cursor;
 
-	Window.ResourceTable.Tables.Add(GlobalResourceSheet);
-
 	PopupWindow.MouseDown += [&](const FMouseButtonEventArgs & Args) { /*PopupWindow.Close();*/ };
 	//PopupWindow.Content = u8"这是一个弹出窗口"T;
-	PopupWindow.ResourceTable.Tables.Add(GlobalResourceSheet);
 
 	UButtonRef PopupCloseButton;
 	PopupWindow.Content = StackPanel(

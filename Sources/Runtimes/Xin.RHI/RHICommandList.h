@@ -74,7 +74,6 @@ namespace Xin::RHI
 		virtual void BeginCommand(IRHICommandQueue * CommandQueue) = 0;
 		virtual void EndCommand(IRHICommandQueue * CommandQueue) = 0;
 		virtual void ExecuteCommands(IRHICommandQueue * CommandQueue) = 0;
-		virtual void FlushCommands(IRHICommandQueue * CommandQueue) = 0;
 
 	public:
 		virtual FFrameStatics GetFrameStatics() const = 0;

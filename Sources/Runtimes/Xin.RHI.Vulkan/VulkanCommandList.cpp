@@ -51,6 +51,7 @@ namespace Xin::RHI::Vulkan
 
 	void FVulkanCommandList::EndCommand(IRHICommandQueue * CommandQueue)
 	{
+		AssertExpr(NumCommands == 0);
 		AssertExpr(vkCommandBuffer);
 		AssertExpr(CommandAllocator);
 
@@ -65,7 +66,7 @@ namespace Xin::RHI::Vulkan
 		CommandAllocator = nullptr;
 	}
 
-	void FVulkanCommandList::FlushCommands(IRHICommandQueue * CommandQueue)
+	void FVulkanCommandList::ExecuteCommands(IRHICommandQueue* CommandQueue)
 	{
 		FlushBarriers();
 
@@ -76,59 +77,7 @@ namespace Xin::RHI::Vulkan
 
 		vkEndCommandBuffer(vkCommandBuffer);
 
-		FVulkanCommandQueue & VulkanCommandQueue = StaticCastRef<FVulkanCommandQueue>(CommandQueue);
-
-		VkSubmitInfo2 SubmitInfo2 { VK_STRUCTURE_TYPE_SUBMIT_INFO_2 };
-
-		VkCommandBufferSubmitInfo CommandBufferSubmitInfo { VK_STRUCTURE_TYPE_COMMAND_BUFFER_SUBMIT_INFO };
-		{
-			CommandBufferSubmitInfo.commandBuffer = vkCommandBuffer;
-			CommandBufferSubmitInfo.deviceMask = 0;
-		}
-
-		VkSemaphoreSubmitInfo TimelineSemaphoreSubmitInfo { VK_STRUCTURE_TYPE_SEMAPHORE_SUBMIT_INFO };
-		{
-			TimelineSemaphoreSubmitInfo.pNext = NULL;
-			TimelineSemaphoreSubmitInfo.semaphore = VulkanCommandQueue.QueueFence.vkSemaphore;
-			TimelineSemaphoreSubmitInfo.value = ++VulkanCommandQueue.QueueFence.SignalValue;
-			TimelineSemaphoreSubmitInfo.stageMask = VK_PIPELINE_STAGE_2_ALL_GRAPHICS_BIT;
-		}
-		SubmitInfo2.commandBufferInfoCount = 1;
-		SubmitInfo2.pCommandBufferInfos = &CommandBufferSubmitInfo;
-		SubmitInfo2.signalSemaphoreInfoCount = 1;
-		SubmitInfo2.pSignalSemaphoreInfos = &TimelineSemaphoreSubmitInfo;
-
-		VkResult Result = vkQueueSubmit2(VulkanCommandQueue.PrimaryQueue, 1, &SubmitInfo2, VK_NULL_HANDLE);
-
-		VulkanCommandQueue.FenceCommandBuffer(vkCommandBuffer, CommandAllocator);
-		VulkanCommandQueue.FenceCommandAllocator(CommandAllocator);
-
-		CommandAllocator = VulkanDevice.AcquireCommandAllocator();
-		vkCommandBuffer = CommandAllocator->AcquireCommandBuffer();
-
-		StagingForward(VulkanCommandQueue);
-
-		PipelineStateChanged = !!PipelineState;
-
-		RenderTargetsChanged = true;
-
-		ViewPortsChanged = true;
-		NumScissorRects = true;
-		ParametersChanged = true;
-	}
-
-	void FVulkanCommandList::ExecuteCommands(IRHICommandQueue * CommandQueue)
-	{
-		FlushBarriers();
-
-		if (!NumCommands)
-			return;
-
-		NumCommands = 0;
-
-		vkEndCommandBuffer(vkCommandBuffer);
-
-		FVulkanCommandQueue & VulkanCommandQueue = StaticCastRef<FVulkanCommandQueue>(CommandQueue);
+		FVulkanCommandQueue& VulkanCommandQueue = StaticCastRef<FVulkanCommandQueue>(CommandQueue);
 
 		VkSubmitInfo2 SubmitInfo2 { VK_STRUCTURE_TYPE_SUBMIT_INFO_2 };
 
@@ -158,7 +107,6 @@ namespace Xin::RHI::Vulkan
 		StagingForward(VulkanCommandQueue);
 		ResetRenderStates(VulkanCommandQueue);
 	}
-
 
 	void FVulkanCommandList::SetMarker(FStringV Marker, const FColor & Color)
 	{

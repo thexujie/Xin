@@ -5,73 +5,85 @@
 
 namespace Xin::UI::Themes::Default
 {
-	UI_API TList<IResourceRef> LoadDefaultThemesResources()
+	TReferPtr<FResourceTable> LoadDefaultThremeResourceTable()
 	{
-		TList<IResourceRef> Resources;
+		TReferPtr<FResourceTable> ResourceTable = MakeRefer<FResourceTable>();
 
-		Resources.Add(MakeRefer<FDefaultInt64DataTemplate>());
-		Resources.Add(MakeRefer<FDefaultUInt32DataTemplate>());
-		Resources.Add(MakeRefer<FDefaultUInt64DataTemplate>());
-		Resources.Add(MakeRefer<FDefaultStringDataTemplate>());
-		Resources.Add(MakeRefer<FDefaultTextDataTemplate>());
-		Resources.Add(MakeRefer<FDefaultPixmapTemplate>());
-		Resources.Add(MakeRefer<FDefaultBitmapTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultInt64DataTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultUInt32DataTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultUInt64DataTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultStringDataTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultTextDataTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultPixmapTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultBitmapTemplate>());
 
-		Resources.Add(MakeRefer<FButtonTemplate>());
-		Resources.Add(MakeRefer<FButtonStyle>());
-		Resources.Add(MakeRefer<FRadioButtonTemplate>());
-		Resources.Add(MakeRefer<FCheckBoxTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FButtonTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FButtonStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FRadioButtonTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FCheckBoxTemplate>());
 
-		Resources.Add(MakeRefer<FScrollBarTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FScrollBarTemplate>());
 
-		Resources.Add(MakeRefer<FScrollViewerTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FScrollViewerTemplate>());
 
-		Resources.Add(MakeRefer<FListControlTemplate>());
-		Resources.Add(MakeRefer<FListControlStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FListControlTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListControlStyle>());
 
-		Resources.Add(MakeRefer<FListBoxItemTemplate>());
-		Resources.Add(MakeRefer<FListBoxItemStyle>());
-		Resources.Add(MakeRefer<FListBoxTemplate>());
-		Resources.Add(MakeRefer<FListBoxStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FListBoxItemTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListBoxItemStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FListBoxTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListBoxStyle>());
 
-		Resources.Add(MakeRefer<FListViewItemTemplate>());
-		Resources.Add(MakeRefer<FListViewItemStyle>());
-		Resources.Add(MakeRefer<FListViewTemplate>());
-		Resources.Add(MakeRefer<FListViewStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewItemTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewItemStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewStyle>());
 
-		Resources.Add(MakeRefer<FListViewHeaderTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewHeaderTemplate>());
 
-		Resources.Add(MakeRefer<FListViewColumnHeaderTemplate>());
-		Resources.Add(MakeRefer<FListViewColumnHeaderStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewColumnHeaderTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewColumnHeaderStyle>());
 
-		Resources.Add(MakeRefer<FListViewItemCellTemplate>());
-		Resources.Add(MakeRefer<FListViewItemCellStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewItemCellTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FListViewItemCellStyle>());
 
-		Resources.Add(MakeRefer<FMenuItemTemplate>());
-		Resources.Add(MakeRefer<FMenuItemStyle>());
-		Resources.Add(MakeRefer<FMenuSaperatorTemplate>());
-		Resources.Add(MakeRefer<FMenuSaperatorStyle>());
-		Resources.Add(MakeRefer<FMenuTemplate>());
-		Resources.Add(MakeRefer<FMenuStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FMenuItemTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FMenuItemStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FMenuSaperatorTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FMenuSaperatorStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FMenuTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FMenuStyle>());
 
-		Resources.Add(MakeRefer<FDefaultWindowTemplate>());
-		Resources.Add(MakeRefer<FContextMenuTemplate>());
-		Resources.Add(MakeRefer<FTooltipTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FDefaultWindowTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FContextMenuTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FTooltipTemplate>());
 
-		Resources.Add(MakeRefer<FChromeStyle>());
-		Resources.Add(MakeRefer<FChromeTemplate>());
-		Resources.Add(MakeRefer<FChromeButtonStyle>());
-		Resources.Add(MakeRefer<FChromeButtonTemplate>());
-		Resources.Add(MakeRefer<FChromeTitleStyle>());
-		Resources.Add(MakeRefer<FChromeTitleTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FChromeStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FChromeTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FChromeButtonStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FChromeButtonTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<FChromeTitleStyle>());
+		ResourceTable->Resources.Add(MakeRefer<FChromeTitleTemplate>());
 
-		Resources.Add(MakeRefer<ControlsEx::FNavigatorTemplate>());
-		Resources.Add(MakeRefer<ControlsEx::FNavigatorStyle>());
-		Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderTemplate>());
-		Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderStyle>());
-		Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderItemTemplate>());
-		Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderItemStyle>());
+		ResourceTable->Resources.Add(MakeRefer<ControlsEx::FNavigatorTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<ControlsEx::FNavigatorStyle>());
+		ResourceTable->Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderStyle>());
+		ResourceTable->Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderItemTemplate>());
+		ResourceTable->Resources.Add(MakeRefer<ControlsEx::FNavigatorHeaderItemStyle>());
 
-		return Resources;
+		return ResourceTable;
+	}
+}
+
+namespace Xin::UI
+{
+	TReferPtr<FResourceTable> GDefaultResourceList;
+
+	TReferPtr<FResourceTable> FResourceTable::Default()
+	{
+		if (!GDefaultResourceList)
+			GDefaultResourceList = Themes::Default::LoadDefaultThremeResourceTable();
+		return GDefaultResourceList;
 	}
 }

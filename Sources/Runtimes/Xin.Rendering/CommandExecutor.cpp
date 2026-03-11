@@ -30,7 +30,7 @@ namespace Xin::Rendering
 		{
 			FCommandList CommandList(*this);
 			CommandList.UpdateBuffer(Resource, Bytes);
-			CommandList.Execute();
+			CommandList.Flush();
 		}
 	}
 
@@ -39,7 +39,7 @@ namespace Xin::Rendering
 		{
 			FCommandList CommandList(*this);
 			CommandList.UpdateTexture(Resource, TextureSource);
-			CommandList.Execute();
+			CommandList.Flush();
 		}
 	}
 
@@ -63,7 +63,7 @@ namespace Xin::Rendering
 		{
 			FCommandList CommandList(*this);
 			CommandList.UpdateTexture(Resource, TextureSource);
-			CommandList.Execute();
+			CommandList.Flush();
 		}
 		return Resource;
 	}
@@ -84,7 +84,7 @@ namespace Xin::Rendering
 			{
 				FCommandList CommandList(*this);
 				CommandList.UpdateBuffer(Resource, InitialBytes);
-				CommandList.Execute();
+				CommandList.Flush();
 			}
 		}
 		return Resource;
@@ -103,11 +103,6 @@ namespace Xin::Rendering
 	void FCommandExecutor::Execute(FCommandList & CommandList)
 	{
 		CommandList.RHICommandList->ExecuteCommands(PrimaryQueue);
-	}
-
-	void FCommandExecutor::Flush(FCommandList & CommandList)
-	{
-		CommandList.RHICommandList->FlushCommands(PrimaryQueue);
 	}
 
 	void FCommandExecutor::WaitFinish()

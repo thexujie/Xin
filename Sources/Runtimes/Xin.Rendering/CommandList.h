@@ -15,7 +15,6 @@ namespace Xin::Rendering
 		FCommandList(const FCommandList &) = delete;
 
 	public:
-		void Execute();
 		void Flush();
 
 	public:

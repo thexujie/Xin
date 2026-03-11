@@ -134,8 +134,8 @@ namespace Xin::Engine
 			{
 				CompileContext.AccessResource(Inputs.SceneColor, EResourceAccess::PixelSampledTexture);
 				CompileContext.AccessResource(Inputs.Exposure, EResourceAccess::PixelSampledTexture);
-				CompileContext.AccessResource(Inputs.Bloom, EResourceAccess::RenderTarget);
-				CompileContext.AccessResource(Inputs.BloomLuminance, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.Bloom, EResourceAccess::RenderTarget, EResourceLoad::Discard);
+				CompileContext.AccessResource(Inputs.BloomLuminance, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 			},
 			[this, BloomSize = BloomSize, Inputs = Inputs](FRGContext & RGContext)
 			{
@@ -215,7 +215,7 @@ namespace Xin::Engine
 		RenderGraph.AddPass(u8"Bloom.BlendBlurPS"V,
 			[Inputs = Inputs](FCompileContext & CompileContext)
 			{
-				CompileContext.AccessResource(Inputs.Output, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.Output, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 				CompileContext.AccessResource(Inputs.Bloom, EResourceAccess::PixelSampledTexture);
 				CompileContext.AccessResource(Inputs.BloomBlend, EResourceAccess::PixelSampledTexture);
 			},

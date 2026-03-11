@@ -262,7 +262,7 @@ namespace Xin::UI
 
 	public:
 		virtual void OnResourcesChanged();
-		FResourceTable ResourceTable;
+		FResourceTable ResourceTable { FResourceTable::Default() };
 
 		virtual IResourceRef FindResource(FName Name, const FType & ResourceType);
 		virtual IResourceRef FindResource(const FType & TargetType, const FType & ResourceType);

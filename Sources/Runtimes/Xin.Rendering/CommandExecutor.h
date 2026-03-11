@@ -43,7 +43,6 @@ namespace Xin::Rendering
 
 	public:
 		void Execute(FCommandList & CommandList);
-		void Flush(FCommandList & CommandList);
 		void WaitFinish();
 		void WaitRefresh();
 

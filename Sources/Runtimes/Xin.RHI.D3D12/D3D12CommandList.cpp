@@ -129,6 +129,8 @@ namespace Xin::RHI::D3D12
 
 	void FD3D12CommandList::EndCommand(IRHICommandQueue * CommandQueue)
 	{
+		AssertExpr(NumCommands == 0);
+
 #if XIN_DEBUG
 		--Debug_CommandListOpening;
 #endif
@@ -168,35 +170,6 @@ namespace Xin::RHI::D3D12
 		// - reset to init state
 		d3d12CommandList = CommandAllocator->AcquireNextCommandList();
 
-		ResetPipelineStates(D3D12CommandQueue);
-
-		D3D12CommandQueue.UpdateContext();
-	}
-
-	void FD3D12CommandList::FlushCommands(IRHICommandQueue * CommandQueue)
-	{
-		FlushBarriers();
-
-		if (!NumCommands)
-			return;
-
-		NumCommands = 0;
-
-		FD3D12CommandQueue & D3D12CommandQueue = StaticCastRef<FD3D12CommandQueue>(CommandQueue);
-
-		// ExecuteCommandLists and Signal
-		d3d12CommandList->Close();
-		ID3D12CommandList * D3D12CommandLists[1] = { d3d12CommandList.Get() };
-		D3D12CommandQueue.d3d12CommandQueue->ExecuteCommandLists(1, D3D12CommandLists);
-		D3D12CommandQueue.d3d12CommandQueue->Signal(D3D12CommandQueue.QueueFence.d3d12Fence, ++D3D12CommandQueue.QueueFence.SignalValue);
-		D3D12CommandQueue.FenceCommandList(d3d12CommandList, CommandAllocator);
-		D3D12CommandQueue.FenceCommandAllocator(CommandAllocator, ECommandType::Direct);
-
-		// - reset to init state
-		d3d12CommandList = nullptr;
-		CommandAllocator = nullptr;
-		CommandAllocator = D3D12Devcie.AquireCommandAllocator(CommandType);
-		d3d12CommandList = CommandAllocator->AcquireNextCommandList();
 		ResetPipelineStates(D3D12CommandQueue);
 
 		D3D12CommandQueue.UpdateContext();

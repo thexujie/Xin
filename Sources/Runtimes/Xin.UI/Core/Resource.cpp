@@ -3,17 +3,23 @@
 
 namespace Xin::UI
 {
-	IResourceRef FResourceTable::FindResource(FName Name, const FType & ResourceType)
+	FResourceTable::FResourceTable(TInitializerList<TReferPtr<FResourceTable>> ResourceLists)
+		: ResourceLists(ResourceLists)
 	{
-		for (IResourceRef & Resource : Resources)
+		
+	}
+
+	IResourceRef FResourceTable::FindResource(FName Name, const FType & ResourceType) const
+	{
+		for (const IResourceRef & Resource : Resources)
 		{
 			if (Resource->Name == Name && (!ResourceType || Resource->Type().IsA(ResourceType)))
 				return Resource;
 		}
 
-		for (FResourceTableRef ResourceSheet : Tables)
+		for (const FResourceTableRef & ResourceList : ResourceLists)
 		{
-			if (auto Resource = ResourceSheet->FindResource(Name, ResourceType))
+			if (auto Resource = ResourceList->FindResource(Name, ResourceType))
 				return Resource;
 		}
 		return nullptr;

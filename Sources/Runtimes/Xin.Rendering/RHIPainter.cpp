@@ -122,7 +122,7 @@ namespace Xin::Rendering
 					FCommandList CommandList { RHIGraphics.Executor };
 					CommandList.UpdateTexture(Texture, FTextureBitmapSource { Bitmap->Format, Bitmap->Size.Width, Bitmap->Size.Height, LockedBitmap.Pitch, 
 						{ LockedBitmap.Bytes, LockedBitmap.Pitch * Bitmap->Size.Height } });
-					CommandList.Execute();
+					CommandList.Flush();
 				}
 
 				//Bitmap->Save(u8"../../Documents/Saved/FontTexture.tga"V, EImageFormat::TARGA);
@@ -725,7 +725,7 @@ namespace Xin::Rendering
 		CommandList.ResourceAccess(RenderTarget, EResourceAccess::None);
 		CommandList.EndLabel();
 
-		CommandList.Execute();
+		CommandList.Flush();
 
 		PenddingVertexIndex = 0;
 		PenddingVertexCount = 0;
@@ -791,7 +791,7 @@ namespace Xin::Rendering
 
 		IRHIResource * BackBuffer = RHIViewport->GetBackBuffer(RHIViewport->GetCurrentBufferIndex());
 		CommandList.ResourceAccess(BackBuffer, EResourceAccess::Present);
-		CommandList.Execute();
+		CommandList.Flush();
 		RHIViewport->EndFrame();
 	}
 }

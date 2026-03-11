@@ -9,13 +9,9 @@
 
 int TestUI_Default(UElementRef Element)
 {
-	FResourceTableRef GlobalResourceSheet = MakeRefer<FResourceTable>();
-	GlobalResourceSheet->Resources.AddRange(Themes::Default::LoadDefaultThemesResources());
-
 	UWindow MainWindow;
 	MainWindow.Title = u8"File List"T;
 	MainWindow.Size = { 1280, 720 };
-	MainWindow.ResourceTable.Tables.Add(GlobalResourceSheet);
 	MainWindow.WindowShowPosition = EWindowShowPosition::ScreenCenter;
 	MainWindow.ExitOnClose = true;
 	MainWindow.Content = Element;
@@ -27,11 +23,7 @@ int TestUI_Default(UElementRef Element)
 
 int TestUI_Default()
 {
-	FResourceTableRef GlobalResourceSheet = MakeRefer<FResourceTable>();
-	GlobalResourceSheet->Resources.AddRange(Themes::Default::LoadDefaultThemesResources());
-
 	UWindow MainWindow;
-	MainWindow.ResourceTable.Tables.Add(GlobalResourceSheet);
 	MainWindow.Title = u8"File List"T;
 	MainWindow.ExitOnClose = true;
 	MainWindow.WindowShowPosition = EWindowShowPosition::ScreenCenter;

@@ -80,7 +80,7 @@ namespace Xin::Engine
 		RenderGraph.AddPass(u8"GenerateLuminance"V,
 			[Inputs = Inputs](FCompileContext & CompileContext)
 			{
-				CompileContext.AccessResource(Inputs.Luminance, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.Luminance, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 				CompileContext.AccessResource(Inputs.Input, EResourceAccess::PixelSampledTexture);
 				CompileContext.AccessResource(Inputs.Exposure, EResourceAccess::PixelSampledTexture);
 			},

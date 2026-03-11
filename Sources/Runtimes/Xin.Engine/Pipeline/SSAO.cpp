@@ -438,7 +438,7 @@ namespace Xin::Engine
 			[Inputs = Inputs](FCompileContext & CompileContext)
 			{
 				CompileContext.AccessResource(Inputs.Depth1x, EResourceAccess::PixelSampledTexture);
-				CompileContext.AccessResource(Inputs.DepthTiled4x, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.DepthTiled4x, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 			},
 			[Inputs = Inputs](FRGContext & RGContext)
 			{
@@ -531,7 +531,7 @@ namespace Xin::Engine
 			[Inputs = Inputs](FCompileContext & CompileContext)
 			{
 				CompileContext.AccessResource(Inputs.Depth1xOrTiled4x, EResourceAccess::PixelSampledTexture);
-				CompileContext.AccessResource(Inputs.Occlusion, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.Occlusion, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 			},
 			[Inputs = Inputs, &Parameters](FRGContext & RGContext)
 			{
@@ -633,7 +633,7 @@ namespace Xin::Engine
 					CompileContext.AccessResource(Inputs.OcclusionHQ, EResourceAccess::PixelSampledTexture);
 				if (Inputs.OcclusionMergedX2)
 					CompileContext.AccessResource(Inputs.OcclusionMergedX2, EResourceAccess::PixelSampledTexture);
-				CompileContext.AccessResource(Inputs.BlurStagingA, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.BlurStagingA, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 			},
 			[Inputs = Inputs, AOUpsampleParameter = AOUpsampleParameter](FRGContext & RGContext)
 			{
@@ -689,7 +689,7 @@ namespace Xin::Engine
 					CompileContext.AccessResource(Inputs.OcclusionHQ, EResourceAccess::PixelSampledTexture);
 				if (Inputs.OcclusionMergedX2)
 					CompileContext.AccessResource(Inputs.OcclusionMergedX2, EResourceAccess::PixelSampledTexture);
-				CompileContext.AccessResource(Inputs.BlurStagingB, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.BlurStagingB, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 			},
 			[Inputs = Inputs, AOUpsampleParameter = AOUpsampleParameter](FRGContext & RGContext)
 			{
@@ -742,7 +742,7 @@ namespace Xin::Engine
 					CompileContext.AccessResource(Inputs.OcclusionHQ, EResourceAccess::PixelSampledTexture);
 				if (Inputs.OcclusionMergedX2)
 					CompileContext.AccessResource(Inputs.OcclusionMergedX2, EResourceAccess::PixelSampledTexture);
-				CompileContext.AccessResource(Inputs.OcclusionX2, EResourceAccess::RenderTarget);
+				CompileContext.AccessResource(Inputs.OcclusionX2, EResourceAccess::RenderTarget, EResourceLoad::Discard);
 			},
 			[Inputs = Inputs, AOUpsampleParameter = AOUpsampleParameter](FRGContext & RGContext)
 			{

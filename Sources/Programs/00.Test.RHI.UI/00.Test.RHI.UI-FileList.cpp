@@ -9,11 +9,7 @@
 
 void InitialWindow_FileList(UWindow & Window)
 {
-	FResourceTableRef GlobalResourceSheet = MakeRefer<FResourceTable>();
-	GlobalResourceSheet->Resources.AddRange(Themes::Default::LoadDefaultThemesResources());
-
 	Window.Title = u8"File List"T;
-	Window.ResourceTable.Tables.Add(GlobalResourceSheet);
 	Window.WindowShowPosition = EWindowShowPosition::ScreenCenter;
 
 	UListViewRef FileList = ListView({}, { { UElement::SizeProperty(), FDimen2 { FDimen::Percent75, 512 } } });

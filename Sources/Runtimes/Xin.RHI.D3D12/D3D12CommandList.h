@@ -24,7 +24,6 @@ namespace Xin::RHI::D3D12
 		void BeginCommand(IRHICommandQueue * CommandQueue) override;
 		void EndCommand(IRHICommandQueue * CommandQueue) override;
 		void ExecuteCommands(IRHICommandQueue * CommandQueue) override;
-		void FlushCommands(IRHICommandQueue * CommandQueue) override;
 
 		void SetMarker(FStringV Marker, const FColor & Color) override;
 		void BeginLabel(FStringV Label, const FColor & Color) override;

@@ -154,11 +154,11 @@
 	</Type>
 
 	<Type Name="FPrimitiveSceneInfo">
-		<DisplayString>{Proxy,na}</DisplayString>
+		<DisplayString>{{{ComponentForDebuggingOnly,na} {Proxy,na}}</DisplayString>
 	</Type>
 
 	<Type Name="FPrimitiveSceneProxy">
-		<DisplayString>{{Label={ComponentForDebuggingOnly->OwnerPrivate->ActorLabel}, Resource={ResourceName}}}</DisplayString>
+		<DisplayString>{{Component={ComponentForDebuggingOnly,na}, Resource={ResourceName}}}</DisplayString>
 	</Type>
 	
 	<Type Name="FDefaultMaterialInstance">
@@ -298,7 +298,9 @@
 		<DisplayString>{{D3D12StructuredBuffer {Size} Bytes, {Stride} Stride}}</DisplayString>
 	</Type>
 	<Type Name="FD3D12ShaderResourceView">
-		<DisplayString>{{D3D12ShaderResourceView Resource{Resource,na}}}</DisplayString>
+		<DisplayString Condition="Resource == 0xcdcdcdcdcdcdcdcd">{{D3D12ShaderResourceView Resource &lt;0xcdcdcdcd&gt;}}</DisplayString>
+		<DisplayString Condition="Resource == nullptr">{{D3D12ShaderResourceView Resource &lt;empty&gt;}}</DisplayString>
+		<DisplayString Condition="Resource != nullptr">{{D3D12ShaderResourceView Resource{Resource,na}}}</DisplayString>
 		<!--<DisplayString Condition="Desc.ViewDimension == D3D12_SRV_DIMENSION_BUFFER">{{BufferView {Resource->DebugName}, {Desc.Format}, {DynamicResource}}}</DisplayString>-->
 		<!--<DisplayString Condition="Desc.ViewDimension == D3D12_SRV_DIMENSION_TEXTURE2D">{{Texture2DView {Resource->DebugName}, {Desc.Format}, [{Resource->Desc.Width}x{Resource->Desc.Height}]}}</DisplayString>-->
 	</Type>

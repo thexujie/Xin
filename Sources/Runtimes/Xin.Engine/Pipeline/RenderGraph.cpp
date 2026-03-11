@@ -83,7 +83,7 @@ namespace Xin::Engine
 			//CommandList.FlushCommands();
 		}
 
-		CommandList.Execute();
+		CommandList.Flush();
 
 		SemanticResources.Clear();
 		GraphRGResourceViews.Clear();
@@ -195,13 +195,14 @@ namespace Xin::Engine
 		for (FRenderPass::FPassResource & PassResource : RenderPass.PassResources)
 		{
 			CommandList.ResourceAccess(PassResource.RGResource->Resource, PassResource.PassResourceAccess);
+
 			if (PassResource.ResourceLoad == EResourceLoad::Discard)
 			{
 				// We don't need BarrierUAV for discard UAV access.
 				if (PassResource.PassResourceAccess & EResourceAccess::StorageMask)
 					CommandList.ResourceBarrierUAV(PassResource.RGResource->Resource);
-				//else
-				//	CommandList.DiscardResource(PassResource.RGResource->Resource);
+				else
+					CommandList.DiscardResource(PassResource.RGResource->Resource);
 			}
 			else
 			{
@@ -371,7 +372,7 @@ namespace Xin::Engine
 			[Inputs = PassInputs](FCompileContext & CompileContext)
 			{
 				CompileContext.AccessResourceView(Inputs.InputSRV, EResourceAccess::PixelSampledTexture);
-				CompileContext.AccessResourceView(Inputs.OutputRTV, EResourceAccess::RenderTarget, AnyFlags(Inputs.Flags, EBlitTextureFlag::Center | EBlitTextureFlag::Clear) ? EResourceLoad::Clear : EResourceLoad::None);
+				CompileContext.AccessResourceView(Inputs.OutputRTV, EResourceAccess::RenderTarget, AnyFlags(Inputs.Flags, EBlitTextureFlag::Center | EBlitTextureFlag::Clear) ? EResourceLoad::Clear : EResourceLoad::Discard);
 			},
 			[Inputs = PassInputs](FRGContext & RGContext)
 			{
